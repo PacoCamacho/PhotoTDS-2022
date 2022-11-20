@@ -9,15 +9,28 @@ import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.GridBagLayout;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JTextField;
 import java.awt.Font;
 import javax.swing.border.TitledBorder;
+import javax.swing.JPasswordField;
 
-public class VistaRegistro {
+public class VistaRegistro extends JDialog{
 
-	private JFrame frame;
+	private JFrame frameRegistro;
+	private JTextField textFieldEmail;
+	private JTextField textFieldNombre;
+	private JTextField textFieldApellidos;
+	private JTextField textFieldFechaNac;
+	private JTextField textFieldUsuario;
+	private JPasswordField passwordField;
+	private JPasswordField passwordFieldRep;
 
 	/**
 	 * Launch the application.
@@ -27,7 +40,7 @@ public class VistaRegistro {
 			public void run() {
 				try {
 					VistaRegistro window = new VistaRegistro();
-					window.frame.setVisible(true);
+					window.frameRegistro.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -38,27 +51,56 @@ public class VistaRegistro {
 	/**
 	 * Create the application.
 	 */
+	
+	
 	public VistaRegistro() {
 		initialize();
 	}
-
+	
+	public void mostrarVentana() {
+		frameRegistro.setLocationRelativeTo(null);
+		frameRegistro.setVisible(true);
+	}
+	
+	//constructor
+	/*public void mostrarRegistro() {
+		frameRegistro.setLocationRelativeTo(null);
+		frameRegistro.setVisible(true);
+	}
+	*/
+	
+	
+	//Manejadores botones
+	
+	//Boton cancelar
+	private void addManejadorCancelar(JButton btnCancelar){
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				LoginView ventanaLogin = new LoginView();
+				ventanaLogin.mostrarVentana();
+				frameRegistro.dispose();
+			}
+		});
+		
+	}
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 1089, 708);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frameRegistro = new JFrame();
+		frameRegistro.setBounds(100, 100, 1089, 708);
+		frameRegistro.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panelNorte = new JPanel();
-		frame.getContentPane().add(panelNorte, BorderLayout.NORTH);
+		frameRegistro.getContentPane().add(panelNorte, BorderLayout.NORTH);
 		
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\franc\\Documents\\imagenes TDS\\PhotoTDS_logo.png"));
 		panelNorte.add(lblNewLabel);
 		
 		JPanel panelCentro = new JPanel();
-		frame.getContentPane().add(panelCentro, BorderLayout.CENTER);
+		frameRegistro.getContentPane().add(panelCentro, BorderLayout.CENTER);
 		GridBagLayout gbl_panelCentro = new GridBagLayout();
 		gbl_panelCentro.columnWidths = new int[]{0, 479, 0, 0};
 		gbl_panelCentro.rowHeights = new int[]{0, 243, 0, 0, 0};
@@ -66,96 +108,160 @@ public class VistaRegistro {
 		gbl_panelCentro.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		panelCentro.setLayout(gbl_panelCentro);
 		
-		JLabel label = new JLabel("New label");
-		GridBagConstraints gbc_label = new GridBagConstraints();
-		gbc_label.insets = new Insets(0, 0, 5, 5);
-		gbc_label.gridx = 0;
-		gbc_label.gridy = 0;
-		panelCentro.add(label, gbc_label);
+		JPanel panelDatosPersonales = new JPanel();
+		panelDatosPersonales.setBorder(new TitledBorder(null, "Datos personales", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		GridBagConstraints gbc_panelDatosPersonales = new GridBagConstraints();
+		gbc_panelDatosPersonales.insets = new Insets(0, 0, 5, 5);
+		gbc_panelDatosPersonales.fill = GridBagConstraints.BOTH;
+		gbc_panelDatosPersonales.gridx = 1;
+		gbc_panelDatosPersonales.gridy = 1;
+		panelCentro.add(panelDatosPersonales, gbc_panelDatosPersonales);
+		GridBagLayout gbl_panelDatosPersonales = new GridBagLayout();
+		gbl_panelDatosPersonales.columnWidths = new int[]{132, 30, 0, 0};
+		gbl_panelDatosPersonales.rowHeights = new int[]{44, 46, 44, 39, 0};
+		gbl_panelDatosPersonales.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panelDatosPersonales.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		panelDatosPersonales.setLayout(gbl_panelDatosPersonales);
 		
-		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(null, "Datos personales", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.insets = new Insets(0, 0, 5, 5);
-		gbc_panel.fill = GridBagConstraints.BOTH;
-		gbc_panel.gridx = 1;
-		gbc_panel.gridy = 1;
-		panelCentro.add(panel, gbc_panel);
-		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{132, 30, 0};
-		gbl_panel.rowHeights = new int[]{15, 0, 0, 0, 0};
-		gbl_panel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		panel.setLayout(gbl_panel);
+		JLabel lblEmail = new JLabel("Email:");
+		GridBagConstraints gbc_lblEmail = new GridBagConstraints();
+		gbc_lblEmail.insets = new Insets(0, 0, 5, 5);
+		gbc_lblEmail.anchor = GridBagConstraints.EAST;
+		gbc_lblEmail.gridx = 1;
+		gbc_lblEmail.gridy = 0;
+		panelDatosPersonales.add(lblEmail, gbc_lblEmail);
+		lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		
-		JLabel lblNewLabel_1 = new JLabel("Email:");
-		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 0);
-		gbc_lblNewLabel_1.anchor = GridBagConstraints.NORTH;
-		gbc_lblNewLabel_1.gridx = 1;
-		gbc_lblNewLabel_1.gridy = 0;
-		panel.add(lblNewLabel_1, gbc_lblNewLabel_1);
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		textFieldEmail = new JTextField();
+		GridBagConstraints gbc_textFieldEmail = new GridBagConstraints();
+		gbc_textFieldEmail.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldEmail.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldEmail.gridx = 2;
+		gbc_textFieldEmail.gridy = 0;
+		panelDatosPersonales.add(textFieldEmail, gbc_textFieldEmail);
+		textFieldEmail.setColumns(10);
 		
-		JLabel lblNewLabel_2 = new JLabel("Nombre:");
-		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
-		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 0);
-		gbc_lblNewLabel_2.gridx = 1;
-		gbc_lblNewLabel_2.gridy = 1;
-		panel.add(lblNewLabel_2, gbc_lblNewLabel_2);
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		JLabel lblNombre = new JLabel("Nombre:");
+		GridBagConstraints gbc_lblNombre = new GridBagConstraints();
+		gbc_lblNombre.anchor = GridBagConstraints.EAST;
+		gbc_lblNombre.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNombre.gridx = 1;
+		gbc_lblNombre.gridy = 1;
+		panelDatosPersonales.add(lblNombre, gbc_lblNombre);
+		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		
-		JLabel lblNewLabel_3 = new JLabel("Apellidos:");
-		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
-		gbc_lblNewLabel_3.insets = new Insets(0, 0, 5, 0);
-		gbc_lblNewLabel_3.gridx = 1;
-		gbc_lblNewLabel_3.gridy = 2;
-		panel.add(lblNewLabel_3, gbc_lblNewLabel_3);
-		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		textFieldNombre = new JTextField();
+		GridBagConstraints gbc_textFieldNombre = new GridBagConstraints();
+		gbc_textFieldNombre.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldNombre.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldNombre.gridx = 2;
+		gbc_textFieldNombre.gridy = 1;
+		panelDatosPersonales.add(textFieldNombre, gbc_textFieldNombre);
+		textFieldNombre.setColumns(10);
 		
-		JLabel lblNewLabel_6 = new JLabel("Fecha Nacimiento:");
-		GridBagConstraints gbc_lblNewLabel_6 = new GridBagConstraints();
-		gbc_lblNewLabel_6.gridx = 1;
-		gbc_lblNewLabel_6.gridy = 3;
-		panel.add(lblNewLabel_6, gbc_lblNewLabel_6);
+		JLabel lblNewLabelApellidos = new JLabel("Apellidos:");
+		GridBagConstraints gbc_lblNewLabelApellidos = new GridBagConstraints();
+		gbc_lblNewLabelApellidos.anchor = GridBagConstraints.EAST;
+		gbc_lblNewLabelApellidos.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabelApellidos.gridx = 1;
+		gbc_lblNewLabelApellidos.gridy = 2;
+		panelDatosPersonales.add(lblNewLabelApellidos, gbc_lblNewLabelApellidos);
+		lblNewLabelApellidos.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new TitledBorder(null, "Datos Aplicaci\u00F3n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-		gbc_panel_1.insets = new Insets(0, 0, 5, 5);
-		gbc_panel_1.fill = GridBagConstraints.BOTH;
-		gbc_panel_1.gridx = 1;
-		gbc_panel_1.gridy = 2;
-		panelCentro.add(panel_1, gbc_panel_1);
-		GridBagLayout gbl_panel_1 = new GridBagLayout();
-		gbl_panel_1.columnWidths = new int[]{136, 0, 0};
-		gbl_panel_1.rowHeights = new int[]{0, 0, 0, 0};
-		gbl_panel_1.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel_1.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
-		panel_1.setLayout(gbl_panel_1);
+		textFieldApellidos = new JTextField();
+		GridBagConstraints gbc_textFieldApellidos = new GridBagConstraints();
+		gbc_textFieldApellidos.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldApellidos.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldApellidos.gridx = 2;
+		gbc_textFieldApellidos.gridy = 2;
+		panelDatosPersonales.add(textFieldApellidos, gbc_textFieldApellidos);
+		textFieldApellidos.setColumns(10);
 		
-		JLabel lblNewLabel_4 = new JLabel("Nombre Usuario:");
-		GridBagConstraints gbc_lblNewLabel_4 = new GridBagConstraints();
-		gbc_lblNewLabel_4.insets = new Insets(0, 0, 5, 0);
-		gbc_lblNewLabel_4.gridx = 1;
-		gbc_lblNewLabel_4.gridy = 0;
-		panel_1.add(lblNewLabel_4, gbc_lblNewLabel_4);
+		JLabel lblNewLabelFechaNac = new JLabel("Fecha Nacimiento:");
+		lblNewLabelFechaNac.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		GridBagConstraints gbc_lblNewLabelFechaNac = new GridBagConstraints();
+		gbc_lblNewLabelFechaNac.anchor = GridBagConstraints.EAST;
+		gbc_lblNewLabelFechaNac.insets = new Insets(0, 0, 0, 5);
+		gbc_lblNewLabelFechaNac.gridx = 1;
+		gbc_lblNewLabelFechaNac.gridy = 3;
+		panelDatosPersonales.add(lblNewLabelFechaNac, gbc_lblNewLabelFechaNac);
 		
-		JLabel lblNewLabel_5 = new JLabel("Contraseña:\r\n");
-		GridBagConstraints gbc_lblNewLabel_5 = new GridBagConstraints();
-		gbc_lblNewLabel_5.insets = new Insets(0, 0, 5, 0);
-		gbc_lblNewLabel_5.gridx = 1;
-		gbc_lblNewLabel_5.gridy = 1;
-		panel_1.add(lblNewLabel_5, gbc_lblNewLabel_5);
+		textFieldFechaNac = new JTextField();
+		GridBagConstraints gbc_textFieldFechaNac = new GridBagConstraints();
+		gbc_textFieldFechaNac.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldFechaNac.gridx = 2;
+		gbc_textFieldFechaNac.gridy = 3;
+		panelDatosPersonales.add(textFieldFechaNac, gbc_textFieldFechaNac);
+		textFieldFechaNac.setColumns(10);
 		
-		JLabel lblNewLabel_7 = new JLabel("Repetir Contraseña:");
-		GridBagConstraints gbc_lblNewLabel_7 = new GridBagConstraints();
-		gbc_lblNewLabel_7.gridx = 1;
-		gbc_lblNewLabel_7.gridy = 2;
-		panel_1.add(lblNewLabel_7, gbc_lblNewLabel_7);
+		JPanel panelDatosAplicacion = new JPanel();
+		panelDatosAplicacion.setBorder(new TitledBorder(null, "Datos Aplicaci\u00F3n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		GridBagConstraints gbc_panelDatosAplicacion = new GridBagConstraints();
+		gbc_panelDatosAplicacion.insets = new Insets(0, 0, 5, 5);
+		gbc_panelDatosAplicacion.fill = GridBagConstraints.BOTH;
+		gbc_panelDatosAplicacion.gridx = 1;
+		gbc_panelDatosAplicacion.gridy = 2;
+		panelCentro.add(panelDatosAplicacion, gbc_panelDatosAplicacion);
+		GridBagLayout gbl_panelDatosAplicacion = new GridBagLayout();
+		gbl_panelDatosAplicacion.columnWidths = new int[]{136, 0, 0, 0};
+		gbl_panelDatosAplicacion.rowHeights = new int[]{62, 54, 45, 0};
+		gbl_panelDatosAplicacion.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panelDatosAplicacion.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		panelDatosAplicacion.setLayout(gbl_panelDatosAplicacion);
+		
+		JLabel lblNewLabelUsuario = new JLabel("Nombre Usuario:");
+		lblNewLabelUsuario.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		GridBagConstraints gbc_lblNewLabelUsuario = new GridBagConstraints();
+		gbc_lblNewLabelUsuario.anchor = GridBagConstraints.EAST;
+		gbc_lblNewLabelUsuario.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabelUsuario.gridx = 1;
+		gbc_lblNewLabelUsuario.gridy = 0;
+		panelDatosAplicacion.add(lblNewLabelUsuario, gbc_lblNewLabelUsuario);
+		
+		textFieldUsuario = new JTextField();
+		GridBagConstraints gbc_textFieldUsuario = new GridBagConstraints();
+		gbc_textFieldUsuario.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldUsuario.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldUsuario.gridx = 2;
+		gbc_textFieldUsuario.gridy = 0;
+		panelDatosAplicacion.add(textFieldUsuario, gbc_textFieldUsuario);
+		textFieldUsuario.setColumns(10);
+		
+		JLabel lblNewLabelContraseña = new JLabel("Contraseña:\r\n");
+		lblNewLabelContraseña.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		GridBagConstraints gbc_lblNewLabelContraseña = new GridBagConstraints();
+		gbc_lblNewLabelContraseña.anchor = GridBagConstraints.EAST;
+		gbc_lblNewLabelContraseña.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabelContraseña.gridx = 1;
+		gbc_lblNewLabelContraseña.gridy = 1;
+		panelDatosAplicacion.add(lblNewLabelContraseña, gbc_lblNewLabelContraseña);
+		
+		passwordField = new JPasswordField();
+		GridBagConstraints gbc_passwordField = new GridBagConstraints();
+		gbc_passwordField.insets = new Insets(0, 0, 5, 0);
+		gbc_passwordField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_passwordField.gridx = 2;
+		gbc_passwordField.gridy = 1;
+		panelDatosAplicacion.add(passwordField, gbc_passwordField);
+		
+		JLabel lblNewLabelContraseñaRep = new JLabel("Repetir Contraseña:");
+		lblNewLabelContraseñaRep.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		GridBagConstraints gbc_lblNewLabelContraseñaRep = new GridBagConstraints();
+		gbc_lblNewLabelContraseñaRep.anchor = GridBagConstraints.EAST;
+		gbc_lblNewLabelContraseñaRep.insets = new Insets(0, 0, 0, 5);
+		gbc_lblNewLabelContraseñaRep.gridx = 1;
+		gbc_lblNewLabelContraseñaRep.gridy = 2;
+		panelDatosAplicacion.add(lblNewLabelContraseñaRep, gbc_lblNewLabelContraseñaRep);
+		
+		passwordFieldRep = new JPasswordField();
+		GridBagConstraints gbc_passwordFieldRep = new GridBagConstraints();
+		gbc_passwordFieldRep.fill = GridBagConstraints.HORIZONTAL;
+		gbc_passwordFieldRep.gridx = 2;
+		gbc_passwordFieldRep.gridy = 2;
+		panelDatosAplicacion.add(passwordFieldRep, gbc_passwordFieldRep);
 		
 		JPanel panelSur = new JPanel();
-		frame.getContentPane().add(panelSur, BorderLayout.SOUTH);
+		frameRegistro.getContentPane().add(panelSur, BorderLayout.SOUTH);
 		GridBagLayout gbl_panelSur = new GridBagLayout();
 		gbl_panelSur.columnWidths = new int[]{418, 0, 0, 129, 0, 0};
 		gbl_panelSur.rowHeights = new int[]{0, 0, 0};
@@ -171,6 +277,7 @@ public class VistaRegistro {
 		panelSur.add(btnRegistro, gbc_btnRegistro);
 		
 		JButton btnCancelar = new JButton("Cancelar");
+		addManejadorCancelar(btnCancelar);
 		GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
 		gbc_btnCancelar.insets = new Insets(0, 0, 0, 5);
 		gbc_btnCancelar.gridx = 3;

@@ -183,6 +183,7 @@ public class LoginView {
 				btnRegistro.setBackground(new Color(0, 0, 160));
 				btnRegistro.setForeground(new Color(0, 0, 160));
 				btnRegistro.setFont(new Font("Segoe Script", Font.PLAIN, 12));
+				addManejadorBotonRegistro(btnRegistro);
 				GridBagConstraints gbc_btnRegistro = new GridBagConstraints();
 				gbc_btnRegistro.insets = new Insets(0, 0, 0, 5);
 				gbc_btnRegistro.anchor = GridBagConstraints.NORTHWEST;
@@ -217,9 +218,8 @@ public class LoginView {
 	private void addManejadorBotonRegistro(JButton btnRegistro) {
 		btnRegistro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				RegistroView registro = new RegistroView (frmLogin);
-				registro.setLocationRelativeTo(frmLogin);                              	
-				registro.setVisible(true);
+				VistaRegistro registro = new VistaRegistro();
+				registro.mostrarVentana();
 				frmLogin.dispose();
 			}
 		});
@@ -230,7 +230,7 @@ public class LoginView {
 			public void actionPerformed(ActionEvent e) {
 				boolean login = Controlador.INSTANCE.loginUsuario(
 						textUsuario.getText(),
-						new String(textPassword.getPassword()));
+						new String(passwordField.getPassword()));
 
 				if (login) {
 					VentanaPrincipal principal = new VentanaPrincipal();
