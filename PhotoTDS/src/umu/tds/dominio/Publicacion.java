@@ -6,22 +6,33 @@ import java.util.List;
 
 public class Publicacion {
 
+	public int id;
 	public String titulo;
-	public Date fecha;
+	public String fecha;
 	public String descripcion;
 	public int mg;
 	public List<String> hashtags;
 	
 	
-	public Publicacion(String titulo, Date fecha, String descripcion, int mg, List<String> hashtags) {
+	public Publicacion(String titulo, String fecha, String descripcion, int mg ) {
+		this.id = 0;
 		this.titulo = titulo;
 		this.fecha = fecha;
 		this.descripcion = descripcion;
 		this.mg = mg;
-		this.hashtags = hashtags;
+		this.hashtags = new LinkedList<String>();
 	}
 
 
+	public int getId() {
+		return id;
+	}
+	
+	public void SetId(int id) {
+		this.id = id;
+	}
+	
+	
 	public String getTitulo() {
 		return titulo;
 	}
@@ -32,12 +43,12 @@ public class Publicacion {
 	}
 
 
-	public Date getFecha() {
+	public String getFecha() {
 		return fecha;
 	}
 
 
-	public void setFecha(Date fecha) {
+	public void setFecha(String fecha) {
 		this.fecha = fecha;
 	}
 

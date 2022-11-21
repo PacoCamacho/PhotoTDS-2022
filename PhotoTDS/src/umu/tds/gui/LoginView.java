@@ -52,8 +52,8 @@ public class LoginView {
 	
 	private void initialize() {
 		frmLogin = new JFrame();
-		frmLogin.setForeground(new Color(0, 0, 160));
-		frmLogin.setBackground(new Color(0, 0, 160));
+		frmLogin.setForeground(new Color(0, 0, 0));
+		frmLogin.setBackground(new Color(255, 255, 255));
 		frmLogin.setTitle("Login PhotoTDS\r\n");
 		frmLogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmLogin.getContentPane().setLayout(new BorderLayout());
@@ -167,8 +167,8 @@ public class LoginView {
 		panelBotonesLoginRegistro.setLayout(gbl_panelBotonesLoginRegistro);
 		
 				JButton btnLogin = new JButton("Login");
-				btnLogin.setForeground(new Color(0, 0, 160));
-				btnLogin.setBackground(new Color(0, 0, 160));
+				btnLogin.setForeground(new Color(0, 0, 0));
+				btnLogin.setBackground(new Color(255, 255, 255));
 				btnLogin.setFont(new Font("Segoe Script", Font.PLAIN, 12));
 				GridBagConstraints gbc_btnLogin = new GridBagConstraints();
 				gbc_btnLogin.anchor = GridBagConstraints.NORTH;
@@ -180,8 +180,8 @@ public class LoginView {
 						addManejadorBotonLogin(btnLogin);
 		
 				JButton btnRegistro = new JButton("Registro");
-				btnRegistro.setBackground(new Color(0, 0, 160));
-				btnRegistro.setForeground(new Color(0, 0, 160));
+				btnRegistro.setBackground(new Color(255, 255, 255));
+				btnRegistro.setForeground(new Color(0, 0, 0));
 				btnRegistro.setFont(new Font("Segoe Script", Font.PLAIN, 12));
 				addManejadorBotonRegistro(btnRegistro);
 				GridBagConstraints gbc_btnRegistro = new GridBagConstraints();
@@ -193,8 +193,8 @@ public class LoginView {
 				addManejadorBotonRegistro(btnRegistro);
 				
 						JButton btnSalir = new JButton("Salir");
-						btnSalir.setBackground(new Color(0, 0, 160));
-						btnSalir.setForeground(new Color(0, 0, 160));
+						btnSalir.setBackground(new Color(255, 255, 255));
+						btnSalir.setForeground(new Color(0, 0, 0));
 						btnSalir.setFont(new Font("Segoe Script", Font.PLAIN, 12));
 						GridBagConstraints gbc_btnSalir = new GridBagConstraints();
 						gbc_btnSalir.anchor = GridBagConstraints.EAST;
