@@ -183,7 +183,6 @@ public class VentanaLogin {
 				btnRegistro.setBackground(new Color(255, 255, 255));
 				btnRegistro.setForeground(new Color(0, 0, 0));
 				btnRegistro.setFont(new Font("Segoe Script", Font.PLAIN, 12));
-				addManejadorBotonRegistro(btnRegistro);
 				GridBagConstraints gbc_btnRegistro = new GridBagConstraints();
 				gbc_btnRegistro.insets = new Insets(0, 0, 0, 5);
 				gbc_btnRegistro.anchor = GridBagConstraints.NORTHWEST;
