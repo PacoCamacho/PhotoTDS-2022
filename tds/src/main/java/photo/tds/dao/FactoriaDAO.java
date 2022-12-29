@@ -11,7 +11,7 @@ import photo.tds.dao.UsuarioDAO;
 
 public abstract class FactoriaDAO {
 	
-	public static final String DAO_TDS = "umu.tds.dao.TDSFactoriaDAO";
+	public static final String DAO_TDS = "photo.tds.dao.TDSFactoriaDAO";
 
 	private static FactoriaDAO unicaInstancia = null;
 	
