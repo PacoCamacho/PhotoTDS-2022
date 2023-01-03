@@ -5,7 +5,11 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
+import java.awt.Color;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import java.awt.GridBagLayout;
 import javax.swing.JButton;
@@ -19,10 +23,18 @@ import java.awt.event.ActionListener;
 import javax.swing.JTextField;
 import java.awt.Font;
 import javax.swing.border.TitledBorder;
+
+import photo.tds.controlador.Controlador;
+
+
 import javax.swing.JPasswordField;
 
 public class VentanaRegistro extends JDialog{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JFrame frameRegistro;
 	private JTextField textFieldEmail;
 	private JTextField textFieldNombre;
@@ -76,7 +88,7 @@ public class VentanaRegistro extends JDialog{
 		});
 		
 	}
-	
+		
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -278,6 +290,98 @@ public class VentanaRegistro extends JDialog{
 		gbc_btnCancelar.gridx = 3;
 		gbc_btnCancelar.gridy = 1;
 		panelSur.add(btnCancelar, gbc_btnCancelar);
+		
+		btnRegistro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				boolean OK = false;
+				OK = checkFields();
+				if (OK) {
+					boolean registrado = false;
+					registrado = Controlador.INSTANCE.registrarUsuario(textFieldNombre.getText(),
+							textFieldApellidos.getText(), textFieldEmail.getText(), textFieldUsuario.getText(),
+							new String(passwordField.getPassword()), 
+							textFieldFechaNac.getText());
+					if (registrado) {
+						JOptionPane.showMessageDialog(frameRegistro, "Usuario registrado correctamente.", "Registro",
+								JOptionPane.INFORMATION_MESSAGE);
+						
+						VentanaLogin loginView = new VentanaLogin();
+						loginView.mostrarVentana();
+						frameRegistro.dispose();
+					} else {
+						JOptionPane.showMessageDialog(frameRegistro, "No se ha podido llevar a cabo el registro.\n",
+								"Registro", JOptionPane.ERROR_MESSAGE);
+						frameRegistro.setTitle("Login Gestor Eventos");
+					}
+				}
+			}
+		});
 	}
+	
+	private boolean checkFields() {
+		boolean salida = true;
+		/* borrar todos los errores en pantalla */
+		
+		if (textFieldNombre.getText().trim().isEmpty()) {
+			/*lblNombreError.setVisible(true);
+			lblNombre.setForeground(Color.RED);*/
+			textFieldNombre.setBorder(BorderFactory.createLineBorder(Color.RED));
+			salida = false;
+		}
+		if (textFieldApellidos.getText().trim().isEmpty()) {
+			/*lblApellidosError.setVisible(true);
+			lblApellidos.setForeground(Color.RED);*/
+			textFieldApellidos.setBorder(BorderFactory.createLineBorder(Color.RED));
+			salida = false;
+		}
+		if (textFieldEmail.getText().trim().isEmpty()) {
+			/*lblEmailError.setVisible(true);
+			lblEmail.setForeground(Color.RED);*/
+			textFieldEmail.setBorder(BorderFactory.createLineBorder(Color.RED));
+			salida = false;
+		}
+		if (textFieldUsuario.getText().trim().isEmpty()) {
+			/*lblUsuarioError.setText("El usuario es obligatorio");
+			lblUsuarioError.setVisible(true);
+			lblUsuario.setForeground(Color.RED);
+			txtUsuario.setBorder(BorderFactory.createLineBorder(Color.RED));*/
+			salida = false;
+		}
+		String password = new String(passwordField.getPassword());
+		String password2 = new String(passwordFieldRep.getPassword());
+		if (password.isEmpty()) {
+			/*lblPasswordError.setText("El password no puede estar vacio");
+			lblPasswordError.setVisible(true);
+			lblPassword.setForeground(Color.RED);*/
+			passwordField.setBorder(BorderFactory.createLineBorder(Color.RED));
+			salida = false;
+		} 
+		if (password2.isEmpty()) {
+			/*lblPasswordError.setText("El password no puede estar vacio");
+			lblPasswordError.setVisible(true);
+			lblPasswordChk.setForeground(Color.RED);*/
+			passwordFieldRep.setBorder(BorderFactory.createLineBorder(Color.RED));
+			salida = false;
+		} 
+		if (!password.equals(password2)) {
+			/*lblPasswordError.setText("Los dos passwords no coinciden");
+			lblPasswordError.setVisible(true);
+			lblPassword.setForeground(Color.RED);
+			lblPasswordChk.setForeground(Color.RED);*/
+			passwordField.setBorder(BorderFactory.createLineBorder(Color.RED));
+			passwordFieldRep.setBorder(BorderFactory.createLineBorder(Color.RED));
+			salida = false;
+		}
+		if (textFieldFechaNac.getText().isEmpty()) {
+			/*lblFechaNacimientoError.setVisible(true);
+			lblFechaNacimiento.setForeground(Color.RED);*/
+			textFieldFechaNac.setBorder(BorderFactory.createLineBorder(Color.RED));
+			salida = false;
+		}
 
+		frameRegistro.revalidate();
+		frameRegistro.pack();
+		
+		return salida;
+	}
 }

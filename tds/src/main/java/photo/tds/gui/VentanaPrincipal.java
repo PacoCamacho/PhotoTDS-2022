@@ -9,6 +9,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import photo.tds.controlador.Controlador;
+import photo.tds.dominio.RepositorioUsuarios;
+
 public class VentanaPrincipal {
 
 	private JFrame frmVentanaPrincipal;
@@ -32,7 +35,7 @@ public class VentanaPrincipal {
 		contentPane.setBorder(new EmptyBorder(10, 10, 10, 10));
 		contentPane.setLayout(new BorderLayout());
 		
-		JLabel labelCompartirCoche = new JLabel("Bienvenidos a AppVideo");
+		JLabel labelCompartirCoche = new JLabel("Bienvenid@ a AppVideo, " + Controlador.INSTANCE.getUsuarioActual().getNombre());
 		labelCompartirCoche.setFont(new Font("Arial", Font.PLAIN, 30));
 		labelCompartirCoche.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(labelCompartirCoche, BorderLayout.CENTER);
