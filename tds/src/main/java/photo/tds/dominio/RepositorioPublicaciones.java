@@ -31,7 +31,7 @@ public enum RepositorioPublicaciones {
 		}
 	}
 	
-	public List<Publicacion> findPublicacion() throws DAOException {
+	public List<Publicacion> findPublicaciones() throws DAOException {
 		return new LinkedList<Publicacion>(publicacionesporID.values());
 	}
 	

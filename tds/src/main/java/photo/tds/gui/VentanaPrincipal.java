@@ -29,18 +29,21 @@ public class VentanaPrincipal {
 	public void initialize() {
 		frmVentanaPrincipal = new JFrame();
 		frmVentanaPrincipal.setTitle("AppVideo- Ventana Principal");
+		frmVentanaPrincipal.setSize(500, 600);
 		frmVentanaPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel contentPane = (JPanel) frmVentanaPrincipal.getContentPane();
 		contentPane.setBorder(new EmptyBorder(10, 10, 10, 10));
 		contentPane.setLayout(new BorderLayout());
 		
-		JLabel labelCompartirCoche = new JLabel("Bienvenid@ a AppVideo, " + Controlador.INSTANCE.getUsuarioActual().getNombre());
-		labelCompartirCoche.setFont(new Font("Arial", Font.PLAIN, 30));
-		labelCompartirCoche.setHorizontalAlignment(SwingConstants.CENTER);
-		contentPane.add(labelCompartirCoche, BorderLayout.CENTER);
+		JPanel panel = new JPanel();
+		frmVentanaPrincipal.getContentPane().add(panel, BorderLayout.NORTH);
+		
+		JLabel lblBienvenidoAPhototds = new JLabel("Bienvenido a PhotoTDS, " + Controlador.INSTANCE.getUsuarioActual().getNombre());
+		lblBienvenidoAPhototds.setHorizontalAlignment(SwingConstants.LEFT);
+		panel.add(lblBienvenidoAPhototds);
 
-		frmVentanaPrincipal.pack();
+		
 	}
 
 }
