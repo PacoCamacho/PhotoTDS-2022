@@ -6,10 +6,14 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.persistence.jaxb.javamodel.JavaClassInstanceOf;
+
 import beans.Entidad;
 import beans.Propiedad;
 import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
+import photo.tds.dominio.Album;
+import photo.tds.dominio.Foto;
 import photo.tds.dominio.Publicacion;
 
 public class TDSPublicacionDAO implements PublicacionDAO{
@@ -19,6 +23,8 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 	private static final String FECHA = "Fecha";
 	private static final String DESCRIPCION = "Descripción";
 	private static final String MEGUSTAS = "Número de megustas";
+	private static final String FOTOS = "Número de fotos";
+	private static final String PATH = "Path de la foto o fotos";
 	//private static final String HASHTAGS = "Hashtags";
 	
 	
@@ -37,14 +43,26 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 		String fecha = servPersistencia.recuperarPropiedadEntidad(ePublicacion, FECHA);
 		String descripcion = servPersistencia.recuperarPropiedadEntidad(ePublicacion, DESCRIPCION);
 		int megustas = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(ePublicacion, MEGUSTAS)) ;
+		int nfotos = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(ePublicacion, FOTOS));
+		String path = servPersistencia.recuperarPropiedadEntidad(ePublicacion, PATH);
 		//no se q hacer con los hashtags, preguntar
 		//String hashtags = servPersistencia.recuperarPropiedadEntidad(ePublicacion, HASHTAGS);
-		
-		Publicacion publicacion = new Publicacion(titulo, fecha, descripcion, megustas);
+		if(nfotos>1) {
+			Foto foto = new Foto(path, titulo, fecha, descripcion, megustas);
+			foto.SetId(ePublicacion.getId());
+			return foto;
+		}
+		else {
+			List<String> list = Arrays.asList(path.split("\\s+"));
+			Album album = new Album(titulo, fecha, descripcion, list, megustas);
+			album.SetId(ePublicacion.getId());
+			return album;
+		}
+		/*Publicacion publicacion = new Publicacion(titulo, fecha, descripcion, megustas);
 		publicacion.SetId(ePublicacion.getId());
 		
 		
-		return publicacion;
+		return publicacion;*/
 	}
 	
 	
@@ -55,7 +73,11 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 		ePublicacion.setPropiedades(new ArrayList<Propiedad>(Arrays.asList(new Propiedad(TITULO, publicacion.getTitulo()),
 				new Propiedad(FECHA, publicacion.getFecha()),
 				new Propiedad(DESCRIPCION, publicacion.getDescripcion()),
-				new Propiedad(MEGUSTAS, Integer.toString(publicacion.getMg())))));
+				new Propiedad(MEGUSTAS, Integer.toString(publicacion.getMg())),
+				new Propiedad(FOTOS, Integer.toString(publicacion.getNumFotos())),
+				new Propiedad(PATH,publicacion.getPath()))));
+		
+		
 		return ePublicacion;
 	}
 	

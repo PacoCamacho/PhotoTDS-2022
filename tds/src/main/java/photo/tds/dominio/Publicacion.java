@@ -3,7 +3,7 @@ package photo.tds.dominio;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Publicacion {
+public abstract class Publicacion {
 
 	public int id;
 	public String titulo;
@@ -80,6 +80,11 @@ public class Publicacion {
 	public void setHashtags(List<String> hashtags) {
 		this.hashtags = hashtags;
 	}
+	
+	public abstract String getPath();
+	
+	public abstract int getNumFotos();
+	
 	
 	
 }
