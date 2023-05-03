@@ -1,5 +1,11 @@
 package photo.tds.dominio;
 
+import java.time.LocalDate;
+import java.util.LinkedList;
+import java.util.List;
+
+
+
 public class Usuario {
 	
 	private int id;
@@ -9,6 +15,8 @@ public class Usuario {
 	private String login;
 	private String password;
 	private String fechaNacimiento;
+	
+	private List<Publicacion> publicaciones;
 
 	public Usuario(String nombre, String apellidos, String email, String login, String password,
 			String fechaNacimiento) {
@@ -19,6 +27,7 @@ public class Usuario {
 		this.login = login;
 		this.password = password;
 		this.fechaNacimiento = fechaNacimiento;
+		this.publicaciones = new LinkedList();
 	}
 
 	public int getId() {
@@ -75,6 +84,13 @@ public class Usuario {
 
 	public void setFechaNacimiento(String fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
+	}
+	
+	public Foto crearFoto(String titulo, String descripcion, String path) {
+		String fecha = LocalDate.now().toString();
+		Foto foto = new Foto(path, titulo, fecha, descripcion, this.login);
+		this.publicaciones.add(foto);
+		return foto;
 	}
 
 }

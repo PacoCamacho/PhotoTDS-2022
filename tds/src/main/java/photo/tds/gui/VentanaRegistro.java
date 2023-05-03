@@ -28,6 +28,7 @@ import photo.tds.controlador.Controlador;
 
 
 import javax.swing.JPasswordField;
+import javax.swing.SwingConstants;
 
 public class VentanaRegistro extends JDialog{
 
@@ -110,7 +111,7 @@ public class VentanaRegistro extends JDialog{
 		gbl_panelCentro.columnWidths = new int[]{0, 963, 0, 0};
 		gbl_panelCentro.rowHeights = new int[]{0, 243, 0, 0, 0};
 		gbl_panelCentro.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
-		gbl_panelCentro.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gbl_panelCentro.rowWeights = new double[]{0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
 		panelCentro.setLayout(gbl_panelCentro);
 		
 		JPanel panelDatosPersonales = new JPanel();
@@ -266,6 +267,17 @@ public class VentanaRegistro extends JDialog{
 		gbc_passwordFieldRep.gridx = 2;
 		gbc_passwordFieldRep.gridy = 2;
 		panelDatosAplicacion.add(passwordFieldRep, gbc_passwordFieldRep);
+		
+		JPanel panel = new JPanel();
+		GridBagConstraints gbc_panel = new GridBagConstraints();
+		gbc_panel.insets = new Insets(0, 0, 0, 5);
+		gbc_panel.fill = GridBagConstraints.BOTH;
+		gbc_panel.gridx = 1;
+		gbc_panel.gridy = 3;
+		panelCentro.add(panel, gbc_panel);
+		
+		JButton btnAadirFotoDe = new JButton("Añadir foto de perfil");
+		panel.add(btnAadirFotoDe);
 		
 		JPanel panelSur = new JPanel();
 		frameRegistro.getContentPane().add(panelSur, BorderLayout.SOUTH);

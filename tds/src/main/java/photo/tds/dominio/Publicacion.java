@@ -10,16 +10,22 @@ public abstract class Publicacion {
 	public String fecha;
 	public String descripcion;
 	public int mg;
+	public String creador;
 	public List<String> hashtags;
 	
 	
-	public Publicacion(String titulo, String fecha, String descripcion, int mg ) {
+	public Publicacion(String titulo, String fecha, String descripcion, int mg, String creador ) {
 		this.id = 0;
 		this.titulo = titulo;
 		this.fecha = fecha;
 		this.descripcion = descripcion;
 		this.mg = mg;
+		this.creador = creador;
 		this.hashtags = new LinkedList<String>();
+	}
+	
+	public Publicacion(String titulo, String fecha, String descripcion, String creador ) {
+		this(titulo,fecha,descripcion,0,creador);
 	}
 
 
