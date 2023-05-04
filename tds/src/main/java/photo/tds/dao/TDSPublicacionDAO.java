@@ -25,6 +25,7 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 	private static final String MEGUSTAS = "Número de megustas";
 	private static final String FOTOS = "Número de fotos";
 	private static final String PATH = "Path de la foto o fotos";
+	private static final String CREADOR = "Creador de la publicacion";
 	//private static final String HASHTAGS = "Hashtags";
 	
 	
@@ -45,16 +46,17 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 		int megustas = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(ePublicacion, MEGUSTAS)) ;
 		int nfotos = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(ePublicacion, FOTOS));
 		String path = servPersistencia.recuperarPropiedadEntidad(ePublicacion, PATH);
+		String creador = servPersistencia.recuperarPropiedadEntidad(ePublicacion, CREADOR);
 		//no se q hacer con los hashtags, preguntar
 		//String hashtags = servPersistencia.recuperarPropiedadEntidad(ePublicacion, HASHTAGS);
 		if(nfotos>1) {
-			Foto foto = new Foto(path, titulo, fecha, descripcion, megustas);
+			Foto foto = new Foto(path, titulo, fecha, descripcion, megustas, creador);
 			foto.SetId(ePublicacion.getId());
 			return foto;
 		}
 		else {
 			List<String> list = Arrays.asList(path.split("\\s+"));
-			Album album = new Album(titulo, fecha, descripcion, list, megustas);
+			Album album = new Album(titulo, fecha, descripcion, list, megustas, creador);
 			album.SetId(ePublicacion.getId());
 			return album;
 		}
@@ -75,7 +77,8 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 				new Propiedad(DESCRIPCION, publicacion.getDescripcion()),
 				new Propiedad(MEGUSTAS, Integer.toString(publicacion.getMg())),
 				new Propiedad(FOTOS, Integer.toString(publicacion.getNumFotos())),
-				new Propiedad(PATH,publicacion.getPath()))));
+				new Propiedad(PATH,publicacion.getPath()),
+				new Propiedad(CREADOR, publicacion.getCreador()))));
 		
 		
 		return ePublicacion;
