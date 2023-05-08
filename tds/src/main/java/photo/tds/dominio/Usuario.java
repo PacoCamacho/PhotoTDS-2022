@@ -15,7 +15,24 @@ public class Usuario {
 	private String login;
 	private String password;
 	private String fechaNacimiento;
+	private String fotoPerfil;
 	
+	public String getFotoPerfil() {
+		return fotoPerfil;
+	}
+
+	public void setFotoPerfil(String fotoPerfil) {
+		this.fotoPerfil = fotoPerfil;
+	}
+
+	public List<Publicacion> getPublicaciones() {
+		return publicaciones;
+	}
+
+	public void setPublicaciones(List<Publicacion> publicaciones) {
+		this.publicaciones = publicaciones;
+	}
+
 	private List<Publicacion> publicaciones;
 
 	public Usuario(String nombre, String apellidos, String email, String login, String password,
@@ -27,7 +44,7 @@ public class Usuario {
 		this.login = login;
 		this.password = password;
 		this.fechaNacimiento = fechaNacimiento;
-		this.publicaciones = new LinkedList();
+		this.publicaciones = new LinkedList<Publicacion>();
 	}
 
 	public int getId() {
