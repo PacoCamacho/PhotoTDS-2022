@@ -3,6 +3,8 @@ package photo.tds.gui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -30,6 +32,10 @@ public class VentanaPrincipal {
     public void mostrarVentana() {
         frmVentanaPrincipal.setLocationRelativeTo(null);
         frmVentanaPrincipal.setVisible(true);
+    }
+    
+    public void cerrarVentana() {
+        frmVentanaPrincipal.dispose();
     }
     
     public void initialize() {
@@ -82,6 +88,14 @@ public class VentanaPrincipal {
         panelSuperior.add(menuBar, BorderLayout.SOUTH);
 
         contentPane.add(panelSuperior, BorderLayout.NORTH);
+        
+        menuItem1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                VentanaPerfil ventanaPerfil = new VentanaPerfil();
+                ventanaPerfil.mostrarVentana();
+                frmVentanaPrincipal.dispose();
+            }
+        });
 
         // Panel para las publicaciones
         JPanel panelPublicaciones = new JPanel(new GridLayout(0, 1));
