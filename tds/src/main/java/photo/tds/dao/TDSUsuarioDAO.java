@@ -27,6 +27,8 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 	private static final String LOGIN = "login";
 	private static final String PASSWORD = "password";
 	private static final String FECHA_NACIMIENTO = "fechaNacimiento";
+	private static final String SEGUIDORES = "seguidores";
+	private static final String SEGUIDOS = "seguidos";
 
 	private ServicioPersistencia servPersistencia;
 	private SimpleDateFormat dateFormat;
@@ -44,6 +46,12 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 		String login = servPersistencia.recuperarPropiedadEntidad(eUsuario, LOGIN);
 		String password = servPersistencia.recuperarPropiedadEntidad(eUsuario, PASSWORD);
 		String fechaNacimiento = servPersistencia.recuperarPropiedadEntidad(eUsuario, FECHA_NACIMIENTO);
+		
+		//Añadir al usuario seguidores y seguidos
+		String seguidores = servPersistencia.recuperarPropiedadEntidad(eUsuario, SEGUIDORES);
+		String seguidos = servPersistencia.recuperarPropiedadEntidad(eUsuario, SEGUIDOS);
+		
+		
 
 		Usuario usuario = new Usuario(nombre, apellidos, email, login, password, fechaNacimiento);
 		usuario.setId(eUsuario.getId());

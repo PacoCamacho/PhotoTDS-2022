@@ -15,13 +15,17 @@ import java.awt.FlowLayout;
 import javax.swing.SwingConstants;
 
 import photo.tds.controlador.Controlador;
+import photo.tds.dominio.Usuario;
+
 import javax.swing.JButton;
 
 public class VentanaPerfil {
 	 	private JFrame frame;
+	 	private Usuario usuario;
 
-	    public VentanaPerfil() {
+	    public VentanaPerfil(Usuario usuario) {
 	        initialize();
+	        this.usuario = usuario;
 	    }
 
 	    public void mostrarVentana() {
@@ -50,10 +54,10 @@ public class VentanaPerfil {
 	        JPanel panel_1 = new JPanel();
 	        panel_3.add(panel_1, BorderLayout.NORTH);
 	        
-	        JLabel lblSeguidores = new JLabel("Seguidores");
+	        JLabel lblSeguidores = new JLabel("Seguidores" + this.usuario.getNumSeguidores());
 	        panel_1.add(lblSeguidores);
 	        
-	        JLabel lblSeguidos = new JLabel("Seguidos");
+	        JLabel lblSeguidos = new JLabel("Seguidos" + this.usuario.getNumSeguidos());
 	        panel_1.add(lblSeguidos);
 	    }
 }

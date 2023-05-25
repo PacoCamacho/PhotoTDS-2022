@@ -91,7 +91,7 @@ public class VentanaPrincipal {
         
         menuItem1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                VentanaPerfil ventanaPerfil = new VentanaPerfil();
+                VentanaPerfil ventanaPerfil = new VentanaPerfil(Controlador.INSTANCE.getUsuarioActual());
                 ventanaPerfil.mostrarVentana();
                 frmVentanaPrincipal.dispose();
             }

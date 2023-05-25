@@ -16,6 +16,23 @@ public class Usuario {
 	private String password;
 	private String fechaNacimiento;
 	private String fotoPerfil;
+	private List<Usuario> seguidores;
+	private List<Usuario> seguidos;
+	private List<Publicacion> publicaciones;
+	
+	public Usuario(String nombre, String apellidos, String email, String login, String password,
+			String fechaNacimiento) {
+		this.id = 0;
+		this.nombre = nombre;
+		this.apellidos = apellidos;
+		this.email = email;
+		this.login = login;
+		this.password = password;
+		this.fechaNacimiento = fechaNacimiento;
+		this.publicaciones = new LinkedList<Publicacion>();
+		this.seguidores = new LinkedList<Usuario>();
+		this.seguidos = new LinkedList<Usuario>();
+	}
 	
 	public String getFotoPerfil() {
 		return fotoPerfil;
@@ -31,20 +48,6 @@ public class Usuario {
 
 	public void setPublicaciones(List<Publicacion> publicaciones) {
 		this.publicaciones = publicaciones;
-	}
-
-	private List<Publicacion> publicaciones;
-
-	public Usuario(String nombre, String apellidos, String email, String login, String password,
-			String fechaNacimiento) {
-		this.id = 0;
-		this.nombre = nombre;
-		this.apellidos = apellidos;
-		this.email = email;
-		this.login = login;
-		this.password = password;
-		this.fechaNacimiento = fechaNacimiento;
-		this.publicaciones = new LinkedList<Publicacion>();
 	}
 
 	public int getId() {
@@ -101,6 +104,14 @@ public class Usuario {
 
 	public void setFechaNacimiento(String fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
+	}
+	
+	public int getNumSeguidores() {
+		return this.seguidores.size();
+	}
+	
+	public int getNumSeguidos() {
+		return this.seguidos.size();
 	}
 	
 	public Foto crearFoto(String titulo, String descripcion, String path) {
