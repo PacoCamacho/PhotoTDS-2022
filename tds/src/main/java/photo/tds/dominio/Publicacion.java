@@ -1,5 +1,6 @@
 package photo.tds.dominio;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -8,26 +9,31 @@ public abstract class Publicacion {
 
 	public int id;
 	public String titulo;
-	public String fecha;
+	public Date fecha;
 	public String descripcion;
 	public int mg;
-	public String creador;
-	public List<String> hashtags;
+	public String usuario;
+	public List<Hashtag> hashtags;
+	private List<Comentario> comentarios;
 	
 	
-	public Publicacion(String titulo, String fecha, String descripcion, int mg, String creador ) {
-		this.id = 0;
+	public Publicacion(String titulo, Date fecha, String descripcion, int mg, String usuario ) {
+		super();
 		this.titulo = titulo;
 		this.fecha = fecha;
 		this.descripcion = descripcion;
 		this.mg = mg;
-		this.creador = creador;
-		this.hashtags = new LinkedList<String>();
+		this.usuario = usuario;
+		this.hashtags = new ArrayList<>();
+		this.comentarios = new ArrayList<>();
 	}
 	
-	public Publicacion(String titulo, String fecha, String descripcion, String creador ) {
-		this(titulo,fecha,descripcion,0,creador);
+	public Publicacion(String titulo, Date fecha, String descripcion, int mg, String usuario,List<Hashtag> lh) {
+		this(titulo,fecha,descripcion,mg,usuario);
+		this.hashtags = lh;
 	}
+	
+	
 
 
 	public int getId() {
@@ -49,12 +55,12 @@ public abstract class Publicacion {
 	}
 
 
-	public String getFecha() {
+	public Date getFecha() {
 		return fecha;
 	}
 
 
-	public void setFecha(String fecha) {
+	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
 
@@ -79,14 +85,19 @@ public abstract class Publicacion {
 	}
 
 
-	public List<String> getHashtags() {
-		return new LinkedList<String>(this.hashtags);
+	public List<Hashtag> getHashtags() {
+		return new ArrayList<Hashtag>(this.hashtags);
 	}
 
 
-	public void setHashtags(List<String> hashtags) {
+	public void setHashtags(List<Hashtag> hashtags) {
 		this.hashtags = hashtags;
 	}
+	
+	public List<Comentario> getComentarios() {
+		return new LinkedList<>(comentarios);
+	}
+	
 	
 	public abstract String getPath();
 	

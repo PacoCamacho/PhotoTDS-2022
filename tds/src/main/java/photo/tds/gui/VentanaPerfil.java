@@ -54,11 +54,11 @@ public class VentanaPerfil {
 	        JPanel panel_1 = new JPanel();
 	        panel_3.add(panel_1, BorderLayout.NORTH);
 	        
-	        JLabel lblSeguidores = new JLabel("Seguidores" + this.usuario.getNumSeguidores());
-	        panel_1.add(lblSeguidores);
-	        
-	        JLabel lblSeguidos = new JLabel("Seguidos" + this.usuario.getNumSeguidos());
-	        panel_1.add(lblSeguidos);
+//	        JLabel lblSeguidores = new JLabel("Seguidores" + this.usuario.getNumSeguidores());
+//	        panel_1.add(lblSeguidores);
+//	        
+//	        JLabel lblSeguidos = new JLabel("Seguidos" + this.usuario.getNumSeguidos());
+//	        panel_1.add(lblSeguidos);
 	    }
 	    //
 }

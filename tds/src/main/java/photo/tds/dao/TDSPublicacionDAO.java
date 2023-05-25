@@ -6,13 +6,14 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.persistence.jaxb.javamodel.JavaClassInstanceOf;
+
 
 import beans.Entidad;
 import beans.Propiedad;
 import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
 import photo.tds.dominio.Album;
+import photo.tds.dominio.Conversor;
 import photo.tds.dominio.Foto;
 import photo.tds.dominio.Publicacion;
 
@@ -49,13 +50,12 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 		//no se q hacer con los hashtags, preguntar
 		//String hashtags = servPersistencia.recuperarPropiedadEntidad(ePublicacion, HASHTAGS);
 		if(nfotos>1) {
-			Foto foto = new Foto(path, titulo, fecha, descripcion, megustas, creador);
+			Foto foto = new Foto(path, titulo, Conversor.StringToDate(fecha), descripcion, megustas, creador);
 			foto.SetId(ePublicacion.getId());
 			return foto;
 		}
 		else {
-			List<String> list = Arrays.asList(path.split("\\s+"));
-			Album album = new Album(titulo, fecha, descripcion, list, megustas, creador);
+			Album album = new Album(titulo, Conversor.StringToDate(fecha), descripcion,  megustas, creador);
 			album.SetId(ePublicacion.getId());
 			return album;
 		}
@@ -72,7 +72,7 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 		ePublicacion.setNombre(PUBLICACION);
 		
 		ePublicacion.setPropiedades(new ArrayList<Propiedad>(Arrays.asList(new Propiedad(TITULO, publicacion.getTitulo()),
-				new Propiedad(FECHA, publicacion.getFecha()),
+				new Propiedad(FECHA, Conversor.DateToString(publicacion.getFecha())),
 				new Propiedad(DESCRIPCION, publicacion.getDescripcion()),
 				new Propiedad(MEGUSTAS, Integer.toString(publicacion.getMg())),
 				new Propiedad(FOTOS, Integer.toString(publicacion.getNumFotos())),

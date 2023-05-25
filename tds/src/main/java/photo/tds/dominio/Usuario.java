@@ -1,8 +1,10 @@
 package photo.tds.dominio;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+
 
 
 
@@ -87,11 +89,22 @@ public class Usuario {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 	
-	public Foto crearFoto(String titulo, String descripcion, String path) {
-		Foto foto = new Foto(path,titulo,new Date(),descripcion, this.login  );
+	public Foto crearFoto(String titulo, String descripcion, String path, List<String> hashtags) {
+		List<Hashtag> lh = new ArrayList<>();
+		for(String h : hashtags) {
+			Hashtag hashtag = Hashtag.crearHashtag("#"+h);
+			if(hashtag != null)
+				lh.add(hashtag);
+		}
+		Foto foto = new Foto(path,titulo,new Date(),descripcion, this.login, lh);
 		this.publicaciones.add(foto);
 		return foto;
 	}
-	//
+	
+	public Foto crearFoto(String titulo, String descripcion,String path) {
+		Foto f = new Foto(path, titulo, new Date(), descripcion, this.login);
+		this.publicaciones.add(f);
+		return f;
+	}
 
 }
