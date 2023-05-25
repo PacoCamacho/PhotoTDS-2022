@@ -92,5 +92,6 @@ public class Usuario {
 		this.publicaciones.add(foto);
 		return foto;
 	}
+	//
 
 }

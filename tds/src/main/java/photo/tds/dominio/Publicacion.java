@@ -1,5 +1,6 @@
 package photo.tds.dominio;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -66,14 +67,7 @@ public abstract class Publicacion {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	
-	public String getCreador() {
-		return creador;
-	}
-	
-	public void setCreador(String creador) {
-		this.creador = creador;
-	}
+
 
 	public int getMg() {
 		return mg;

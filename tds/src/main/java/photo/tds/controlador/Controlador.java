@@ -1,15 +1,21 @@
 package photo.tds.controlador;
 
 import photo.tds.dao.UsuarioDAO;
+
+import java.util.Optional;
+
 import photo.tds.dao.DAOException;
 import photo.tds.dao.FactoriaDAO;
 import photo.tds.dominio.Usuario;
+import photo.tds.dominio.Foto;
+import photo.tds.dominio.RepositorioPublicaciones;
 import photo.tds.dominio.RepositorioUsuarios;
 
 public enum Controlador {
 	INSTANCE;
 	private Usuario usuarioActual;
 	private FactoriaDAO factoria;
+	private RepositorioPublicaciones repoPublicaciones;
 
 	private Controlador() {
 		usuarioActual = null;
@@ -60,6 +66,17 @@ public enum Controlador {
 		usuarioDAO.delete(usuario);
 
 		RepositorioUsuarios.INSTANCE.removeUsuario(usuario);
+		return true;
+	}
+	
+	public boolean crearFoto(Usuario u, String titulo, String descripcion, String path) {
+
+		if (!esUsuarioRegistrado(u.getLogin()))
+			return false;
+
+		Foto foto = u.crearFoto(titulo, descripcion, path);
+
+		this.repoPublicaciones.crearPublicacion(foto);
 		return true;
 	}
 }

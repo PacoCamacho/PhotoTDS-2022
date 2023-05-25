@@ -60,4 +60,5 @@ public class VentanaPerfil {
 	        JLabel lblSeguidos = new JLabel("Seguidos" + this.usuario.getNumSeguidos());
 	        panel_1.add(lblSeguidos);
 	    }
+	    //
 }

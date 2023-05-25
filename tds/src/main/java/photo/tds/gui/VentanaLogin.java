@@ -119,7 +119,7 @@ public class VentanaLogin {
 												gbc_lblUsuario.gridy = 0;
 												panelCampoUsuarioContraseña.add(lblUsuario, gbc_lblUsuario);
 												lblUsuario.setHorizontalAlignment(SwingConstants.RIGHT);
-												lblUsuario.setFont(new Font("Tahoma", Font.PLAIN, 12));
+												lblUsuario.setFont(new Font("SansSerif", Font.PLAIN, 12));
 												
 														textUsuario = new JTextField();
 														GridBagConstraints gbc_textUsuario = new GridBagConstraints();
@@ -133,7 +133,7 @@ public class VentanaLogin {
 														
 														JLabel lblNewLabel = new JLabel("Contraseña:");
 														lblNewLabel.setIcon(new ImageIcon("C:\\Users\\franc\\Documents\\imagenes TDS\\candado.png"));
-														lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+														lblNewLabel.setFont(new Font("SansSerif", Font.PLAIN, 14));
 														GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 														gbc_lblNewLabel.anchor = GridBagConstraints.NORTHEAST;
 														gbc_lblNewLabel.insets = new Insets(0, 0, 0, 5);
@@ -169,7 +169,7 @@ public class VentanaLogin {
 				JButton btnLogin = new JButton("Login");
 				btnLogin.setForeground(new Color(0, 0, 0));
 				btnLogin.setBackground(new Color(255, 255, 255));
-				btnLogin.setFont(new Font("Segoe Script", Font.PLAIN, 12));
+				btnLogin.setFont(new Font("SansSerif", Font.PLAIN, 12));
 				GridBagConstraints gbc_btnLogin = new GridBagConstraints();
 				gbc_btnLogin.anchor = GridBagConstraints.NORTH;
 				gbc_btnLogin.insets = new Insets(0, 0, 0, 5);
@@ -182,7 +182,7 @@ public class VentanaLogin {
 				JButton btnRegistro = new JButton("Registro");
 				btnRegistro.setBackground(new Color(255, 255, 255));
 				btnRegistro.setForeground(new Color(0, 0, 0));
-				btnRegistro.setFont(new Font("Segoe Script", Font.PLAIN, 12));
+				btnRegistro.setFont(new Font("SansSerif", Font.PLAIN, 12));
 				GridBagConstraints gbc_btnRegistro = new GridBagConstraints();
 				gbc_btnRegistro.insets = new Insets(0, 0, 0, 5);
 				gbc_btnRegistro.anchor = GridBagConstraints.NORTHWEST;
@@ -194,7 +194,7 @@ public class VentanaLogin {
 						JButton btnSalir = new JButton("Salir");
 						btnSalir.setBackground(new Color(255, 255, 255));
 						btnSalir.setForeground(new Color(0, 0, 0));
-						btnSalir.setFont(new Font("Segoe Script", Font.PLAIN, 12));
+						btnSalir.setFont(new Font("SansSerif", Font.PLAIN, 12));
 						GridBagConstraints gbc_btnSalir = new GridBagConstraints();
 						gbc_btnSalir.anchor = GridBagConstraints.EAST;
 						gbc_btnSalir.gridx = 3;

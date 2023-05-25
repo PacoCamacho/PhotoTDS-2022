@@ -28,7 +28,7 @@ import photo.tds.controlador.Controlador;
 
 
 import javax.swing.JPasswordField;
-import javax.swing.SwingConstants;
+import com.toedter.calendar.JDateChooser;
 
 public class VentanaRegistro extends JDialog{
 
@@ -40,10 +40,10 @@ public class VentanaRegistro extends JDialog{
 	private JTextField textFieldEmail;
 	private JTextField textFieldNombre;
 	private JTextField textFieldApellidos;
-	private JTextField textFieldFechaNac;
 	private JTextField textFieldUsuario;
 	private JPasswordField passwordField;
 	private JPasswordField passwordFieldRep;
+	private JDateChooser fechaNacimiento;
 
 	/**
 	 * Launch the application.
@@ -111,7 +111,7 @@ public class VentanaRegistro extends JDialog{
 		gbl_panelCentro.columnWidths = new int[]{0, 963, 0, 0};
 		gbl_panelCentro.rowHeights = new int[]{0, 243, 0, 0, 0};
 		gbl_panelCentro.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
-		gbl_panelCentro.rowWeights = new double[]{0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
+		gbl_panelCentro.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		panelCentro.setLayout(gbl_panelCentro);
 		
 		JPanel panelDatosPersonales = new JPanel();
@@ -123,10 +123,10 @@ public class VentanaRegistro extends JDialog{
 		gbc_panelDatosPersonales.gridy = 1;
 		panelCentro.add(panelDatosPersonales, gbc_panelDatosPersonales);
 		GridBagLayout gbl_panelDatosPersonales = new GridBagLayout();
-		gbl_panelDatosPersonales.columnWidths = new int[]{132, 30, 500, 0, 0};
+		gbl_panelDatosPersonales.columnWidths = new int[]{119, 133, 500, 0, 0};
 		gbl_panelDatosPersonales.rowHeights = new int[]{44, 46, 44, 39, 0};
 		gbl_panelDatosPersonales.columnWeights = new double[]{0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
-		gbl_panelDatosPersonales.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panelDatosPersonales.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		panelDatosPersonales.setLayout(gbl_panelDatosPersonales);
 		
 		JLabel lblEmail = new JLabel("Email:");
@@ -136,7 +136,7 @@ public class VentanaRegistro extends JDialog{
 		gbc_lblEmail.gridx = 1;
 		gbc_lblEmail.gridy = 0;
 		panelDatosPersonales.add(lblEmail, gbc_lblEmail);
-		lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblEmail.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		
 		textFieldEmail = new JTextField();
 		GridBagConstraints gbc_textFieldEmail = new GridBagConstraints();
@@ -154,7 +154,7 @@ public class VentanaRegistro extends JDialog{
 		gbc_lblNombre.gridx = 1;
 		gbc_lblNombre.gridy = 1;
 		panelDatosPersonales.add(lblNombre, gbc_lblNombre);
-		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblNombre.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		
 		textFieldNombre = new JTextField();
 		GridBagConstraints gbc_textFieldNombre = new GridBagConstraints();
@@ -172,7 +172,7 @@ public class VentanaRegistro extends JDialog{
 		gbc_lblNewLabelApellidos.gridx = 1;
 		gbc_lblNewLabelApellidos.gridy = 2;
 		panelDatosPersonales.add(lblNewLabelApellidos, gbc_lblNewLabelApellidos);
-		lblNewLabelApellidos.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblNewLabelApellidos.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		
 		textFieldApellidos = new JTextField();
 		GridBagConstraints gbc_textFieldApellidos = new GridBagConstraints();
@@ -184,7 +184,7 @@ public class VentanaRegistro extends JDialog{
 		textFieldApellidos.setColumns(10);
 		
 		JLabel lblNewLabelFechaNac = new JLabel("Fecha Nacimiento:");
-		lblNewLabelFechaNac.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblNewLabelFechaNac.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		GridBagConstraints gbc_lblNewLabelFechaNac = new GridBagConstraints();
 		gbc_lblNewLabelFechaNac.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabelFechaNac.insets = new Insets(0, 0, 0, 5);
@@ -192,14 +192,14 @@ public class VentanaRegistro extends JDialog{
 		gbc_lblNewLabelFechaNac.gridy = 3;
 		panelDatosPersonales.add(lblNewLabelFechaNac, gbc_lblNewLabelFechaNac);
 		
-		textFieldFechaNac = new JTextField();
-		GridBagConstraints gbc_textFieldFechaNac = new GridBagConstraints();
-		gbc_textFieldFechaNac.insets = new Insets(0, 0, 0, 5);
-		gbc_textFieldFechaNac.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textFieldFechaNac.gridx = 2;
-		gbc_textFieldFechaNac.gridy = 3;
-		panelDatosPersonales.add(textFieldFechaNac, gbc_textFieldFechaNac);
-		textFieldFechaNac.setColumns(10);
+		fechaNacimiento = new JDateChooser();
+		fechaNacimiento.setDateFormatString("dd/MM/yyyy");
+		GridBagConstraints gbc_fechaNacimiento = new GridBagConstraints();
+		gbc_fechaNacimiento.anchor = GridBagConstraints.WEST;
+		gbc_fechaNacimiento.insets = new Insets(10, 0, 0, 0);
+		gbc_fechaNacimiento.gridx = 2;
+		gbc_fechaNacimiento.gridy = 3;
+		panelDatosPersonales.add(fechaNacimiento, gbc_fechaNacimiento);
 		
 		JPanel panelDatosAplicacion = new JPanel();
 		panelDatosAplicacion.setBorder(new TitledBorder(null, "Datos Aplicaci\u00F3n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -217,7 +217,7 @@ public class VentanaRegistro extends JDialog{
 		panelDatosAplicacion.setLayout(gbl_panelDatosAplicacion);
 		
 		JLabel lblNewLabelUsuario = new JLabel("Nombre Usuario:");
-		lblNewLabelUsuario.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblNewLabelUsuario.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		GridBagConstraints gbc_lblNewLabelUsuario = new GridBagConstraints();
 		gbc_lblNewLabelUsuario.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabelUsuario.insets = new Insets(0, 0, 5, 5);
@@ -235,7 +235,7 @@ public class VentanaRegistro extends JDialog{
 		textFieldUsuario.setColumns(10);
 		
 		JLabel lblNewLabelContraseña = new JLabel("Contraseña:\r\n");
-		lblNewLabelContraseña.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblNewLabelContraseña.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		GridBagConstraints gbc_lblNewLabelContraseña = new GridBagConstraints();
 		gbc_lblNewLabelContraseña.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabelContraseña.insets = new Insets(0, 0, 5, 5);
@@ -252,7 +252,7 @@ public class VentanaRegistro extends JDialog{
 		panelDatosAplicacion.add(passwordField, gbc_passwordField);
 		
 		JLabel lblNewLabelContraseñaRep = new JLabel("Repetir Contraseña:");
-		lblNewLabelContraseñaRep.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblNewLabelContraseñaRep.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		GridBagConstraints gbc_lblNewLabelContraseñaRep = new GridBagConstraints();
 		gbc_lblNewLabelContraseñaRep.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabelContraseñaRep.insets = new Insets(0, 0, 0, 5);
@@ -267,17 +267,6 @@ public class VentanaRegistro extends JDialog{
 		gbc_passwordFieldRep.gridx = 2;
 		gbc_passwordFieldRep.gridy = 2;
 		panelDatosAplicacion.add(passwordFieldRep, gbc_passwordFieldRep);
-		
-		JPanel panel = new JPanel();
-		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.insets = new Insets(0, 0, 0, 5);
-		gbc_panel.fill = GridBagConstraints.BOTH;
-		gbc_panel.gridx = 1;
-		gbc_panel.gridy = 3;
-		panelCentro.add(panel, gbc_panel);
-		
-		JButton btnAadirFotoDe = new JButton("Añadir foto de perfil");
-		panel.add(btnAadirFotoDe);
 		
 		JPanel panelSur = new JPanel();
 		frameRegistro.getContentPane().add(panelSur, BorderLayout.SOUTH);
@@ -306,13 +295,14 @@ public class VentanaRegistro extends JDialog{
 		btnRegistro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				boolean OK = false;
+				System.out.println("bb");
 				OK = checkFields();
 				if (OK) {
 					boolean registrado = false;
 					registrado = Controlador.INSTANCE.registrarUsuario(textFieldNombre.getText(),
 							textFieldApellidos.getText(), textFieldEmail.getText(), textFieldUsuario.getText(),
 							new String(passwordField.getPassword()), 
-							textFieldFechaNac.getText());
+							fechaNacimiento.getDateFormatString());
 					if (registrado) {
 						JOptionPane.showMessageDialog(frameRegistro, "Usuario registrado correctamente.", "Registro",
 								JOptionPane.INFORMATION_MESSAGE);
@@ -384,10 +374,11 @@ public class VentanaRegistro extends JDialog{
 			passwordFieldRep.setBorder(BorderFactory.createLineBorder(Color.RED));
 			salida = false;
 		}
-		if (textFieldFechaNac.getText().isEmpty()) {
+		if (fechaNacimiento.getDateFormatString().isEmpty()) {
+			System.out.println("aa");
 			/*lblFechaNacimientoError.setVisible(true);
 			lblFechaNacimiento.setForeground(Color.RED);*/
-			textFieldFechaNac.setBorder(BorderFactory.createLineBorder(Color.RED));
+			fechaNacimiento.setBorder(BorderFactory.createLineBorder(Color.RED));
 			salida = false;
 		}
 
