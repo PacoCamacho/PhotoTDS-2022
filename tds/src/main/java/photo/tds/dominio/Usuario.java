@@ -32,6 +32,10 @@ public class Usuario {
 		
 		this.publicaciones = new LinkedList<>();
 	}
+	
+	public Usuario getUsuario() {
+		return this;
+	}
 
 	public int getId() {
 		return id;
@@ -96,13 +100,13 @@ public class Usuario {
 			if(hashtag != null)
 				lh.add(hashtag);
 		}
-		Foto foto = new Foto(path,titulo,new Date(),descripcion, this.login, lh);
+		Foto foto = new Foto(path,titulo,new Date(),descripcion, this, lh);
 		this.publicaciones.add(foto);
 		return foto;
 	}
 	
 	public Foto crearFoto(String titulo, String descripcion,String path) {
-		Foto f = new Foto(path, titulo, new Date(), descripcion, this.login);
+		Foto f = new Foto(path, titulo, new Date(), descripcion, this);
 		this.publicaciones.add(f);
 		return f;
 	}

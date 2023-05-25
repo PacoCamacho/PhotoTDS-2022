@@ -12,12 +12,12 @@ public abstract class Publicacion {
 	public Date fecha;
 	public String descripcion;
 	public int mg;
-	public String usuario;
+	public Usuario usuario;
 	public List<Hashtag> hashtags;
 	private List<Comentario> comentarios;
 	
 	
-	public Publicacion(String titulo, Date fecha, String descripcion, int mg, String usuario ) {
+	public Publicacion(String titulo, Date fecha, String descripcion, int mg, Usuario usuario ) {
 		super();
 		this.titulo = titulo;
 		this.fecha = fecha;
@@ -28,7 +28,7 @@ public abstract class Publicacion {
 		this.comentarios = new ArrayList<>();
 	}
 	
-	public Publicacion(String titulo, Date fecha, String descripcion, int mg, String usuario,List<Hashtag> lh) {
+	public Publicacion(String titulo, Date fecha, String descripcion, int mg, Usuario usuario,List<Hashtag> lh) {
 		this(titulo,fecha,descripcion,mg,usuario);
 		this.hashtags = lh;
 	}
@@ -53,7 +53,14 @@ public abstract class Publicacion {
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
 	}
-
+	
+	public Usuario getUsuario() {
+		return usuario;
+	}
+	
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
 
 	public Date getFecha() {
 		return fecha;

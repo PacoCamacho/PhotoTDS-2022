@@ -4,7 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -15,50 +17,152 @@ import java.awt.FlowLayout;
 import javax.swing.SwingConstants;
 
 import photo.tds.controlador.Controlador;
+import photo.tds.dao.DAOException;
+import photo.tds.dominio.Foto;
+import photo.tds.dominio.Publicacion;
 import photo.tds.dominio.Usuario;
 
 import javax.swing.JButton;
+import javax.swing.JScrollPane;
+import javax.swing.JList;
 
 public class VentanaPerfil {
 	 	private JFrame frame;
 	 	private Usuario usuario;
+	 	private Usuario usuarioSesion;
+	 	private JPanel panelPerfil;
+	 	private static List<Foto> listaFotos;
 
-	    public VentanaPerfil(Usuario usuario) {
+	    public VentanaPerfil(Usuario usuario, Usuario usuarioSesion) throws DAOException {
 	        initialize();
 	        this.usuario = usuario;
-	    }
-
-	    public void mostrarVentana() {
-	        frame.setLocationRelativeTo(null);
-	        frame.setVisible(true);
+	        this.usuarioSesion = usuarioSesion;
 	    }
 	    
-	    public void initialize() {
-	        frame = new JFrame();
-	        frame.setTitle("Perfil");
-	        frame.setSize(800, 600);
-	        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-	        
-	        JPanel panel = new JPanel();
-	        frame.getContentPane().add(panel, BorderLayout.NORTH);
-	        panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-	        
-	        JLabel lblMiauuuu = new JLabel(Controlador.INSTANCE.getUsuarioActual().getNombre());
-	        lblMiauuuu.setHorizontalAlignment(SwingConstants.LEFT);
-	        panel.add(lblMiauuuu);
-	        
-	        JPanel panel_3 = new JPanel();
-	        frame.getContentPane().add(panel_3, BorderLayout.CENTER);
-	        panel_3.setLayout(new BorderLayout(0, 0));
-	        
-	        JPanel panel_1 = new JPanel();
-	        panel_3.add(panel_1, BorderLayout.NORTH);
-	        
-//	        JLabel lblSeguidores = new JLabel("Seguidores" + this.usuario.getNumSeguidores());
-//	        panel_1.add(lblSeguidores);
-//	        
-//	        JLabel lblSeguidos = new JLabel("Seguidos" + this.usuario.getNumSeguidos());
-//	        panel_1.add(lblSeguidos);
+	    public JPanel getPanelPerfil() {
+	    	return panelPerfil;
 	    }
-	    //
+	    
+	    private ImageIcon crearImagenIcon(String path) {
+	    	if(path == null) {
+	    		System.err.println("La ruta no es correcta");
+	    		return null;
+	    	}
+    		java.net.URL imagenURL = getClass().getResource(path);
+    		ImageIcon imagen = new ImageIcon(path);
+	    	if(imagenURL != null) {
+	    		return new ImageIcon(imagenURL);
+	    	}
+	    	return imagen;
+	    	
+	    }
+
+	    
+	    public void initialize() throws DAOException {
+	        frame = new JFrame();
+	        frame.setBounds(0, 0, 500, 625);
+	        frame.getContentPane().setLayout(new BorderLayout(0, 0));
+	        
+	        panelPerfil = new JPanel();
+	        frame.getContentPane().add(panelPerfil, BorderLayout.CENTER);
+	        GridBagLayout gbl_panel = new GridBagLayout();
+	        gbl_panel.columnWidths = new int[]{0, 222, 0, 0, 0, 0, 0, 0};
+	        gbl_panel.rowHeights = new int[]{40, 0, 32, 0, 0, 0, 0, 0};
+	        gbl_panel.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+	        gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+	        panelPerfil.setLayout(gbl_panel);
+	        
+	        JLabel nombreUsuario = new JLabel("aqui va el nombre del usuario");
+	        GridBagConstraints gbc_nombreUsuario = new GridBagConstraints();
+	        gbc_nombreUsuario.insets = new Insets(0, 0, 5, 5);
+	        gbc_nombreUsuario.gridx = 1;
+	        gbc_nombreUsuario.gridy = 0;
+	        panelPerfil.add(nombreUsuario, gbc_nombreUsuario);
+	        
+	        JLabel subirFoto = new JLabel("+");
+	        GridBagConstraints gbc_subirFoto = new GridBagConstraints();
+	        gbc_subirFoto.insets = new Insets(0, 0, 5, 5);
+	        gbc_subirFoto.gridx = 5;
+	        gbc_subirFoto.gridy = 0;
+	        panelPerfil.add(subirFoto, gbc_subirFoto);
+	        
+	        JLabel numFotos = new JLabel("0");
+	        GridBagConstraints gbc_numFotos = new GridBagConstraints();
+	        gbc_numFotos.insets = new Insets(0, 0, 5, 5);
+	        gbc_numFotos.gridx = 3;
+	        gbc_numFotos.gridy = 1;
+	        panelPerfil.add(numFotos, gbc_numFotos);
+	        
+	        JLabel numSeguidores = new JLabel("0");
+	        GridBagConstraints gbc_numSeguidores = new GridBagConstraints();
+	        gbc_numSeguidores.insets = new Insets(0, 0, 5, 5);
+	        gbc_numSeguidores.gridx = 4;
+	        gbc_numSeguidores.gridy = 1;
+	        panelPerfil.add(numSeguidores, gbc_numSeguidores);
+	        
+	        JLabel numSeguidos = new JLabel("0");
+	        GridBagConstraints gbc_numSeguidos = new GridBagConstraints();
+	        gbc_numSeguidos.insets = new Insets(0, 0, 5, 5);
+	        gbc_numSeguidos.gridx = 5;
+	        gbc_numSeguidos.gridy = 1;
+	        panelPerfil.add(numSeguidos, gbc_numSeguidos);
+	        
+	        JLabel fotoPerfil = new JLabel("aqui va la foto de perfil");
+	        GridBagConstraints gbc_fotoPerfil = new GridBagConstraints();
+	        gbc_fotoPerfil.gridheight = 3;
+	        gbc_fotoPerfil.insets = new Insets(0, 0, 5, 5);
+	        gbc_fotoPerfil.gridx = 1;
+	        gbc_fotoPerfil.gridy = 1;
+	        panelPerfil.add(fotoPerfil, gbc_fotoPerfil);
+	        
+	        JLabel txtFotos = new JLabel("Fotos");
+	        GridBagConstraints gbc_txtFotos = new GridBagConstraints();
+	        gbc_txtFotos.insets = new Insets(0, 0, 5, 5);
+	        gbc_txtFotos.gridx = 3;
+	        gbc_txtFotos.gridy = 2;
+	        panelPerfil.add(txtFotos, gbc_txtFotos);
+	        
+	        JLabel txtSeguidores = new JLabel("Seguidores");
+	        GridBagConstraints gbc_txtSeguidores = new GridBagConstraints();
+	        gbc_txtSeguidores.insets = new Insets(0, 0, 5, 5);
+	        gbc_txtSeguidores.gridx = 4;
+	        gbc_txtSeguidores.gridy = 2;
+	        panelPerfil.add(txtSeguidores, gbc_txtSeguidores);
+	        
+	        JLabel txtSeguidos = new JLabel("Seguidos");
+	        GridBagConstraints gbc_txtSeguidos = new GridBagConstraints();
+	        gbc_txtSeguidos.insets = new Insets(0, 0, 5, 5);
+	        gbc_txtSeguidos.gridx = 5;
+	        gbc_txtSeguidos.gridy = 2;
+	        panelPerfil.add(txtSeguidos, gbc_txtSeguidos);
+	        
+	        JScrollPane scrollPane = new JScrollPane();
+	        GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+	        gbc_scrollPane.gridheight = 3;
+	        gbc_scrollPane.gridwidth = 5;
+	        gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
+	        gbc_scrollPane.fill = GridBagConstraints.BOTH;
+	        gbc_scrollPane.gridx = 1;
+	        gbc_scrollPane.gridy = 4;
+	        panelPerfil.add(scrollPane, gbc_scrollPane);
+	        
+	        listaFotos = Controlador.INSTANCE.getFotosPerfil(usuario);
+	        
+	        for(Publicacion publicacion : listaFotos) {
+	        	if(publicacion instanceof Foto) {
+	        		JLabel etiqueta = new JLabel();
+	        		Image foto = crearImagenIcon(((Foto) publicacion).getPath()).getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+	        		ImageIcon iconoFoto = new ImageIcon(foto);
+	        		etiqueta.setIcon(iconoFoto);
+	        		
+	        	}
+	        }
+	        
+	        JList list = new JList();
+	        list.setVisibleRowCount(-1);
+	        list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+	        scrollPane.setViewportView(list);
+
+	    }
+	    
 }

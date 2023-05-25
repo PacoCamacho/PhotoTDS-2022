@@ -3,6 +3,7 @@ package photo.tds.dominio;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import photo.tds.dao.DAOException;
 import photo.tds.dao.FactoriaDAO;
@@ -33,6 +34,12 @@ public enum RepositorioPublicaciones {
 	
 	public List<Publicacion> findPublicaciones() throws DAOException {
 		return new LinkedList<Publicacion>(publicacionesporID.values());
+	}
+	
+	public List<Publicacion> findPublicacionesUsuario(Usuario u) throws DAOException {
+		return this.findPublicaciones().stream()
+			.filter(p -> p.getUsuario().getId() == u.getId())
+			.collect(Collectors.toList());
 	}
 	
 	public Publicacion findPublicacion(String titulo) {
