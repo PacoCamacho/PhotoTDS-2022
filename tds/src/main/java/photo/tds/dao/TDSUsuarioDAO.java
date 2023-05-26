@@ -48,12 +48,13 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 		String fechaNacimiento = servPersistencia.recuperarPropiedadEntidad(eUsuario, FECHA_NACIMIENTO);
 		
 		//Añadir al usuario seguidores y seguidos
-		String seguidores = servPersistencia.recuperarPropiedadEntidad(eUsuario, SEGUIDORES);
-		String seguidos = servPersistencia.recuperarPropiedadEntidad(eUsuario, SEGUIDOS);
+		String seguidoresIds = servPersistencia.recuperarPropiedadEntidad(eUsuario, SEGUIDORES);
+		String seguidosIds = servPersistencia.recuperarPropiedadEntidad(eUsuario, SEGUIDOS);
 		
-		
+		List<Usuario> seguidores = this.getUsuariosPorIds(seguidoresIds);
+		List<Usuario> seguidos = this.getUsuariosPorIds(seguidosIds);
 
-		Usuario usuario = new Usuario(nombre, apellidos, email, login, password, fechaNacimiento);
+		Usuario usuario = new Usuario(nombre, apellidos, email, login, password, fechaNacimiento, seguidores, seguidos);
 		usuario.setId(eUsuario.getId());
 
 		return usuario;
@@ -122,6 +123,36 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 		}
 
 		return usuarios;
+	}
+	
+	public List<Usuario> getUsuariosPorIds(String ListaIds) {
+		
+		List<Usuario> usuarios = new LinkedList<Usuario>();
+		String[] ids = ListaIds.split(" ");
+		
+		for (String id : ids) {
+			int usuarioId = Integer.parseInt(id);
+			usuarios.add(this.get(usuarioId));
+		}
+		    
+		return usuarios;
+		
+	}
+	
+	public String usuariosConvertidosAIds(List<Usuario> usuarios) {
+		StringBuilder cadenaIds = new StringBuilder();
+
+	    for (Usuario u : usuarios) {
+	        // Obtener el ID del usuario y añadirlo a la cadena
+	        cadenaIds.append(u.getId()).append(" ");
+	    }
+
+	    // Eliminar el último espacio en blanco si existe
+	    if (cadenaIds.length() > 0) {
+	        cadenaIds.deleteCharAt(cadenaIds.length() - 1);
+	    }
+
+	    return cadenaIds.toString();
 	}
 
 }

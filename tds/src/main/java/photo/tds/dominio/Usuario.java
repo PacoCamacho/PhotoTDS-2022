@@ -34,6 +34,20 @@ public class Usuario {
 		this.seguidos = new LinkedList<Usuario>();
 	}
 	
+	public Usuario(String nombre, String apellidos, String email, String login, String password,
+			String fechaNacimiento, List<Usuario> seguidores, List<Usuario> seguidos) {
+		this.id = 0;
+		this.nombre = nombre;
+		this.apellidos = apellidos;
+		this.email = email;
+		this.login = login;
+		this.password = password;
+		this.fechaNacimiento = fechaNacimiento;
+		this.publicaciones = new LinkedList<Publicacion>();
+		this.seguidores = seguidores;
+		this.seguidos = seguidos;
+	}
+	
 	public String getFotoPerfil() {
 		return fotoPerfil;
 	}
