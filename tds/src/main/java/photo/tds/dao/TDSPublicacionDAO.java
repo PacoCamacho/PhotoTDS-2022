@@ -26,6 +26,7 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 	private static final String MEGUSTAS = "Número de megustas";
 	private static final String FOTOS = "Número de fotos";
 	private static final String PATH = "Path de la foto o fotos";
+	private static final String CREADOR = "Creador";
 	//private static final String HASHTAGS = "Hashtags";
 	
 	
@@ -46,7 +47,7 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 		int megustas = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(ePublicacion, MEGUSTAS)) ;
 		int nfotos = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(ePublicacion, FOTOS));
 		String path = servPersistencia.recuperarPropiedadEntidad(ePublicacion, PATH);
-		String creador = servPersistencia.recuperarPropiedadEntidad(ePublicacion, TITULO);
+		String creador = servPersistencia.recuperarPropiedadEntidad(ePublicacion, CREADOR);
 		//no se q hacer con los hashtags, preguntar
 		//String hashtags = servPersistencia.recuperarPropiedadEntidad(ePublicacion, HASHTAGS);
 		if(nfotos>1) {

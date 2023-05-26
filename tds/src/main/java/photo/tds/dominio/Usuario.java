@@ -100,13 +100,13 @@ public class Usuario {
 			if(hashtag != null)
 				lh.add(hashtag);
 		}
-		Foto foto = new Foto(path,titulo,new Date(),descripcion, this, lh);
+		Foto foto = new Foto(path,titulo,new Date(),descripcion, this.getNombre(), lh);
 		this.publicaciones.add(foto);
 		return foto;
 	}
 	
 	public Foto crearFoto(String titulo, String descripcion,String path) {
-		Foto f = new Foto(path, titulo, new Date(), descripcion, this);
+		Foto f = new Foto(path, titulo, new Date(), descripcion, this.getNombre());
 		this.publicaciones.add(f);
 		return f;
 	}

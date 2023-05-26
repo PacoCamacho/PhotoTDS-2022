@@ -2,12 +2,15 @@ package photo.tds.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -28,12 +31,12 @@ import javax.swing.JList;
 
 public class VentanaPerfil {
 	 	private JFrame frame;
-	 	private Usuario usuario;
-	 	private Usuario usuarioSesion;
+	 	private String usuario;
+	 	private String usuarioSesion;
 	 	private JPanel panelPerfil;
 	 	private static List<Foto> listaFotos;
 
-	    public VentanaPerfil(Usuario usuario, Usuario usuarioSesion) throws DAOException {
+	    public VentanaPerfil(String usuario, String usuarioSesion) throws DAOException {
 	        initialize();
 	        this.usuario = usuario;
 	        this.usuarioSesion = usuarioSesion;
@@ -147,6 +150,7 @@ public class VentanaPerfil {
 	        panelPerfil.add(scrollPane, gbc_scrollPane);
 	        
 	        listaFotos = Controlador.INSTANCE.getFotosPerfil(usuario);
+	        List<JLabel> listaEtiquetas = new ArrayList<>();
 	        
 	        for(Publicacion publicacion : listaFotos) {
 	        	if(publicacion instanceof Foto) {
@@ -154,11 +158,13 @@ public class VentanaPerfil {
 	        		Image foto = crearImagenIcon(((Foto) publicacion).getPath()).getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
 	        		ImageIcon iconoFoto = new ImageIcon(foto);
 	        		etiqueta.setIcon(iconoFoto);
-	        		
-	        	}
+	        		listaEtiquetas.add(etiqueta);	        	}
 	        }
 	        
-	        JList list = new JList();
+	        DefaultListModel<Object> listaPuente = new DefaultListModel<>();
+	        listaPuente.addAll(listaEtiquetas);
+	        
+	        JList<Object> list = new JList<>(listaPuente);
 	        list.setVisibleRowCount(-1);
 	        list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 	        scrollPane.setViewportView(list);

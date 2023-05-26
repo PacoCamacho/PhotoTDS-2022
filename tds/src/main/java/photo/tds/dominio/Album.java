@@ -8,12 +8,12 @@ public class Album extends Publicacion{
 
 	private List<Foto> fotos;
 	
-	public Album(String titulo, Date fecha, String descripcion, int mg,Usuario usuario, List<Foto> fotos) {
+	public Album(String titulo, Date fecha, String descripcion, int mg,String usuario, List<Foto> fotos) {
 		super(titulo, fecha, descripcion, mg, usuario);
 		this.fotos = fotos;
 	}
 	
-	public Album(String titulo, Date fecha, String descripcion, int mg,Usuario usuario) {
+	public Album(String titulo, Date fecha, String descripcion, int mg,String usuario) {
 		super(titulo, fecha, descripcion, mg, usuario);
 		this.fotos = new ArrayList<>();
 	}

@@ -84,7 +84,7 @@ public enum Controlador {
 		return true;
 	}
 	
-	public List<Foto> getFotosPerfil(Usuario usuario) throws DAOException{
+	public List<Foto> getFotosPerfil(String usuario) throws DAOException{
 		if(usuario == null)
 			return null;
 		return  this.repoPublicaciones.findPublicacionesUsuario(usuario).stream()

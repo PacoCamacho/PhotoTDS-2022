@@ -15,6 +15,7 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 
 import photo.tds.controlador.Controlador;
+import photo.tds.dao.DAOException;
 import photo.tds.dominio.RepositorioUsuarios;
 import photo.tds.dominio.Usuario;
 import photo.tds.dominio.Publicacion;
@@ -25,14 +26,12 @@ import javax.swing.JScrollPane;
 
 public class VentanaPrincipal {
 	
-	private static Usuario usuario;
+	private static String usuario;
 
 	private JFrame frmVentanaPrincipal;
 	private static JPanel panelCentral;
 	private static List<Publicacion> listaPublicaciones;
 	
-	private final static int BORDE_x = 480;
-	private final static int BORDE_Y = 720;
 
 	
 	
@@ -89,7 +88,12 @@ public class VentanaPrincipal {
 		perfil.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				iniciarPanelPerfil();
+				try {
+					iniciarPanelPerfil();
+				} catch (DAOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				CardLayout cl = (CardLayout) panelCentral.getLayout();
 				cl.show(panelCentral, "panelPerfil");
 			}
@@ -112,7 +116,7 @@ public class VentanaPrincipal {
 		
 	}
 	
-	private void iniciarPanelPerfil() {
+	private void iniciarPanelPerfil() throws DAOException {
 		
 		JPanel panelPerfil = new VentanaPerfil(usuario,usuario).getPanelPerfil();
 		panelCentral.add(panelPerfil, "panelPerfil");

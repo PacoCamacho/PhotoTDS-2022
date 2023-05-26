@@ -26,12 +26,12 @@ public class VentanaPublicacion {
 	private JFrame frame;
 	private JTextField textFieldTitulo;
 	private JTextField textFieldDescripcion;
-	private Usuario usuario;
+	private String usuario;
 	
 	/**
 	 * Create the application.
 	 */
-	public VentanaPublicacion(Usuario usuario) {
+	public VentanaPublicacion(String usuario) {
 		this.usuario = usuario;
 		initialize();
 	}
