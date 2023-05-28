@@ -31,7 +31,15 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 	
 	//Atributos
 	private ServicioPersistencia servPersistencia;
+	private static TDSPublicacionDAO unicaInstancia = null;
 	private SimpleDateFormat dateFormat;
+	
+	public static TDSPublicacionDAO getUnicaInstancia() { // patron singleton
+		if (unicaInstancia == null)
+			return new TDSPublicacionDAO();
+		else
+			return unicaInstancia;
+	}
 	
 	public TDSPublicacionDAO() {
 		servPersistencia = FactoriaServicioPersistencia.getInstance().getServicioPersistencia();
@@ -109,6 +117,12 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 				p.setValor(publicacion.getDescripcion());
 			} else if (p.getNombre().equals(MEGUSTAS)) {
 				p.setValor(Integer.toString(publicacion.getMg()));
+			} else if (p.getNombre().equals(PATH)) {
+				p.setValor(publicacion.getPath());
+			} else if (p.getNombre().equals(FOTOS)) {
+				p.setValor(Integer.toString(publicacion.getNumFotos()));
+			} else if (p.getNombre().equals(CREADOR)) {
+				p.setValor(publicacion.getCreador());
 			}
 			servPersistencia.modificarPropiedad(p);
 		}

@@ -1,3 +1,4 @@
+
 package photo.tds.dominio;
 
 import java.time.LocalDate;
@@ -128,6 +129,24 @@ public class Usuario {
 		return this.seguidos.size();
 	}
 	
+	
+	
+	public List<Usuario> getSeguidores() {
+		return seguidores;
+	}
+
+	public void setSeguidores(List<Usuario> seguidores) {
+		this.seguidores = seguidores;
+	}
+
+	public List<Usuario> getSeguidos() {
+		return seguidos;
+	}
+
+	public void setSeguidos(List<Usuario> seguidos) {
+		this.seguidos = seguidos;
+	}
+
 	public Foto crearFoto(String titulo, String descripcion, String path) {
 		String fecha = LocalDate.now().toString();
 		Foto foto = new Foto(path, titulo, fecha, descripcion, this.login);
