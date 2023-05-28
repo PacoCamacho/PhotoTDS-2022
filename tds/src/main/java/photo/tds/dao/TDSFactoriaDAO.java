@@ -19,7 +19,6 @@ public final class TDSFactoriaDAO extends FactoriaDAO {
 
 	@Override
 	public PublicacionDAO getPublicacionDAO() {
-		// TODO Auto-generated method stub
 		return new TDSPublicacionDAO();
 	}
 

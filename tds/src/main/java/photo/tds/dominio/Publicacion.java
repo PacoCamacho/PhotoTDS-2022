@@ -94,10 +94,6 @@ public abstract class Publicacion {
 		this.hashtags = hashtags;
 	}
 	
-	public abstract String getPath();
-	
-	public abstract int getNumFotos();
-	
 	
 	
 }

@@ -2,8 +2,7 @@ package photo.tds.dominio;
 
 
 public class Foto extends Publicacion{
-	
-	private static final int NUMFOTOS = 1;
+
 	private String path;
 	
 	public Foto(String path, String titulo, String fecha, String descripcion, int mg, String creador ) {
@@ -26,11 +25,4 @@ public class Foto extends Publicacion{
 		this.path = path;
 	}
 
-	@Override
-	public int getNumFotos() {
-		return NUMFOTOS;
-	}
-	
-	
-	
 }

@@ -33,15 +33,7 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 	private static final String PUBLICACIONES = "publicaciones";
 
 	private ServicioPersistencia servPersistencia;
-	private static TDSUsuarioDAO unicaInstancia = null;
 	private SimpleDateFormat dateFormat;
-	
-	public static TDSUsuarioDAO getUnicaInstancia() { // patron singleton
-		if (unicaInstancia == null)
-			return new TDSUsuarioDAO();
-		else
-			return unicaInstancia;
-	}
 
 	public TDSUsuarioDAO() {
 		servPersistencia = FactoriaServicioPersistencia.getInstance().getServicioPersistencia();
@@ -192,7 +184,12 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 		
 		for (String id : ids) {
 			int publicacionId = Integer.parseInt(id);
-			publicaciones.add(TDSPublicacionDAO.getUnicaInstancia().get(publicacionId));
+			try {
+				publicaciones.add(TDSFactoriaDAO.getInstancia().getPublicacionDAO().get(publicacionId));
+			} catch (DAOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		    
 		return publicaciones;

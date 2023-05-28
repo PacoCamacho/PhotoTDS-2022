@@ -6,17 +6,9 @@ public class Album extends Publicacion{
 
 	private List<Foto> fotos;
 	
-	public Album(String titulo, String fecha, String descripcion, int mg,String creador, List<Foto> fotos) {
+	public Album(String titulo, String fecha, String descripcion, int mg, String creador, List<Foto> fotos) {
 		super(titulo, fecha, descripcion, mg, creador);
 		this.fotos = fotos;
-	}
-	
-	public Album(String titulo, String fecha, String descripcion,List<String> paths, int mg, String creador ) {
-		super(titulo, fecha, descripcion, mg, creador);
-		for(String foto : paths) {
-			Foto foton = new Foto(foto, titulo, fecha, descripcion, mg, creador);
-			this.fotos.add(foton);
-		}
 	}
 	
 	public List<Foto> getFotos() {
