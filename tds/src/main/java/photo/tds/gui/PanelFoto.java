@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import javax.swing.SwingConstants;
@@ -51,6 +52,7 @@ public class PanelFoto extends JPanel{
 	public PanelFoto(Foto foto, String usuario) {
 		this.foto = foto;
 		this.usuario = usuario;
+		setPreferredSize(new Dimension(200, 200));
 		
 		initialize();
 	}

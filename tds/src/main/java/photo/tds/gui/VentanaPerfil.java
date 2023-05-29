@@ -39,7 +39,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JList;
 
 public class VentanaPerfil {
-	 	private JFrame frame;
 	 	private String usuario;
 	 	private String usuarioSesion;
 	 	private JPanel panelPerfil;
@@ -71,12 +70,9 @@ public class VentanaPerfil {
 
 	    
 	    public void initialize() throws DAOException {
-	        frame = new JFrame();
-	        frame.setBounds(0, 0, 500, 625);
-	        frame.getContentPane().setLayout(new BorderLayout(0, 0));
+	        
 	        
 	        panelPerfil = new JPanel();
-	        frame.getContentPane().add(panelPerfil, BorderLayout.CENTER);
 	        GridBagLayout gbl_panel = new GridBagLayout();
 	        gbl_panel.columnWidths = new int[]{0, 222, 0, 0, 0, 0, 0, 0};
 	        gbl_panel.rowHeights = new int[]{40, 0, 32, 0, 0, 0, 0, 0};
@@ -156,7 +152,14 @@ public class VentanaPerfil {
 	        gbc_scrollPane.gridx = 1;
 	        gbc_scrollPane.gridy = 4;
 	        listaFotos = Controlador.INSTANCE.getFotosPerfil(usuario);
+	        System.out.println("Lista fotos:");
+	        for(Foto f : listaFotos) {
+	        	System.out.println("foto:");
+	        	System.out.println(f.titulo);
+	        	
+	        }
 	        
+	        System.out.println();
 	        JPanel panelContenedorFotos = new JPanel();
 	        panelContenedorFotos.setLayout(new BoxLayout(panelContenedorFotos, BoxLayout.Y_AXIS));
 	        for(Foto foto : listaFotos) {
@@ -171,7 +174,7 @@ public class VentanaPerfil {
 	        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
 	        panelPerfil.add(scrollPane, gbc_scrollPane);
-	        
+
 	        
 	        
 	        
