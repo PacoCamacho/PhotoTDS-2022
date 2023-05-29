@@ -36,9 +36,9 @@ public enum RepositorioPublicaciones {
 		return new LinkedList<Publicacion>(publicacionesporID.values());
 	}
 	
-	public List<Publicacion> findPublicacionesUsuario(String u) throws DAOException {
+	public List<Publicacion> findPublicacionesUsuario(String usuario) throws DAOException {
 		return this.findPublicaciones().stream()
-			.filter(p -> p.getUsuario().equals(u))
+			.filter(p -> p.getUsuario().equals(usuario))
 			.collect(Collectors.toList());
 	}
 	

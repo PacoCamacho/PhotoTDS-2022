@@ -12,11 +12,11 @@ public enum RepositorioUsuarios {
 	private FactoriaDAO factoria;
 
 	private HashMap<Integer, Usuario> usuariosPorID;
-	private HashMap<Usuario, Usuario> usuariosPorLogin;
+	private HashMap<String, Usuario> usuariosPorLogin;
 
 	private RepositorioUsuarios (){
 		usuariosPorID = new HashMap<Integer, Usuario>();
-		usuariosPorLogin = new HashMap<Usuario, Usuario>();
+		usuariosPorLogin = new HashMap<String, Usuario>();
 		
 		try {
 			factoria = FactoriaDAO.getInstancia();
@@ -24,7 +24,7 @@ public enum RepositorioUsuarios {
 			List<Usuario> listausuarios = factoria.getUsuarioDAO().getAll();
 			for (Usuario usuario : listausuarios) {
 				usuariosPorID.put(usuario.getId(), usuario);
-				usuariosPorLogin.put(usuario.getUsuario(), usuario);
+				usuariosPorLogin.put(usuario.getLogin(), usuario);
 			}
 		} catch (DAOException eDAO) {
 			   eDAO.printStackTrace();
@@ -45,12 +45,12 @@ public enum RepositorioUsuarios {
 	
 	public void addUsuario(Usuario usuario) {
 		usuariosPorID.put(usuario.getId(), usuario);
-		usuariosPorLogin.put(usuario.getUsuario(), usuario);
+		usuariosPorLogin.put(usuario.getLogin(), usuario);
 	}
 	
 	public void removeUsuario(Usuario usuario) {
 		usuariosPorID.remove(usuario.getId());
-		usuariosPorLogin.remove(usuario.getUsuario());
+		usuariosPorLogin.remove(usuario.getLogin());
 	}
 	//
 

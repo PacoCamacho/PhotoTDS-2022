@@ -33,7 +33,9 @@ public class VentanaPrincipal {
 	private static List<Publicacion> listaPublicaciones;
 	
 
-	
+	public static JPanel getPanelCentral() {
+		return panelCentral;
+	}
 	
 	public VentanaPrincipal() {
 		initialize();

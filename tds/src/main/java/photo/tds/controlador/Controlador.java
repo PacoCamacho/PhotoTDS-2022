@@ -20,6 +20,7 @@ public enum Controlador {
 	private Usuario usuarioActual;
 	private FactoriaDAO factoria;
 	private RepositorioPublicaciones repoPublicaciones;
+	private RepositorioUsuarios repoUsuarios;
 
 	private Controlador() {
 		usuarioActual = null;
@@ -28,7 +29,10 @@ public enum Controlador {
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
+		repoPublicaciones = RepositorioPublicaciones.INSTANCE;
+		repoUsuarios = RepositorioUsuarios.INSTANCE;
 	}
+	
 
 	public Usuario getUsuarioActual() {
 		return usuarioActual;
@@ -85,8 +89,6 @@ public enum Controlador {
 	}
 	
 	public List<Foto> getFotosPerfil(String usuario) throws DAOException{
-		if(usuario == null)
-			return null;
 		return  this.repoPublicaciones.findPublicacionesUsuario(usuario).stream()
 				.filter(p -> p instanceof Foto)
 				.map(p -> (Foto) p )

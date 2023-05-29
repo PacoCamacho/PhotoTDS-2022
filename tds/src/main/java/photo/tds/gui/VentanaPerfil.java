@@ -1,23 +1,32 @@
 package photo.tds.gui;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.ListCellRenderer;
+
 import java.awt.FlowLayout;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 
 import photo.tds.controlador.Controlador;
 import photo.tds.dao.DAOException;
@@ -139,7 +148,6 @@ public class VentanaPerfil {
 	        gbc_txtSeguidos.gridy = 2;
 	        panelPerfil.add(txtSeguidos, gbc_txtSeguidos);
 	        
-	        JScrollPane scrollPane = new JScrollPane();
 	        GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 	        gbc_scrollPane.gridheight = 3;
 	        gbc_scrollPane.gridwidth = 5;
@@ -147,28 +155,30 @@ public class VentanaPerfil {
 	        gbc_scrollPane.fill = GridBagConstraints.BOTH;
 	        gbc_scrollPane.gridx = 1;
 	        gbc_scrollPane.gridy = 4;
+	        listaFotos = Controlador.INSTANCE.getFotosPerfil(usuario);
+	        
+	        JPanel panelContenedorFotos = new JPanel();
+	        panelContenedorFotos.setLayout(new BoxLayout(panelContenedorFotos, BoxLayout.Y_AXIS));
+	        for(Foto foto : listaFotos) {
+	        	if(foto instanceof Foto) {
+	        		PanelFoto fotoPanel = new PanelFoto(foto,usuario);
+	        		panelContenedorFotos.add(fotoPanel);
+	        		panelContenedorFotos.add(Box.createRigidArea(new Dimension(0, 10)));
+	        	}
+	        }
+	        JScrollPane scrollPane = new JScrollPane(panelContenedorFotos);
+	        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+	        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
 	        panelPerfil.add(scrollPane, gbc_scrollPane);
 	        
-	        listaFotos = Controlador.INSTANCE.getFotosPerfil(usuario);
-	        List<JLabel> listaEtiquetas = new ArrayList<>();
 	        
-	        for(Publicacion publicacion : listaFotos) {
-	        	if(publicacion instanceof Foto) {
-	        		JLabel etiqueta = new JLabel();
-	        		Image foto = crearImagenIcon(((Foto) publicacion).getPath()).getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
-	        		ImageIcon iconoFoto = new ImageIcon(foto);
-	        		etiqueta.setIcon(iconoFoto);
-	        		listaEtiquetas.add(etiqueta);	        	}
-	        }
 	        
-	        DefaultListModel<Object> listaPuente = new DefaultListModel<>();
-	        listaPuente.addAll(listaEtiquetas);
 	        
-	        JList<Object> list = new JList<>(listaPuente);
-	        list.setVisibleRowCount(-1);
-	        list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-	        scrollPane.setViewportView(list);
 
 	    }
+	    
+	    
+	    
 	    
 }
