@@ -1,9 +1,8 @@
 package photo.tds.dao;
 
-import photo.tds.dao.DAOException;
+
 import photo.tds.dao.FactoriaDAO;
-import photo.tds.dao.PublicacionDAO;
-import photo.tds.dao.UsuarioDAO;
+
 
 /**
  * Factoria abstracta DAO.

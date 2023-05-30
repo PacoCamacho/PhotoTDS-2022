@@ -1,6 +1,9 @@
 package photo.tds.dominio;
 
+import java.util.Date;
+
 public class Comentario {
+
 
 	private int id;
 	private String texto;
@@ -34,6 +37,22 @@ public class Comentario {
 
 	public void setTexto(String texto) {
 		this.texto = texto;
+	}
+	
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
+	
+	public Date getFecha() {
+		return fecha;
+	}
+	
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
 	}
 	
 }

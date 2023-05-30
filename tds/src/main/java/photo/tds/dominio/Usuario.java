@@ -1,9 +1,11 @@
 
 package photo.tds.dominio;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+
 
 
 
@@ -16,11 +18,9 @@ public class Usuario {
 	private String login;
 	private String password;
 	private String fechaNacimiento;
-	private String fotoPerfil;
-	private List<Usuario> seguidores;
-	private List<Usuario> seguidos;
-	private List<Publicacion> publicaciones;
 	
+	private List<Publicacion> publicaciones;
+
 	public Usuario(String nombre, String apellidos, String email, String login, String password,
 			String fechaNacimiento) {
 		this.id = 0;
@@ -30,11 +30,11 @@ public class Usuario {
 		this.login = login;
 		this.password = password;
 		this.fechaNacimiento = fechaNacimiento;
-		this.publicaciones = new LinkedList<Publicacion>();
-		this.seguidores = new LinkedList<Usuario>();
-		this.seguidos = new LinkedList<Usuario>();
+		
+		this.publicaciones = new LinkedList<>();
 	}
 	
+
 	public Usuario(String nombre, String apellidos, String email, String login, String password,
 			String fechaNacimiento, List<Usuario> seguidores, List<Usuario> seguidos) {
 		this.id = 0;
@@ -63,6 +63,7 @@ public class Usuario {
 
 	public void setPublicaciones(List<Publicacion> publicaciones) {
 		this.publicaciones = publicaciones;
+
 	}
 
 	public int getId() {
@@ -121,6 +122,7 @@ public class Usuario {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 	
+
 	public int getNumSeguidores() {
 		return this.seguidores.size();
 	}
@@ -152,6 +154,12 @@ public class Usuario {
 		Foto foto = new Foto(path, titulo, fecha, descripcion, this.login);
 		this.publicaciones.add(foto);
 		return foto;
+	}
+	
+	public Foto crearFoto(String titulo, String descripcion,String path) {
+		Foto f = new Foto(path, titulo, new Date(), descripcion, this.getNombre());
+		this.publicaciones.add(f);
+		return f;
 	}
 
 }

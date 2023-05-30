@@ -6,13 +6,14 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.persistence.jaxb.javamodel.JavaClassInstanceOf;
+
 
 import beans.Entidad;
 import beans.Propiedad;
 import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
 import photo.tds.dominio.Album;
+import photo.tds.dominio.Conversor;
 import photo.tds.dominio.Foto;
 import photo.tds.dominio.Publicacion;
 import photo.tds.dominio.Usuario;
@@ -28,6 +29,7 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 	private static final String FOTOS = "Lista de fotos";
 	private static final String PATH = "Path de la foto";
 	private static final String CREADOR = "Creador de la publicacion";
+
 	//private static final String HASHTAGS = "Hashtags";
 	
 	
@@ -53,6 +55,7 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 		
 		
 		//String hashtags = servPersistencia.recuperarPropiedadEntidad(ePublicacion, HASHTAGS);
+
 		if(tipo.equals("Foto")) {
 			String path = servPersistencia.recuperarPropiedadEntidad(ePublicacion, PATH);
 			Foto foto = new Foto(path, titulo, fecha, descripcion, megustas, creador);
@@ -74,6 +77,7 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 	private Entidad publicacionToEntidad(Publicacion publicacion) {
 		Entidad ePublicacion = new Entidad();
 		ePublicacion.setNombre(PUBLICACION);
+
 		if(publicacion instanceof Foto) {
 		ePublicacion.setPropiedades(new ArrayList<Propiedad>(Arrays.asList(
 				new Propiedad(TITULO, publicacion.getTitulo()),
@@ -97,6 +101,7 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 					new Propiedad(CREADOR, publicacion.getCreador())
 					)));
 			}
+
 		
 		return ePublicacion;
 	}

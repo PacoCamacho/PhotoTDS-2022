@@ -52,5 +52,6 @@ public enum RepositorioUsuarios {
 		usuariosPorID.remove(usuario.getId());
 		usuariosPorLogin.remove(usuario.getLogin());
 	}
+	//
 
 }

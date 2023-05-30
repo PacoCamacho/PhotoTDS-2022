@@ -1,16 +1,20 @@
 package photo.tds.dominio;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Album extends Publicacion{
 
 	private List<Foto> fotos;
 	
+
 	public Album(String titulo, String fecha, String descripcion, int mg, String creador, List<Foto> fotos) {
 		super(titulo, fecha, descripcion, mg, creador);
 		this.fotos = fotos;
 	}
 	
+
 	public List<Foto> getFotos() {
 		return this.fotos;
 	}
