@@ -1,3 +1,4 @@
+
 package photo.tds.dominio;
 
 import java.util.ArrayList;
@@ -33,8 +34,36 @@ public class Usuario {
 		this.publicaciones = new LinkedList<>();
 	}
 	
-	public Usuario getUsuario() {
-		return this;
+
+	public Usuario(String nombre, String apellidos, String email, String login, String password,
+			String fechaNacimiento, List<Usuario> seguidores, List<Usuario> seguidos) {
+		this.id = 0;
+		this.nombre = nombre;
+		this.apellidos = apellidos;
+		this.email = email;
+		this.login = login;
+		this.password = password;
+		this.fechaNacimiento = fechaNacimiento;
+		this.publicaciones = new LinkedList<Publicacion>();
+		this.seguidores = seguidores;
+		this.seguidos = seguidos;
+	}
+	
+	public String getFotoPerfil() {
+		return fotoPerfil;
+	}
+
+	public void setFotoPerfil(String fotoPerfil) {
+		this.fotoPerfil = fotoPerfil;
+	}
+
+	public List<Publicacion> getPublicaciones() {
+		return publicaciones;
+	}
+
+	public void setPublicaciones(List<Publicacion> publicaciones) {
+		this.publicaciones = publicaciones;
+
 	}
 
 	public int getId() {
@@ -93,14 +122,36 @@ public class Usuario {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 	
-	public Foto crearFoto(String titulo, String descripcion, String path, List<String> hashtags) {
-		List<Hashtag> lh = new ArrayList<>();
-		for(String h : hashtags) {
-			Hashtag hashtag = Hashtag.crearHashtag("#"+h);
-			if(hashtag != null)
-				lh.add(hashtag);
-		}
-		Foto foto = new Foto(path,titulo,new Date(),descripcion, this.getNombre(), lh);
+
+	public int getNumSeguidores() {
+		return this.seguidores.size();
+	}
+	
+	public int getNumSeguidos() {
+		return this.seguidos.size();
+	}
+	
+	
+	
+	public List<Usuario> getSeguidores() {
+		return seguidores;
+	}
+
+	public void setSeguidores(List<Usuario> seguidores) {
+		this.seguidores = seguidores;
+	}
+
+	public List<Usuario> getSeguidos() {
+		return seguidos;
+	}
+
+	public void setSeguidos(List<Usuario> seguidos) {
+		this.seguidos = seguidos;
+	}
+
+	public Foto crearFoto(String titulo, String descripcion, String path) {
+		String fecha = LocalDate.now().toString();
+		Foto foto = new Foto(path, titulo, fecha, descripcion, this.login);
 		this.publicaciones.add(foto);
 		return foto;
 	}

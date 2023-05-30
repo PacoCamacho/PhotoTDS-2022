@@ -5,8 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Foto extends Publicacion{
-	
-	private static final int NUMFOTOS = 1;
+
 	private String path;
 	private Image imagen;
 	
@@ -41,19 +40,5 @@ public class Foto extends Publicacion{
 		this.path = path;
 	}
 
-	@Override
-	public int getNumFotos() {
-		return NUMFOTOS;
-	}
 
-	public Image getImagen() {
-		return imagen;
-	}
-
-	public void setImagen(Image imagen) {
-		this.imagen = imagen;
-	}
-	
-	
-	
 }

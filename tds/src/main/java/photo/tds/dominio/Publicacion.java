@@ -101,15 +101,7 @@ public abstract class Publicacion {
 		this.hashtags = hashtags;
 	}
 	
-	public List<Comentario> getComentarios() {
-		return new LinkedList<>(comentarios);
-	}
-	
-	
-	public abstract String getPath();
-	
-	public abstract int getNumFotos();
-	
+
 	
 	
 }

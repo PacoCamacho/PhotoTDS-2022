@@ -16,23 +16,28 @@ import photo.tds.dominio.Album;
 import photo.tds.dominio.Conversor;
 import photo.tds.dominio.Foto;
 import photo.tds.dominio.Publicacion;
+import photo.tds.dominio.Usuario;
 
 public class TDSPublicacionDAO implements PublicacionDAO{
 
 	private static final String PUBLICACION = "Publicación";
+	private static final String TIPO = "Tipo de Publicacion";
 	private static final String TITULO = "Título";
 	private static final String FECHA = "Fecha";
 	private static final String DESCRIPCION = "Descripción";
 	private static final String MEGUSTAS = "Número de megustas";
-	private static final String FOTOS = "Número de fotos";
-	private static final String PATH = "Path de la foto o fotos";
-	private static final String CREADOR = "Creador";
+	private static final String FOTOS = "Lista de fotos";
+	private static final String PATH = "Path de la foto";
+	private static final String CREADOR = "Creador de la publicacion";
+
 	//private static final String HASHTAGS = "Hashtags";
 	
 	
 	//Atributos
 	private ServicioPersistencia servPersistencia;
 	private SimpleDateFormat dateFormat;
+	
+
 	
 	public TDSPublicacionDAO() {
 		servPersistencia = FactoriaServicioPersistencia.getInstance().getServicioPersistencia();
@@ -42,43 +47,61 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 	
 	private Publicacion entidadToPublicacion(Entidad ePublicacion) {
 		String titulo = servPersistencia.recuperarPropiedadEntidad(ePublicacion, TITULO);
+		String tipo = servPersistencia.recuperarPropiedadEntidad(ePublicacion, TIPO);
 		String fecha = servPersistencia.recuperarPropiedadEntidad(ePublicacion, FECHA);
 		String descripcion = servPersistencia.recuperarPropiedadEntidad(ePublicacion, DESCRIPCION);
-		int megustas = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(ePublicacion, MEGUSTAS)) ;
-		int nfotos = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(ePublicacion, FOTOS));
-		String path = servPersistencia.recuperarPropiedadEntidad(ePublicacion, PATH);
+		int megustas = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(ePublicacion, MEGUSTAS));
 		String creador = servPersistencia.recuperarPropiedadEntidad(ePublicacion, CREADOR);
-		//no se q hacer con los hashtags, preguntar
+		
+		
 		//String hashtags = servPersistencia.recuperarPropiedadEntidad(ePublicacion, HASHTAGS);
-		if(nfotos>1) {
-			Foto foto = new Foto(path, titulo, Conversor.StringToDate(fecha), descripcion, megustas, creador);
+
+		if(tipo.equals("Foto")) {
+			String path = servPersistencia.recuperarPropiedadEntidad(ePublicacion, PATH);
+			Foto foto = new Foto(path, titulo, fecha, descripcion, megustas, creador);
 			foto.SetId(ePublicacion.getId());
 			return foto;
 		}
-		else {
-			Album album = new Album(titulo, Conversor.StringToDate(fecha), descripcion,  megustas, creador);
+		else if(tipo.equals("Album")){
+			String idsFotos = servPersistencia.recuperarPropiedadEntidad(ePublicacion, FOTOS);
+			
+			Album album = new Album(titulo, fecha, descripcion, megustas, creador, this.getFotosPorIds(idsFotos));
 			album.SetId(ePublicacion.getId());
 			return album;
 		}
-		/*Publicacion publicacion = new Publicacion(titulo, fecha, descripcion, megustas);
-		publicacion.SetId(ePublicacion.getId());
+		return null;
 		
-		
-		return publicacion;*/
 	}
 	
 	
 	private Entidad publicacionToEntidad(Publicacion publicacion) {
 		Entidad ePublicacion = new Entidad();
 		ePublicacion.setNombre(PUBLICACION);
-		
-		ePublicacion.setPropiedades(new ArrayList<Propiedad>(Arrays.asList(new Propiedad(TITULO, publicacion.getTitulo()),
-				new Propiedad(FECHA, Conversor.DateToString(publicacion.getFecha())),
+
+		if(publicacion instanceof Foto) {
+		ePublicacion.setPropiedades(new ArrayList<Propiedad>(Arrays.asList(
+				new Propiedad(TITULO, publicacion.getTitulo()),
+				new Propiedad(TIPO, "Foto"),
+				new Propiedad(FECHA, publicacion.getFecha()),
 				new Propiedad(DESCRIPCION, publicacion.getDescripcion()),
 				new Propiedad(MEGUSTAS, Integer.toString(publicacion.getMg())),
-				new Propiedad(FOTOS, Integer.toString(publicacion.getNumFotos())),
-				new Propiedad(PATH,publicacion.getPath()))));
-		
+				new Propiedad(PATH,((Foto)publicacion).getPath()),
+				new Propiedad(CREADOR, publicacion.getCreador())
+				
+				)));
+		}
+		else if(publicacion instanceof Album) {
+			ePublicacion.setPropiedades(new ArrayList<Propiedad>(Arrays.asList(
+					new Propiedad(TITULO, publicacion.getTitulo()),
+					new Propiedad(TIPO, "Album"),
+					new Propiedad(FECHA, publicacion.getFecha()),
+					new Propiedad(DESCRIPCION, publicacion.getDescripcion()),
+					new Propiedad(MEGUSTAS, Integer.toString(publicacion.getMg())),
+					new Propiedad(PATH,this.fotosAIds(((Album)publicacion).getFotos())),
+					new Propiedad(CREADOR, publicacion.getCreador())
+					)));
+			}
+
 		
 		return ePublicacion;
 	}
@@ -108,6 +131,12 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 				p.setValor(publicacion.getDescripcion());
 			} else if (p.getNombre().equals(MEGUSTAS)) {
 				p.setValor(Integer.toString(publicacion.getMg()));
+			} else if (p.getNombre().equals(PATH)) {
+				p.setValor(((Foto)publicacion).getPath());
+			} else if (p.getNombre().equals(FOTOS)) {
+				p.setValor(this.fotosAIds(((Album)publicacion).getFotos()));
+			} else if (p.getNombre().equals(CREADOR)) {
+				p.setValor(publicacion.getCreador());
 			}
 			servPersistencia.modificarPropiedad(p);
 		}
@@ -127,6 +156,37 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 			publicaciones.add(get(ePublicacion.getId()));
 		}
 		return publicaciones;
+	}
+	
+	public String fotosAIds(List<Foto> fotos) {
+		StringBuilder cadenaIds = new StringBuilder();
+
+	    for (Foto f : fotos) {
+	        // Obtener el ID de la foto y añadirlo a la cadena
+	        cadenaIds.append(f.getId()).append(" ");
+	    }
+
+	    // Eliminar el último espacio en blanco si existe
+	    if (cadenaIds.length() > 0) {
+	        cadenaIds.deleteCharAt(cadenaIds.length() - 1);
+	    }
+
+	    return cadenaIds.toString();
+	}
+	
+	public List<Foto> getFotosPorIds(String ListaIds){
+		List<Foto> fotos = new LinkedList<Foto>();
+		String[] ids = ListaIds.split(" ");
+		
+		for (String id : ids) {
+			int fotoId = Integer.parseInt(id);
+			Publicacion publicacion = this.get(fotoId);
+			String path = ((Foto)publicacion).getPath(); //revisar
+			Foto foto = new Foto(path, publicacion.getTitulo(), publicacion.getFecha(), publicacion.getDescripcion(), publicacion.getCreador());
+			fotos.add(foto);
+		}
+		    
+		return fotos;
 	}
 	
 
