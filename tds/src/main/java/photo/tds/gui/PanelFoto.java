@@ -134,8 +134,8 @@ public class PanelFoto extends JPanel{
 	 @Override
 	    protected void paintComponent(Graphics g) {
 	        super.paintComponent(g);
-	        // Dibuja la imagen en el panel
-	        g.drawImage(foto.getImagen(), 0, 0, getWidth(), getHeight(), this);
+	        // Dibuja la imagen en el panel(hablar con jordi)
+	        //g.drawImage(foto.getImagen(), 0, 0, getWidth(), getHeight(), this);
 	    }
 	
 	

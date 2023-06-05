@@ -10,6 +10,7 @@ import java.util.stream.Stream;
 
 import photo.tds.dao.DAOException;
 import photo.tds.dao.FactoriaDAO;
+import photo.tds.dao.PublicacionDAO;
 import photo.tds.dominio.Usuario;
 import photo.tds.dominio.Foto;
 import photo.tds.dominio.RepositorioPublicaciones;
@@ -21,6 +22,8 @@ public enum Controlador {
 	private FactoriaDAO factoria;
 	private RepositorioPublicaciones repoPublicaciones;
 	private RepositorioUsuarios repoUsuarios;
+	private UsuarioDAO usuarioDAO;
+	private PublicacionDAO publicacionDAO;
 
 	private Controlador() {
 		usuarioActual = null;
@@ -31,6 +34,9 @@ public enum Controlador {
 		}
 		repoPublicaciones = RepositorioPublicaciones.INSTANCE;
 		repoUsuarios = RepositorioUsuarios.INSTANCE;
+		usuarioDAO = factoria.getUsuarioDAO();
+		publicacionDAO = factoria.getPublicacionDAO();
+		
 	}
 	
 
@@ -39,11 +45,11 @@ public enum Controlador {
 	}
 
 	public boolean esUsuarioRegistrado(String login) {
-		return RepositorioUsuarios.INSTANCE.findUsuario(login) != null;
+		return repoUsuarios.findUsuario(login) != null;
 	}
 
 	public boolean loginUsuario(String nombre, String password) {
-		Usuario usuario = RepositorioUsuarios.INSTANCE.findUsuario(nombre);
+		Usuario usuario = repoUsuarios.findUsuario(nombre);
 		if (usuario != null && usuario.getPassword().equals(password)) {
 			this.usuarioActual = usuario;
 			return true;
@@ -57,12 +63,10 @@ public enum Controlador {
 		if (esUsuarioRegistrado(login))
 			return false;
 		Usuario usuario = new Usuario(nombre, apellidos, email, login, password, fechaNacimiento);
-
-		UsuarioDAO usuarioDAO = factoria
-				.getUsuarioDAO(); /* Adaptador DAO para almacenar el nuevo Usuario en la BD */
+		/* Adaptador DAO para almacenar el nuevo Usuario en la BD */
 		usuarioDAO.create(usuario);
 
-		RepositorioUsuarios.INSTANCE.addUsuario(usuario);
+		repoUsuarios.addUsuario(usuario);
 		return true;
 	}
 
@@ -70,10 +74,18 @@ public enum Controlador {
 		if (!esUsuarioRegistrado(usuario.getLogin()))
 			return false;
 
-		UsuarioDAO usuarioDAO = factoria.getUsuarioDAO(); /* Adaptador DAO para borrar el Usuario de la BD */
+		/* Adaptador DAO para borrar el Usuario de la BD */
 		usuarioDAO.delete(usuario);
 
-		RepositorioUsuarios.INSTANCE.removeUsuario(usuario);
+		repoUsuarios.removeUsuario(usuario);
+		return true;
+	}
+	
+	public boolean actualizarUsuario(Usuario usuario) {
+		if (!esUsuarioRegistrado(usuario.getLogin()))
+			return false;
+		usuarioDAO.update(usuario);
+		repoUsuarios.updateUsuario(usuario);
 		return true;
 	}
 	
@@ -84,6 +96,7 @@ public enum Controlador {
 
 		Foto foto = u.crearFoto(titulo, descripcion, path);
 
+		publicacionDAO.create(foto);
 		this.repoPublicaciones.crearPublicacion(foto);
 		return true;
 	}
@@ -93,6 +106,30 @@ public enum Controlador {
 				.filter(p -> p instanceof Foto)
 				.map(p -> (Foto) p )
 				.collect(Collectors.toList());
+	}
+	
+	public boolean seguir(Usuario seguidor, Usuario seguido) {
+		if(!(this.esUsuarioRegistrado(seguidor.getLogin()) && this.esUsuarioRegistrado(seguido.getLogin()))) {
+			return false;
+		}
+		if(seguidor.seguirUsuario(seguido)) {
+			this.actualizarUsuario(seguido);
+			this.actualizarUsuario(seguidor);
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean dejarDeSeguir(Usuario seguidor, Usuario seguido) {
+		if(!(this.esUsuarioRegistrado(seguidor.getLogin()) && this.esUsuarioRegistrado(seguido.getLogin()))) {
+			return false;
+		}
+		if(seguidor.dejarSeguir(seguido)) {
+			this.actualizarUsuario(seguido);
+			this.actualizarUsuario(seguidor);
+			return true;
+		}
+		return false;
 	}
 }
 

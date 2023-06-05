@@ -86,7 +86,7 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 				new Propiedad(DESCRIPCION, publicacion.getDescripcion()),
 				new Propiedad(MEGUSTAS, Integer.toString(publicacion.getMg())),
 				new Propiedad(PATH,((Foto)publicacion).getPath()),
-				new Propiedad(CREADOR, publicacion.getCreador())
+				new Propiedad(CREADOR, publicacion.getUsuario())
 				
 				)));
 		}
@@ -98,7 +98,7 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 					new Propiedad(DESCRIPCION, publicacion.getDescripcion()),
 					new Propiedad(MEGUSTAS, Integer.toString(publicacion.getMg())),
 					new Propiedad(PATH,this.fotosAIds(((Album)publicacion).getFotos())),
-					new Propiedad(CREADOR, publicacion.getCreador())
+					new Propiedad(CREADOR, publicacion.getUsuario())
 					)));
 			}
 
@@ -136,7 +136,7 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 			} else if (p.getNombre().equals(FOTOS)) {
 				p.setValor(this.fotosAIds(((Album)publicacion).getFotos()));
 			} else if (p.getNombre().equals(CREADOR)) {
-				p.setValor(publicacion.getCreador());
+				p.setValor(publicacion.getUsuario());
 			}
 			servPersistencia.modificarPropiedad(p);
 		}
@@ -182,7 +182,7 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 			int fotoId = Integer.parseInt(id);
 			Publicacion publicacion = this.get(fotoId);
 			String path = ((Foto)publicacion).getPath(); //revisar
-			Foto foto = new Foto(path, publicacion.getTitulo(), publicacion.getFecha(), publicacion.getDescripcion(), publicacion.getCreador());
+			Foto foto = new Foto(path, publicacion.getTitulo(), publicacion.getFecha(), publicacion.getDescripcion(), publicacion.getUsuario());
 			fotos.add(foto);
 		}
 		    

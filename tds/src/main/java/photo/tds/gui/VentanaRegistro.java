@@ -295,7 +295,7 @@ public class VentanaRegistro extends JDialog{
 		btnRegistro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				boolean OK = false;
-				System.out.println("bb");
+				System.out.println(fechaNacimiento.getDateFormatString());
 				OK = checkFields();
 				if (OK) {
 					boolean registrado = false;
@@ -303,6 +303,7 @@ public class VentanaRegistro extends JDialog{
 							textFieldApellidos.getText(), textFieldEmail.getText(), textFieldUsuario.getText(),
 							new String(passwordField.getPassword()), 
 							fechaNacimiento.getDateFormatString());
+							
 					if (registrado) {
 						JOptionPane.showMessageDialog(frameRegistro, "Usuario registrado correctamente.", "Registro",
 								JOptionPane.INFORMATION_MESSAGE);

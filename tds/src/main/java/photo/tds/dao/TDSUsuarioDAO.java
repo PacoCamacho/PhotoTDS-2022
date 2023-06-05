@@ -55,7 +55,6 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 		String seguidoresIds = servPersistencia.recuperarPropiedadEntidad(eUsuario, SEGUIDORES);
 		String seguidosIds = servPersistencia.recuperarPropiedadEntidad(eUsuario, SEGUIDOS);
 		String publicacionesIds = servPersistencia.recuperarPropiedadEntidad(eUsuario, PUBLICACIONES);
-		
 		List<Usuario> seguidores = this.getUsuariosPorIds(seguidoresIds);
 		List<Usuario> seguidos = this.getUsuariosPorIds(seguidosIds);
 
@@ -153,6 +152,7 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 	public List<Usuario> getUsuariosPorIds(String ListaIds) {
 		
 		List<Usuario> usuarios = new LinkedList<Usuario>();
+		if(ListaIds == null) return usuarios;
 		String[] ids = ListaIds.split(" ");
 		
 		for (String id : ids) {
@@ -165,6 +165,9 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 	}
 	
 	public String usuariosConvertidosAIds(List<Usuario> usuarios) {
+		
+		if(usuarios.isEmpty()) return "";
+		
 		StringBuilder cadenaIds = new StringBuilder();
 
 	    for (Usuario u : usuarios) {
@@ -183,6 +186,7 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 	public List<Publicacion> getPublicacionesPorIds(String ListaIds) {
 		
 		List<Publicacion> publicaciones = new LinkedList<Publicacion>();
+		if(ListaIds==null || ListaIds.equals("")) return publicaciones;
 		String[] ids = ListaIds.split(" ");
 		
 		for (String id : ids) {

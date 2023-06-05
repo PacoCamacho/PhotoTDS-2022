@@ -6,6 +6,7 @@ import java.util.List;
 
 import photo.tds.dao.DAOException;
 import photo.tds.dao.FactoriaDAO;
+import photo.tds.dao.TDSUsuarioDAO;
 
 public enum RepositorioUsuarios {
 	INSTANCE;
@@ -52,6 +53,10 @@ public enum RepositorioUsuarios {
 		usuariosPorID.remove(usuario.getId());
 		usuariosPorLogin.remove(usuario.getLogin());
 	}
-	//
+
+	public void updateUsuario(Usuario usuario) {
+        usuariosPorID.put(usuario.getId(), usuario);
+        usuariosPorLogin.put(usuario.getLogin(), usuario);
+    }
 
 }

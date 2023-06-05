@@ -1,6 +1,7 @@
 
 package photo.tds.dominio;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
@@ -18,8 +19,11 @@ public class Usuario {
 	private String login;
 	private String password;
 	private String fechaNacimiento;
+	private String fotoPerfil;
 	
 	private List<Publicacion> publicaciones;
+	private List<Usuario> seguidores;
+	private List<Usuario> seguidos;
 
 	public Usuario(String nombre, String apellidos, String email, String login, String password,
 			String fechaNacimiento) {
@@ -32,6 +36,8 @@ public class Usuario {
 		this.fechaNacimiento = fechaNacimiento;
 		
 		this.publicaciones = new LinkedList<>();
+		this.seguidores = new LinkedList<>();
+		this.seguidos = new LinkedList<>();
 	}
 	
 
@@ -156,10 +162,24 @@ public class Usuario {
 		return foto;
 	}
 	
-	public Foto crearFoto(String titulo, String descripcion,String path) {
-		Foto f = new Foto(path, titulo, new Date(), descripcion, this.getNombre());
-		this.publicaciones.add(f);
-		return f;
+	public boolean seguirUsuario(Usuario u) {
+		
+		if(this.seguidos.contains(u)) {
+			return false;		
+			}
+		this.seguidos.add(u);
+		u.getSeguidores().add(this);
+		return true;
 	}
+	
+	public boolean dejarSeguir(Usuario u) {
+		if(!this.seguidos.contains(u)) {
+			return false;		
+			}
+		this.seguidos.remove(u);
+		u.getSeguidores().remove(u);
+		return true;
+	}
+	
 
 }
