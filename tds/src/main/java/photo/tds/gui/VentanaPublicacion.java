@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import photo.tds.controlador.Controlador;
 import photo.tds.dominio.Usuario;
 
 public class VentanaPublicacion {
@@ -27,6 +28,7 @@ public class VentanaPublicacion {
 	private JTextField textFieldTitulo;
 	private JTextField textFieldDescripcion;
 	private String usuario;
+	private String path;
 	
 	/**
 	 * Create the application.
@@ -45,6 +47,10 @@ public class VentanaPublicacion {
 	public void mostrarVentana(Component c) {
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(c);
+	}
+	
+	public String getPath() {
+		return this.path;
 	}
 
 
@@ -94,6 +100,7 @@ public class VentanaPublicacion {
 			int aceptado = selector.showOpenDialog(null);
 			if(aceptado == JFileChooser.APPROVE_OPTION) {
 				System.out.println("Has seleccionado esta imagen:"+ selector.getSelectedFile());
+				path = selector.getSelectedFile().getPath();
 			}
 			
 		});
@@ -146,6 +153,10 @@ public class VentanaPublicacion {
 				return;
 			}
 			this.esconderVentana();
+			
+			if(Controlador.getInstancia().crearFoto(this.usuario, titulo, textFieldDescripcion.getText(), path)) {
+				
+			}
 			
 			
 		});

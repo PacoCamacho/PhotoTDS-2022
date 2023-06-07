@@ -15,8 +15,9 @@ import photo.tds.dominio.Foto;
 import photo.tds.dominio.RepositorioPublicaciones;
 import photo.tds.dominio.RepositorioUsuarios;
 
-public enum Controlador {
-	INSTANCE;
+public class Controlador {
+	private static Controlador instancia = null;
+	
 	private Usuario usuarioActual;
 	private FactoriaDAO factoria;
 	private RepositorioPublicaciones repoPublicaciones;
@@ -30,20 +31,26 @@ public enum Controlador {
 			e.printStackTrace();
 		}
 		repoPublicaciones = RepositorioPublicaciones.INSTANCE;
-		repoUsuarios = RepositorioUsuarios.INSTANCE;
+		repoUsuarios = RepositorioUsuarios.getInstancia();
 	}
 	
+	public static Controlador getInstancia() {
+		if(instancia == null) {
+			instancia = new Controlador();
+		}
+		return instancia;
+	}
 
 	public Usuario getUsuarioActual() {
 		return usuarioActual;
 	}
 
 	public boolean esUsuarioRegistrado(String login) {
-		return RepositorioUsuarios.INSTANCE.findUsuario(login) != null;
+		return this.repoUsuarios.findUsuario(login) != null;
 	}
 
 	public boolean loginUsuario(String nombre, String password) {
-		Usuario usuario = RepositorioUsuarios.INSTANCE.findUsuario(nombre);
+		Usuario usuario = this.repoUsuarios.findUsuario(nombre);
 		if (usuario != null && usuario.getPassword().equals(password)) {
 			this.usuarioActual = usuario;
 			return true;
@@ -62,7 +69,7 @@ public enum Controlador {
 				.getUsuarioDAO(); /* Adaptador DAO para almacenar el nuevo Usuario en la BD */
 		usuarioDAO.create(usuario);
 
-		RepositorioUsuarios.INSTANCE.addUsuario(usuario);
+		this.repoUsuarios.addUsuario(usuario);
 		return true;
 	}
 
@@ -73,13 +80,13 @@ public enum Controlador {
 		UsuarioDAO usuarioDAO = factoria.getUsuarioDAO(); /* Adaptador DAO para borrar el Usuario de la BD */
 		usuarioDAO.delete(usuario);
 
-		RepositorioUsuarios.INSTANCE.removeUsuario(usuario);
+		RepositorioUsuarios.getInstancia().removeUsuario(usuario);
 		return true;
 	}
 	
-	public boolean crearFoto(Usuario u, String titulo, String descripcion, String path) {
+	public boolean crearFoto(String u, String titulo, String descripcion, String path) {
 
-		if (!esUsuarioRegistrado(u.getLogin()))
+		if (!esUsuarioRegistrado(this.repoUsuarios.))
 			return false;
 
 		Foto foto = u.crearFoto(titulo, descripcion, path);

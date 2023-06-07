@@ -299,7 +299,7 @@ public class VentanaRegistro extends JDialog{
 				OK = checkFields();
 				if (OK) {
 					boolean registrado = false;
-					registrado = Controlador.INSTANCE.registrarUsuario(textFieldNombre.getText(),
+					registrado = Controlador.getInstancia().registrarUsuario(textFieldNombre.getText(),
 							textFieldApellidos.getText(), textFieldEmail.getText(), textFieldUsuario.getText(),
 							new String(passwordField.getPassword()), 
 							fechaNacimiento.getDateFormatString());

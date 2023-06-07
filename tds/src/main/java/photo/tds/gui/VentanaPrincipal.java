@@ -113,7 +113,7 @@ public class VentanaPrincipal {
 		
 		
 		JScrollPane panelFotos = new JScrollPane();
-		panelCentral.add(panelFotos, "name_353730463731600");
+		panelCentral.add(panelFotos, "");
 
 		
 	}

@@ -151,7 +151,7 @@ public class VentanaPerfil {
 	        gbc_scrollPane.fill = GridBagConstraints.BOTH;
 	        gbc_scrollPane.gridx = 1;
 	        gbc_scrollPane.gridy = 4;
-	        listaFotos = Controlador.INSTANCE.getFotosPerfil(usuario);
+	        listaFotos = Controlador.getInstancia().getFotosPerfil(usuario);
 	        System.out.println("Lista fotos:");
 	        for(Foto f : listaFotos) {
 	        	System.out.println("foto:");

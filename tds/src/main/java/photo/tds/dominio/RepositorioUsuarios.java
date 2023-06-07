@@ -7,10 +7,9 @@ import java.util.List;
 import photo.tds.dao.DAOException;
 import photo.tds.dao.FactoriaDAO;
 
-public enum RepositorioUsuarios {
-	INSTANCE;
+public class RepositorioUsuarios {
 	private FactoriaDAO factoria;
-
+	private static RepositorioUsuarios instancia = null;
 	private HashMap<Integer, Usuario> usuariosPorID;
 	private HashMap<String, Usuario> usuariosPorLogin;
 
@@ -29,6 +28,12 @@ public enum RepositorioUsuarios {
 		} catch (DAOException eDAO) {
 			   eDAO.printStackTrace();
 		}
+	}
+	
+	public static RepositorioUsuarios getInstancia() {
+		if(instancia == null)
+			instancia = new RepositorioUsuarios();
+		return instancia;
 	}
 	
 	public List<Usuario> findUsuarios() throws DAOException {

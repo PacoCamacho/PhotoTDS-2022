@@ -227,7 +227,7 @@ public class VentanaLogin {
 	private void addManejadorBotonLogin(JButton btnLogin) {
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				boolean login = Controlador.INSTANCE.loginUsuario(
+				boolean login = Controlador.getInstancia().loginUsuario(
 						textUsuario.getText(),
 						new String(passwordField.getPassword()));
 
