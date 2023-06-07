@@ -83,6 +83,7 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 	}
 
 	public void create(Usuario usuario) {
+		System.out.println(usuario);
 		Entidad eUsuario = this.usuarioToEntidad(usuario);
 		eUsuario = servPersistencia.registrarEntidad(eUsuario);
 		usuario.setId(eUsuario.getId());

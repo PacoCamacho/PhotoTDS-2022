@@ -43,6 +43,8 @@ public class VentanaPerfil {
 	 	private String usuarioSesion;
 	 	private JPanel panelPerfil;
 	 	private static List<Foto> listaFotos;
+	 	
+	 	//Decirle a jordi que cambiemos a usuarios en vez de String
 
 	    public VentanaPerfil(String usuario, String usuarioSesion) throws DAOException {
 	        initialize();
@@ -159,7 +161,6 @@ public class VentanaPerfil {
 	        	
 	        }
 	        
-	        System.out.println();
 	        JPanel panelContenedorFotos = new JPanel();
 	        panelContenedorFotos.setLayout(new BoxLayout(panelContenedorFotos, BoxLayout.Y_AXIS));
 	        for(Foto foto : listaFotos) {
