@@ -33,10 +33,19 @@ public enum RepositorioPublicaciones {
 	}
 	
 	public List<Publicacion> findPublicaciones() throws DAOException {
-		return new LinkedList<Publicacion>(publicacionesporID.values());
+		System.out.println("Entro a findPublicaciones");
+		System.out.println(this.publicacionesporTitulo.values());
+		return new LinkedList<Publicacion>(this.publicacionesporTitulo.values());
 	}
 	
 	public List<Publicacion> findPublicacionesUsuario(String usuario) throws DAOException {
+		System.out.println("findPublicacionesUsuario: "+usuario);
+		System.out.println(findPublicaciones());
+		for (Publicacion p : this.findPublicaciones()) {
+			System.out.println("Publicación: "+p.getTitulo());
+			System.out.println("Usuario: "+p.getUsuario());
+		}
+		
 		return this.findPublicaciones().stream()
 			.filter(p -> p.getUsuario().equals(usuario))
 			.collect(Collectors.toList());
@@ -62,6 +71,11 @@ public enum RepositorioPublicaciones {
 	
 	public void crearPublicacion(Publicacion publi) {
 		this.publicacionesporTitulo.put(publi.getTitulo(), publi);
+		this.publicacionesporID.put(publi.getId(), publi);
+		
+		System.out.println("Añadida publicación: "+publi.getTitulo());
+		System.out.println("usuario de la publicacion:" +publi.getUsuario());
+		System.out.println(this.publicacionesporTitulo);
 	}
 	
 }

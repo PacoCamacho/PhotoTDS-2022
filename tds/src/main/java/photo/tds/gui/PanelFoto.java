@@ -6,6 +6,8 @@ import photo.tds.dominio.Comentario;
 import photo.tds.dominio.Foto;
 import photo.tds.dominio.Publicacion;
 import java.awt.GridBagLayout;
+import java.awt.Image;
+
 import javax.swing.JLabel;
 
 import java.awt.Color;
@@ -18,10 +20,14 @@ import javax.swing.UIManager;
 
 import java.awt.Insets;
 
+import javax.imageio.ImageIO;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.awt.event.ActionEvent;
@@ -42,22 +48,25 @@ public class PanelFoto extends JPanel{
 	private JTextField textFieldComentario;
 	private JPanel panelFoto;
 	
-	public JPanel getPanel() {
+	public JPanel getPanelFoto() {
 		return panelFoto;
 	}
 	
 	/**
 	 * Create the panel.
+	 * @throws IOException 
 	 */
-	public PanelFoto(Foto foto, String usuario) {
+	public PanelFoto(Foto foto, String usuario) throws IOException {
 		this.foto = foto;
 		this.usuario = usuario;
-		setPreferredSize(new Dimension(200, 200));
+		setPreferredSize(new Dimension(400, 400));
 		
 		initialize();
 	}
 	
-	private void initialize() {
+	private void initialize() throws IOException {
+		System.out.println("PanelFoto creado");
+		
 		panelFoto = new JPanel();
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 35, 0, 0, 0, 0, 0, 0};
@@ -119,6 +128,15 @@ public class PanelFoto extends JPanel{
 		gbc_meGustas.gridy = 5;
 		panelFoto.add(meGustas, gbc_meGustas);
 		
+		Image image = ImageIO.read(new File(foto.getPath()));
+		JLabel labelFoto = new JLabel(new ImageIcon(image));
+		GridBagConstraints gbc_labelFoto = new GridBagConstraints();
+		gbc_labelFoto.gridwidth = 4;
+		gbc_labelFoto.insets = new Insets(0, 0, 5, 5);
+		gbc_labelFoto.gridx = 2;
+		gbc_labelFoto.gridy = 6;
+		panelFoto.add(labelFoto, gbc_labelFoto);
+		
 		
 		
 		
@@ -129,6 +147,8 @@ public class PanelFoto extends JPanel{
 		gbc_botonBorrar.gridx = 5;
 		gbc_botonBorrar.gridy = 7;
 		panelFoto.add(botonBorrar, gbc_botonBorrar);
+		
+		panelFoto.setVisible(true);
 	}
 	
 	 @Override

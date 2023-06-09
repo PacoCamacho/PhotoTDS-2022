@@ -46,6 +46,7 @@ public class Controlador {
 	}
 
 	public boolean esUsuarioRegistrado(String login) {
+		System.out.println("parametro: "+login);
 		return this.repoUsuarios.findUsuario(login) != null;
 	}
 
@@ -86,11 +87,14 @@ public class Controlador {
 	
 	public boolean crearFoto(String u, String titulo, String descripcion, String path) {
 
-		if (!esUsuarioRegistrado(this.repoUsuarios.))
+		if (!esUsuarioRegistrado(u)) {
+			System.out.println("Usuario no registrado");
 			return false;
-
-		Foto foto = u.crearFoto(titulo, descripcion, path);
-
+		}
+			
+		Usuario user = this.repoUsuarios.findUsuario(u);
+		Foto foto = user.crearFoto(titulo, descripcion, path);
+		System.out.println("Foto creada: "+foto);
 		this.repoPublicaciones.crearPublicacion(foto);
 		return true;
 	}

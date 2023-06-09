@@ -12,6 +12,7 @@ import java.awt.CardLayout;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.List;
 
 import photo.tds.controlador.Controlador;
@@ -37,7 +38,8 @@ public class VentanaPrincipal {
 		return panelCentral;
 	}
 	
-	public VentanaPrincipal() {
+	public VentanaPrincipal(String u) {
+		usuario=u;
 		initialize();
 	}
 
@@ -95,6 +97,9 @@ public class VentanaPrincipal {
 				} catch (DAOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 				CardLayout cl = (CardLayout) panelCentral.getLayout();
 				cl.show(panelCentral, "panelPerfil");
@@ -118,7 +123,7 @@ public class VentanaPrincipal {
 		
 	}
 	
-	private void iniciarPanelPerfil() throws DAOException {
+	private void iniciarPanelPerfil() throws DAOException, IOException {
 		
 		JPanel panelPerfil = new VentanaPerfil(usuario,usuario).getPanelPerfil();
 		panelCentral.add(panelPerfil, "panelPerfil");

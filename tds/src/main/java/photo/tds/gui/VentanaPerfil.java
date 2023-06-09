@@ -10,9 +10,13 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListCellRenderer;
@@ -33,6 +37,8 @@ import photo.tds.dao.DAOException;
 import photo.tds.dominio.Foto;
 import photo.tds.dominio.Publicacion;
 import photo.tds.dominio.Usuario;
+import photo.tds.helpers.ImageListCellRenderer;
+import photo.tds.helpers.Item;
 
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
@@ -44,10 +50,12 @@ public class VentanaPerfil {
 	 	private JPanel panelPerfil;
 	 	private static List<Foto> listaFotos;
 
-	    public VentanaPerfil(String usuario, String usuarioSesion) throws DAOException {
-	        initialize();
-	        this.usuario = usuario;
+	    public VentanaPerfil(String usuario, String usuarioSesion) throws DAOException, IOException {
+	    	this.usuario = usuario;
+	        System.out.println("Usuario perfil: "+usuario);
 	        this.usuarioSesion = usuarioSesion;
+	    	initialize();
+	        
 	    }
 	    
 	    public JPanel getPanelPerfil() {
@@ -69,7 +77,7 @@ public class VentanaPerfil {
 	    }
 
 	    
-	    public void initialize() throws DAOException {
+	    public void initialize() throws DAOException, IOException {
 	        
 	        
 	        panelPerfil = new JPanel();
@@ -144,6 +152,7 @@ public class VentanaPerfil {
 	        gbc_txtSeguidos.gridy = 2;
 	        panelPerfil.add(txtSeguidos, gbc_txtSeguidos);
 	        
+	        JScrollPane scrollPane = new JScrollPane();
 	        GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 	        gbc_scrollPane.gridheight = 3;
 	        gbc_scrollPane.gridwidth = 5;
@@ -151,6 +160,10 @@ public class VentanaPerfil {
 	        gbc_scrollPane.fill = GridBagConstraints.BOTH;
 	        gbc_scrollPane.gridx = 1;
 	        gbc_scrollPane.gridy = 4;
+	        panelPerfil.add(scrollPane, gbc_scrollPane);
+	        
+
+	        
 	        listaFotos = Controlador.getInstancia().getFotosPerfil(usuario);
 	        System.out.println("Lista fotos:");
 	        for(Foto f : listaFotos) {
@@ -158,22 +171,60 @@ public class VentanaPerfil {
 	        	System.out.println(f.titulo);
 	        	
 	        }
-	        
-	        System.out.println();
-	        JPanel panelContenedorFotos = new JPanel();
-	        panelContenedorFotos.setLayout(new BoxLayout(panelContenedorFotos, BoxLayout.Y_AXIS));
+	        JList<Item> list = new JList<>();
+	        scrollPane.setViewportView(list);
+	        DefaultListModel<Item> model = new DefaultListModel<>();
+	        list.setModel(model);
+	        list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+	        list.setCellRenderer(new ImageListCellRenderer());
+	        list.setVisibleRowCount(-1);
+	       
 	        for(Foto foto : listaFotos) {
 	        	if(foto instanceof Foto) {
-	        		PanelFoto fotoPanel = new PanelFoto(foto,usuario);
-	        		panelContenedorFotos.add(fotoPanel);
-	        		panelContenedorFotos.add(Box.createRigidArea(new Dimension(0, 10)));
+	        		System.out.println("Creo un panel foto para :"+ foto.getTitulo());
+	        		
+	        		Image image = ImageIO.read(new File(foto.getPath()));
+	        		Item item = new Item(image);
+	        		model.addElement(item);
+	        	    System.out.println("Se agregó la imagen: " + foto.getPath()); // Imprimir la ruta de la imagen
+
 	        	}
 	        }
-	        JScrollPane scrollPane = new JScrollPane(panelContenedorFotos);
-	        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-	        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+	       
+	        
 
-	        panelPerfil.add(scrollPane, gbc_scrollPane);
+	       
+	        
+	        
+	        
+//	        JScrollPane scrollPane = new JScrollPane();
+//	        GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+//	        gbc_scrollPane.gridheight = 3;
+//	        gbc_scrollPane.gridwidth = 5;
+//	        gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
+//	        gbc_scrollPane.fill = GridBagConstraints.BOTH;
+//	        gbc_scrollPane.gridx = 1;
+//	        gbc_scrollPane.gridy = 4;
+//	        panelPerfil.add(scrollPane,gbc_scrollPane);
+	        
+	       
+	        
+	        
+//	        JLabel labelFoto = new JLabel("Aqui va la foto");
+//	        //JPanel panelContenedorFotos = new JPanel();
+//	        //panelContenedorFotos.setLayout(new BoxLayout(panelContenedorFotos, BoxLayout.Y_AXIS));
+//	        for(Foto foto : listaFotos) {
+//	        	if(foto instanceof Foto) {
+//	        		System.out.println("Creo un panel foto para :"+ foto.getTitulo());
+//	        		
+//	        		scrollPane.add(labelFoto);
+//	        		PanelFoto fotoPanel = new PanelFoto(foto,usuario);
+//	        		scrollPane.add(fotoPanel);
+//	        		fotoPanel.setVisible(true);
+//	        		scrollPane.add(Box.createRigidArea(new Dimension(0, 10)));
+//	        	}
+//	        }
+	       
 
 	        
 	        

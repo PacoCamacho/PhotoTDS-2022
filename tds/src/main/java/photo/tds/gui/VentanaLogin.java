@@ -232,7 +232,7 @@ public class VentanaLogin {
 						new String(passwordField.getPassword()));
 
 				if (login) {
-					VentanaPrincipal principal = new VentanaPrincipal();
+					VentanaPrincipal principal = new VentanaPrincipal(textUsuario.getText());
 					principal.mostrarVentana();
 					frmLogin.dispose();
 				} else

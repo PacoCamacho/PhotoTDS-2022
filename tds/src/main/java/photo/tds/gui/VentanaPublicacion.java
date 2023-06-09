@@ -35,6 +35,7 @@ public class VentanaPublicacion {
 	 */
 	public VentanaPublicacion(String usuario) {
 		this.usuario = usuario;
+		System.out.println(this.usuario);
 		initialize();
 	}
 	
@@ -153,10 +154,11 @@ public class VentanaPublicacion {
 				return;
 			}
 			this.esconderVentana();
-			
-			if(Controlador.getInstancia().crearFoto(this.usuario, titulo, textFieldDescripcion.getText(), path)) {
+			System.out.println("le doy a subir y entro a crear foto del controlador");
+			System.out.println("this.usuario= "+this.usuario);
+			Controlador.getInstancia().crearFoto(this.usuario, titulo, textFieldDescripcion.getText(), path);
 				
-			}
+			
 			
 			
 		});
