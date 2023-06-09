@@ -28,12 +28,15 @@ public abstract class Publicacion {
 		this.comentarios = new ArrayList<>();
 	}
 	
-	public Publicacion(String titulo, String fecha, String descripcion, int mg, String usuario,List<Hashtag> lh) {
+	public Publicacion(String titulo, String fecha, String descripcion, int mg, String usuario,List<Hashtag> lh, List<Comentario> comentarios) {
 		this(titulo,fecha,descripcion,mg,usuario);
 		this.hashtags = lh;
+		this.comentarios= comentarios;
 	}
 	
 	
+
+
 
 
 	public int getId() {
@@ -101,6 +104,13 @@ public abstract class Publicacion {
 		this.hashtags = hashtags;
 	}
 	
+	public List<Comentario> getComentarios() {
+		return comentarios;
+	}
+
+	public void setComentarios(List<Comentario> comentarios) {
+		this.comentarios = comentarios;
+	}
 
 	
 	

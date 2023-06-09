@@ -39,4 +39,5 @@ public abstract class FactoriaDAO {
 	
 	public abstract UsuarioDAO getUsuarioDAO();	
 	public abstract PublicacionDAO getPublicacionDAO();
+	public abstract ComentarioDAO getComentarioDAO();
 }

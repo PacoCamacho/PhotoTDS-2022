@@ -13,10 +13,10 @@ import beans.Propiedad;
 import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
 import photo.tds.dominio.Album;
-import photo.tds.dominio.Conversor;
+import photo.tds.dominio.Comentario;
 import photo.tds.dominio.Foto;
+import photo.tds.dominio.Hashtag;
 import photo.tds.dominio.Publicacion;
-import photo.tds.dominio.Usuario;
 
 public class TDSPublicacionDAO implements PublicacionDAO{
 
@@ -29,9 +29,8 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 	private static final String FOTOS = "Lista de fotos";
 	private static final String PATH = "Path de la foto";
 	private static final String CREADOR = "Creador de la publicacion";
-
-	//private static final String HASHTAGS = "Hashtags";
-	
+	private static final String HASHTAGS = "Hashtags";
+	private static final String COMENTARIOS = "Comentarios";
 	
 	//Atributos
 	private ServicioPersistencia servPersistencia;
@@ -52,20 +51,22 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 		String descripcion = servPersistencia.recuperarPropiedadEntidad(ePublicacion, DESCRIPCION);
 		int megustas = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(ePublicacion, MEGUSTAS));
 		String creador = servPersistencia.recuperarPropiedadEntidad(ePublicacion, CREADOR);
+		List<Comentario>comentarios = getComentariosPorIds(servPersistencia.recuperarPropiedadEntidad(ePublicacion, COMENTARIOS));
+		List<Hashtag> hashtags = hashtagsDesdeCadena(servPersistencia.recuperarPropiedadEntidad(ePublicacion, HASHTAGS));
 		
 		
 		//String hashtags = servPersistencia.recuperarPropiedadEntidad(ePublicacion, HASHTAGS);
 
 		if(tipo.equals("Foto")) {
 			String path = servPersistencia.recuperarPropiedadEntidad(ePublicacion, PATH);
-			Foto foto = new Foto(path, titulo, fecha, descripcion, megustas, creador);
+			Foto foto = new Foto(path, titulo, fecha, descripcion, megustas, creador, hashtags, comentarios);
 			foto.SetId(ePublicacion.getId());
 			return foto;
 		}
 		else if(tipo.equals("Album")){
 			String idsFotos = servPersistencia.recuperarPropiedadEntidad(ePublicacion, FOTOS);
 			
-			Album album = new Album(titulo, fecha, descripcion, megustas, creador, this.getFotosPorIds(idsFotos));
+			Album album = new Album(titulo, fecha, descripcion, megustas, creador, this.getFotosPorIds(idsFotos), hashtags, comentarios);
 			album.SetId(ePublicacion.getId());
 			return album;
 		}
@@ -86,7 +87,9 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 				new Propiedad(DESCRIPCION, publicacion.getDescripcion()),
 				new Propiedad(MEGUSTAS, Integer.toString(publicacion.getMg())),
 				new Propiedad(PATH,((Foto)publicacion).getPath()),
-				new Propiedad(CREADOR, publicacion.getUsuario())
+				new Propiedad(CREADOR, publicacion.getUsuario()),
+				new Propiedad(HASHTAGS, this.hashtagACadena(publicacion.getHashtags())),
+				new Propiedad(COMENTARIOS, this.comentsAIds(publicacion.getComentarios()))
 				
 				)));
 		}
@@ -98,7 +101,9 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 					new Propiedad(DESCRIPCION, publicacion.getDescripcion()),
 					new Propiedad(MEGUSTAS, Integer.toString(publicacion.getMg())),
 					new Propiedad(PATH,this.fotosAIds(((Album)publicacion).getFotos())),
-					new Propiedad(CREADOR, publicacion.getUsuario())
+					new Propiedad(CREADOR, publicacion.getUsuario()),
+					new Propiedad(HASHTAGS, this.hashtagACadena(publicacion.getHashtags())),
+					new Propiedad(COMENTARIOS, this.comentsAIds(publicacion.getComentarios()))
 					)));
 			}
 
@@ -189,7 +194,63 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 		return fotos;
 	}
 	
+	public String comentsAIds(List<Comentario> comentarios) {
+		StringBuilder cadenaIds = new StringBuilder();
+		for (Comentario c : comentarios) {
+	        // Obtener el ID del comentario y añadirlo a la cadena
+	        cadenaIds.append(c.getId()).append(" ");
+	    }
+		// Eliminar el último espacio en blanco si existe
+	    if (cadenaIds.length() > 0) {
+	        cadenaIds.deleteCharAt(cadenaIds.length() - 1);
+	    }
 
+	    return cadenaIds.toString();
+		
+	}
 	
+	public List<Comentario> getComentariosPorIds(String ListaIds){
+		List<Comentario> comentarios = new LinkedList<Comentario>();
+		String[] ids = ListaIds.split(" ");
+		
+		for (String id : ids) {
+			int comentarioId = Integer.parseInt(id);
+			Comentario comentario;
+			try {
+				comentario = TDSFactoriaDAO.getInstancia().getComentarioDAO().get(comentarioId);
+				comentarios.add(comentario);
+			} catch (DAOException e) {
+				e.printStackTrace();
+			}
+		}
+		    
+		return comentarios;
+	}
 	
+	public List<Hashtag> hashtagsDesdeCadena(String cadenaHashtags){
+		List<Hashtag> hashtags = new LinkedList<Hashtag>();
+		String[] hs = cadenaHashtags.split(" ");
+		for(String h : hs) {
+			Hashtag hashtag = Hashtag.crearHashtag(h);
+			hashtags.add(hashtag);
+		}
+		return hashtags;
+		
+	}
+	
+	public String hashtagACadena(List<Hashtag> hashtags) {
+		StringBuilder cadenaHashtag = new StringBuilder();
+		for (Hashtag h : hashtags) {
+	        // Obtener el ID del comentario y añadirlo a la cadena
+			cadenaHashtag.append(h.getNombre()).append(" ");
+	    }
+		// Eliminar el último espacio en blanco si existe
+	    if (cadenaHashtag.length() > 0) {
+	    	cadenaHashtag.deleteCharAt(cadenaHashtag.length() - 1);
+	    }
+
+	    return cadenaHashtag.toString();
+		
+		
+	}
 }

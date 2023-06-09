@@ -9,14 +9,14 @@ public class Foto extends Publicacion{
 	private String path;
 	private Image imagen;
 	
-	public Foto(String path, String titulo, String fecha, String descripcion,int mg, String usuario, List<Hashtag> lh ) {
-		super(titulo, fecha, descripcion,mg, usuario,lh);
+	public Foto(String path, String titulo, String fecha, String descripcion,int mg, String usuario, List<Hashtag> lh, List<Comentario> comentarios) {
+		super(titulo, fecha, descripcion,mg, usuario,lh, comentarios);
 		this.path = path;
 		
 	}
 	
-	public Foto(String path, String titulo, String fecha, String descripcion, String usuario, List<Hashtag> lh ) {
-		super(titulo, fecha, descripcion,0, usuario,lh);
+	public Foto(String path, String titulo, String fecha, String descripcion, String usuario, List<Hashtag> lh, List<Comentario> comentarios) {
+		super(titulo, fecha, descripcion,0, usuario,lh, comentarios);
 		this.path = path;
 		
 	}

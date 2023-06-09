@@ -1,14 +1,14 @@
 package photo.tds.dao;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 import beans.Entidad;
 import beans.Propiedad;
-import photo.tds.dominio.Album;
 import photo.tds.dominio.Comentario;
-import photo.tds.dominio.Foto;
 import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
 
@@ -75,12 +75,28 @@ public class TDSComentarioDAO implements ComentarioDAO{
 	}
 	
 	private Comentario entidadToComentario(Entidad eComentario){
-		return null;
 		
+		String texto = servPersistencia.recuperarPropiedadEntidad(eComentario, TEXTO);
+		String autor = servPersistencia.recuperarPropiedadEntidad(eComentario, AUTOR);
+
+		Comentario comentario = new Comentario(texto, autor);
+		comentario.setId(eComentario.getId());
+
+		return comentario;
 	}
 	
 	private Entidad comentarioToEntidad(Comentario comentario) {
-		return null;
+		
+		Entidad eComentario = new Entidad();
+		
+		eComentario.setNombre(COMENTARIO);
+
+		eComentario.setPropiedades(new ArrayList<Propiedad>(Arrays.asList(
+				new Propiedad(TEXTO, comentario.getTexto()),
+				new Propiedad(AUTOR, comentario.getAutor())
+				)));
+		
+		return eComentario;
 	}
 
 }

@@ -22,4 +22,9 @@ public final class TDSFactoriaDAO extends FactoriaDAO {
 		return new TDSPublicacionDAO();
 	}
 
+	@Override
+	public ComentarioDAO getComentarioDAO() {
+		return new TDSComentarioDAO();
+	}
+
 }
