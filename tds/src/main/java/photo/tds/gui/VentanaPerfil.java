@@ -43,6 +43,7 @@ import photo.tds.helpers.Item;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
+import javax.swing.JToolBar;
 
 public class VentanaPerfil {
 	 	private String usuario;
@@ -50,7 +51,7 @@ public class VentanaPerfil {
 	 	private JPanel panelPerfil;
 	 	private static List<Foto> listaFotos;
 
-	    public VentanaPerfil(String usuario, String usuarioSesion) throws DAOException, IOException {
+	    public VentanaPerfil(String usuario, String usuarioSesion){
 	    	this.usuario = usuario;
 	        System.out.println("Usuario perfil: "+usuario);
 	        this.usuarioSesion = usuarioSesion;
@@ -77,7 +78,7 @@ public class VentanaPerfil {
 	    }
 
 	    
-	    public void initialize() throws DAOException, IOException {
+	    public void initialize(){
 	        
 	        
 	        panelPerfil = new JPanel();
@@ -164,7 +165,12 @@ public class VentanaPerfil {
 	        
 
 	        
-	        listaFotos = Controlador.getInstancia().getFotosPerfil(usuario);
+	        try {
+				listaFotos = Controlador.getInstancia().getFotosPerfil(usuario);
+			} catch (DAOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	        System.out.println("Lista fotos:");
 	        for(Foto f : listaFotos) {
 	        	System.out.println("foto:");
@@ -183,13 +189,21 @@ public class VentanaPerfil {
 	        	if(foto instanceof Foto) {
 	        		System.out.println("Creo un panel foto para :"+ foto.getTitulo());
 	        		
-	        		Image image = ImageIO.read(new File(foto.getPath()));
+	        		Image image=null;
+					try {
+						image = ImageIO.read(new File(foto.getPath()));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 	        		Item item = new Item(image);
 	        		model.addElement(item);
 	        	    System.out.println("Se agregó la imagen: " + foto.getPath()); // Imprimir la ruta de la imagen
 
 	        	}
 	        }
+	        
+	       
 	       
 	        
 

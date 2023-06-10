@@ -12,6 +12,7 @@ import photo.tds.dao.DAOException;
 import photo.tds.dao.FactoriaDAO;
 import photo.tds.dominio.Usuario;
 import photo.tds.dominio.Foto;
+import photo.tds.dominio.Publicacion;
 import photo.tds.dominio.RepositorioPublicaciones;
 import photo.tds.dominio.RepositorioUsuarios;
 
@@ -103,6 +104,12 @@ public class Controlador {
 		return  this.repoPublicaciones.findPublicacionesUsuario(usuario).stream()
 				.filter(p -> p instanceof Foto)
 				.map(p -> (Foto) p )
+				.collect(Collectors.toList());
+	}
+	public List<Foto> getTodasFotos() throws DAOException{
+		return this.repoPublicaciones.findPublicaciones().stream()
+				.filter(p -> p instanceof Foto)
+				.map(p -> (Foto) p)
 				.collect(Collectors.toList());
 	}
 }

@@ -33,14 +33,10 @@ public enum RepositorioPublicaciones {
 	}
 	
 	public List<Publicacion> findPublicaciones() throws DAOException {
-		System.out.println("Entro a findPublicaciones");
-		System.out.println(this.publicacionesporTitulo.values());
 		return new LinkedList<Publicacion>(this.publicacionesporTitulo.values());
 	}
 	
 	public List<Publicacion> findPublicacionesUsuario(String usuario) throws DAOException {
-		System.out.println("findPublicacionesUsuario: "+usuario);
-		System.out.println(findPublicaciones());
 		for (Publicacion p : this.findPublicaciones()) {
 			System.out.println("Publicación: "+p.getTitulo());
 			System.out.println("Usuario: "+p.getUsuario());

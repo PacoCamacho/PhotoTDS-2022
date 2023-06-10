@@ -1,6 +1,7 @@
 package photo.tds.helpers;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Image;
 
 import javax.swing.DefaultListCellRenderer;
@@ -15,8 +16,11 @@ public class ImageListCellRenderer extends DefaultListCellRenderer{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-private static final int ICON_SIZE = 150; // Tamaño de la imagen en píxeles
-
+	private static final int ICON_SIZE = 150; // Tamaño de la imagen en píxeles
+	private static final int ANCHO_IMAGEN = 150;
+	private static final int ALTO_IMAGEN = 150;
+	
+	
 @Override
 public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
     JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
@@ -25,5 +29,9 @@ public Component getListCellRendererComponent(JList<?> list, Object value, int i
     label.setIcon(icon);
     return label;
 }
+
+
+
+
 
 }

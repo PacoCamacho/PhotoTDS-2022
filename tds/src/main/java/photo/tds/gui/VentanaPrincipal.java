@@ -33,6 +33,7 @@ public class VentanaPrincipal {
 	private static JPanel panelCentral;
 	private static List<Publicacion> listaPublicaciones;
 	
+	
 
 	public static JPanel getPanelCentral() {
 		return panelCentral;
@@ -49,7 +50,7 @@ public class VentanaPrincipal {
 		frmVentanaPrincipal.setVisible(true);
 	}
 	
-	public void initialize() {
+	public void initialize(){
 		frmVentanaPrincipal = new JFrame();
 		frmVentanaPrincipal.setTitle("AppVideo- Ventana Principal");
 		frmVentanaPrincipal.setSize(500, 600);
@@ -66,6 +67,7 @@ public class VentanaPrincipal {
 		frmVentanaPrincipal.getContentPane().add(panelCentral, BorderLayout.CENTER);
 		panelCentral.setLayout(new CardLayout(0, 0));
 		
+		
 		JLabel PhotoAppl = new JLabel("PhotoApp");
 		PhotoAppl.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		panelNorte.add(PhotoAppl);
@@ -81,7 +83,7 @@ public class VentanaPrincipal {
 		SubPanelNorte.add(SubirFoto);
 		
 		SubirFoto.addActionListener(e -> {
-			VentanaPublicacion nuevaFoto = new VentanaPublicacion(usuario);
+			VentanaNuevaPublicacion nuevaFoto = new VentanaNuevaPublicacion(usuario);
 			nuevaFoto.mostrarVentana(frmVentanaPrincipal);
 		});
 		
@@ -92,15 +94,7 @@ public class VentanaPrincipal {
 		perfil.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				try {
-					iniciarPanelPerfil();
-				} catch (DAOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				iniciarPanelPerfil();
 				CardLayout cl = (CardLayout) panelCentral.getLayout();
 				cl.show(panelCentral, "panelPerfil");
 			}
@@ -109,7 +103,8 @@ public class VentanaPrincipal {
 		PhotoAppl.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				iniciarPanelPrincipal();
+				panelCentral.removeAll();
+				iniciarPanelPublicaciones();
 				CardLayout cl = (CardLayout) panelCentral.getLayout();
 				cl.show(panelCentral, "panelPrincipal");
 			}
@@ -117,27 +112,25 @@ public class VentanaPrincipal {
 		
 		
 		
-		JScrollPane panelFotos = new JScrollPane();
-		panelCentral.add(panelFotos, "");
-
+		
+		iniciarPanelPublicaciones();
 		
 	}
 	
-	private void iniciarPanelPerfil() throws DAOException, IOException {
-		
+	private void iniciarPanelPerfil(){
+		System.out.println("Cambio al panel de perfil");
 		JPanel panelPerfil = new VentanaPerfil(usuario,usuario).getPanelPerfil();
 		panelCentral.add(panelPerfil, "panelPerfil");
 		
-//		JPanel panelAlbum = new PanelAlbum(user, user).getPanelPerfil();
-//		panelCentral.add(panelAlbum, "panelAlbum");
-//		
-//
-//		JPanel panelEdit = new PanelEdit(user).getPanel();
-//		panelCentralCardLayout.add(panelEdit, "panelEdit");
 	}
 	
-	private void iniciarPanelPrincipal() {
-		initialize();
+
+	
+	private void iniciarPanelPublicaciones(){
+		System.out.println("Cambio al panel de publicaciones");
+		JPanel panelPublicaciones = new PanelPublicaciones().getPanelPublicaciones();
+		panelCentral.add(panelPublicaciones,"panelPublicaciones");
+		
 	}
 
 }

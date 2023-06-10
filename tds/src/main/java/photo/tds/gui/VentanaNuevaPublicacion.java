@@ -22,7 +22,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import photo.tds.controlador.Controlador;
 import photo.tds.dominio.Usuario;
 
-public class VentanaPublicacion {
+public class VentanaNuevaPublicacion {
 
 	private JFrame frame;
 	private JTextField textFieldTitulo;
@@ -33,7 +33,7 @@ public class VentanaPublicacion {
 	/**
 	 * Create the application.
 	 */
-	public VentanaPublicacion(String usuario) {
+	public VentanaNuevaPublicacion(String usuario) {
 		this.usuario = usuario;
 		System.out.println(this.usuario);
 		initialize();
