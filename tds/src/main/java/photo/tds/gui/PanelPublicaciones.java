@@ -12,10 +12,14 @@ import photo.tds.helpers.ImageListCellRendererImagen;
 import photo.tds.helpers.Item;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.io.File;
@@ -35,7 +39,7 @@ public class PanelPublicaciones extends JPanel {
 	 * @throws DAOException 
 	 * @throws IOException 
 	 */
-	public PanelPublicaciones(){
+	public PanelPublicaciones(String usuario){
 		panelPublicaciones = new JPanel();
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{224, 0};
@@ -43,13 +47,6 @@ public class PanelPublicaciones extends JPanel {
 		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 		panelPublicaciones.setLayout(gridBagLayout);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane.gridx = 0;
-		gbc_scrollPane.gridy = 0;
-		panelPublicaciones.add(scrollPane, gbc_scrollPane);
 		
 		
 		try {
@@ -59,30 +56,39 @@ public class PanelPublicaciones extends JPanel {
 			e.printStackTrace();
 		}
 		
-		JList<Item> list = new JList<>();
-		scrollPane.setViewportView(list);
-		DefaultListModel<Item> model = new DefaultListModel<>();
-		list.setModel(model);
-		list.setLayoutOrientation(JList.VERTICAL_WRAP);
-        list.setCellRenderer(new ImageListCellRendererImagen());
-        list.setVisibleRowCount(-1);
-        
-
-		
+		JPanel panelContenedor = new JPanel();
+		panelContenedor.setLayout(new BoxLayout(panelContenedor,BoxLayout.Y_AXIS));
+		panelContenedor.setSize(panelPublicaciones.getSize());
 		for (Foto foto : listaFotos) {
-			if(foto instanceof Foto) {
-				Image image=null;
-				try {
-					image = ImageIO.read(new File(foto.getPath()));
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				Item item = new Item(image);
-				model.addElement(item);
-				System.out.println("Se agregó la imagen : "+foto.getTitulo()+" a la lista de publicaciones");
+			PanelFoto panelFoto = null;
+			try {
+				panelFoto = new PanelFoto(foto, usuario);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+			  //panelFoto.setPreferredSize(new Dimension(250, 250));
+	          panelFoto.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+	          panelFoto.setSize(panelPublicaciones.getSize());
+			  panelContenedor.add(panelFoto.getPanelFoto());
+			
 		}
+		
+		
+		
+		JScrollPane scrollPane = new JScrollPane(panelContenedor);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.gridx = 0;
+		gbc_scrollPane.gridy = 0;
+		panelPublicaciones.add(scrollPane, gbc_scrollPane);
+		
+		
+		
+		
+		
 		
 
 	}

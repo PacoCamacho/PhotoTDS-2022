@@ -2,6 +2,7 @@ package photo.tds.gui;
 
 import javax.swing.JPanel;
 
+import photo.tds.controlador.Controlador;
 import photo.tds.dominio.Comentario;
 import photo.tds.dominio.Foto;
 import photo.tds.dominio.Publicacion;
@@ -10,6 +11,7 @@ import java.awt.Image;
 
 import javax.swing.JLabel;
 
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -26,6 +28,8 @@ import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -148,6 +152,14 @@ public class PanelFoto extends JPanel{
 		gbc_botonBorrar.gridy = 7;
 		panelFoto.add(botonBorrar, gbc_botonBorrar);
 		
+		botonBorrar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Controlador.getInstancia().borrarFotoSinUsuario(foto);
+				
+			}
+		});
+		
 		panelFoto.setVisible(true);
 	}
 	
@@ -155,7 +167,9 @@ public class PanelFoto extends JPanel{
 	    protected void paintComponent(Graphics g) {
 	        super.paintComponent(g);
 	        // Dibuja la imagen en el panel
-	        g.drawImage(foto.getImagen(), 0, 0, getWidth(), getHeight(), this);
+	        Image resizedImage = foto.getImagen().getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
+
+	        g.drawImage(resizedImage, 0, 0, getWidth(), getHeight(), this);
 	    }
 	
 	

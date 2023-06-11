@@ -110,5 +110,9 @@ public class Usuario {
 		this.publicaciones.add(f);
 		return f;
 	}
+	
+	public boolean borrarFoto(Publicacion publi) {
+		return this.publicaciones.remove(publi);
+	}
 
 }

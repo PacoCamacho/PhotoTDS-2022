@@ -99,6 +99,23 @@ public class Controlador {
 		this.repoPublicaciones.crearPublicacion(foto);
 		return true;
 	}
+	public void borrarFotoSinUsuario(Publicacion publicacion) {
+		this.repoPublicaciones.borrarPublicacion(publicacion);
+	}
+	
+	public boolean borrarFoto(String u, Publicacion publicacion) {
+		if(!esUsuarioRegistrado(u)) {
+			System.out.println("Usuario no registrado");
+			return false;
+		}
+		
+		Usuario usuario = this.repoUsuarios.findUsuario(u);
+		usuario.borrarFoto(publicacion);
+		
+		this.repoPublicaciones.borrarPublicacion(publicacion);
+		this.repoUsuarios.actualizarUsuario(usuario);
+		return true;
+	}
 	
 	public List<Foto> getFotosPerfil(String usuario) throws DAOException{
 		return  this.repoPublicaciones.findPublicacionesUsuario(usuario).stream()

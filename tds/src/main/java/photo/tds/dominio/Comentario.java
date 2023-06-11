@@ -7,11 +7,13 @@ public class Comentario {
 	private String texto;
 	private String usuario;
 	private Date fecha;
+	private int id;
 	
-	public Comentario(String texto, String usuario, Date fecha) {
+	public Comentario(String texto, String usuario, Date fecha, int id) {
 		this.texto = texto;
 		this.usuario = usuario;
 		this.fecha = fecha;
+		this.id = id;
 	}
 
 	public String getTexto() {
@@ -38,4 +40,11 @@ public class Comentario {
 		this.fecha = fecha;
 	}
 	
+	public int getId() {
+		return id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
 }

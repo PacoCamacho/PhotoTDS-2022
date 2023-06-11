@@ -7,21 +7,23 @@ import java.util.stream.Collectors;
 
 import photo.tds.dao.DAOException;
 import photo.tds.dao.FactoriaDAO;
+import photo.tds.dao.PublicacionDAO;
+import photo.tds.dao.TDSPublicacionDAO;
 
 public enum RepositorioPublicaciones {
 	INSTANCE;
 	private HashMap<Integer,Publicacion> publicacionesporID;
 	private HashMap<String,Publicacion> publicacionesporTitulo;
-	
+	private PublicacionDAO persistenciaPublicacion;
 	private FactoriaDAO dao;
 
 	private RepositorioPublicaciones() {
-		publicacionesporID = new HashMap<Integer,Publicacion>();
-		publicacionesporTitulo = new HashMap<String,Publicacion>();
 		try {
 			dao = FactoriaDAO.getInstancia();
-			
-			List<Publicacion> listaPublicaciones = dao.getPublicacionDAO().getAll();
+			publicacionesporID = new HashMap<Integer,Publicacion>();
+			publicacionesporTitulo = new HashMap<String,Publicacion>();
+			persistenciaPublicacion = dao.getPublicacionDAO();
+			List<Publicacion> listaPublicaciones = persistenciaPublicacion.getAll();
 			for (Publicacion p : listaPublicaciones) {
 				publicacionesporID.put(p.getId(), p);
 				publicacionesporTitulo.put(p.getTitulo(), p);
@@ -58,6 +60,7 @@ public enum RepositorioPublicaciones {
 	public void addPublicacion(Publicacion publicacion) {
 		publicacionesporID.put(publicacion.getId(), publicacion);
 		publicacionesporTitulo.put(publicacion.getTitulo(), publicacion);
+		persistenciaPublicacion.create(publicacion);
 	}
 	
 	public void removeUsuario(Publicacion publicacion) {
@@ -68,10 +71,15 @@ public enum RepositorioPublicaciones {
 	public void crearPublicacion(Publicacion publi) {
 		this.publicacionesporTitulo.put(publi.getTitulo(), publi);
 		this.publicacionesporID.put(publi.getId(), publi);
-		
+		persistenciaPublicacion.create(publi);
 		System.out.println("Añadida publicación: "+publi.getTitulo());
 		System.out.println("usuario de la publicacion:" +publi.getUsuario());
 		System.out.println(this.publicacionesporTitulo);
+	}
+	public void borrarPublicacion(Publicacion publi) {
+		this.publicacionesporID.remove(publi.getId());
+		this.publicacionesporTitulo.remove(publi.getTitulo());
+		persistenciaPublicacion.delete(publi);
 	}
 	
 }

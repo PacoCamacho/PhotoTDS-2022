@@ -9,7 +9,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import java.awt.CardLayout;
-
+import java.awt.Color;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -22,6 +24,7 @@ import photo.tds.dominio.Usuario;
 import photo.tds.dominio.Publicacion;
 import pulsador.Luz;
 import javax.swing.JButton;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 
@@ -66,7 +69,14 @@ public class VentanaPrincipal {
 		panelCentral = new JPanel();
 		frmVentanaPrincipal.getContentPane().add(panelCentral, BorderLayout.CENTER);
 		panelCentral.setLayout(new CardLayout(0, 0));
-		
+		panelCentral.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		frmVentanaPrincipal.addComponentListener(new ComponentAdapter() {
+			@Override
+            public void componentResized(ComponentEvent e) {
+                panelCentral.setSize(frmVentanaPrincipal.getSize());
+                panelCentral.revalidate();
+            }
+		});
 		
 		JLabel PhotoAppl = new JLabel("PhotoApp");
 		PhotoAppl.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -128,7 +138,9 @@ public class VentanaPrincipal {
 	
 	private void iniciarPanelPublicaciones(){
 		System.out.println("Cambio al panel de publicaciones");
-		JPanel panelPublicaciones = new PanelPublicaciones().getPanelPublicaciones();
+		JPanel panelPublicaciones = new PanelPublicaciones(usuario).getPanelPublicaciones();
+		panelPublicaciones.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		panelPublicaciones.setSize(panelCentral.getSize());
 		panelCentral.add(panelPublicaciones,"panelPublicaciones");
 		
 	}

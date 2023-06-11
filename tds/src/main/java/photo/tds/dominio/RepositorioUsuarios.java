@@ -6,21 +6,25 @@ import java.util.List;
 
 import photo.tds.dao.DAOException;
 import photo.tds.dao.FactoriaDAO;
+import photo.tds.dao.TDSUsuarioDAO;
+import photo.tds.dao.UsuarioDAO;
 
 public class RepositorioUsuarios {
-	private FactoriaDAO factoria;
+	private FactoriaDAO dao;
+	private UsuarioDAO persistenciaUsuario;
 	private static RepositorioUsuarios instancia = null;
 	private HashMap<Integer, Usuario> usuariosPorID;
 	private HashMap<String, Usuario> usuariosPorLogin;
 
 	private RepositorioUsuarios (){
-		usuariosPorID = new HashMap<Integer, Usuario>();
-		usuariosPorLogin = new HashMap<String, Usuario>();
+		
 		
 		try {
-			factoria = FactoriaDAO.getInstancia();
-			
-			List<Usuario> listausuarios = factoria.getUsuarioDAO().getAll();
+			dao = FactoriaDAO.getInstancia();
+			usuariosPorID = new HashMap<Integer, Usuario>();
+			usuariosPorLogin = new HashMap<String, Usuario>();
+			persistenciaUsuario = dao.getUsuarioDAO();
+			List<Usuario> listausuarios = persistenciaUsuario.getAll();
 			for (Usuario usuario : listausuarios) {
 				usuariosPorID.put(usuario.getId(), usuario);
 				usuariosPorLogin.put(usuario.getLogin(), usuario);
@@ -57,6 +61,9 @@ public class RepositorioUsuarios {
 		usuariosPorID.remove(usuario.getId());
 		usuariosPorLogin.remove(usuario.getLogin());
 	}
-	//
+	
+	public void actualizarUsuario(Usuario usuario) {
+		this.persistenciaUsuario.update(usuario);
+	}
 
 }
