@@ -16,12 +16,12 @@ public class Usuario {
 	private String email;
 	private String login;
 	private String password;
-	private String fechaNacimiento;
+	private Date fechaNacimiento;
 	
 	private List<Publicacion> publicaciones;
 
 	public Usuario(String nombre, String apellidos, String email, String login, String password,
-			String fechaNacimiento) {
+			Date fechaNacimiento) {
 		this.id = 0;
 		this.nombre = nombre;
 		this.apellidos = apellidos;
@@ -85,11 +85,11 @@ public class Usuario {
 		this.password = password;
 	}
 
-	public String getFechaNacimiento() {
+	public Date getFechaNacimiento() {
 		return fechaNacimiento;
 	}
 
-	public void setFechaNacimiento(String fechaNacimiento) {
+	public void setFechaNacimiento(Date fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 	

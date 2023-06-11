@@ -106,6 +106,7 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 	public boolean delete(Publicacion publicacion) {
 		Entidad ePublicacion;
 		ePublicacion = servPersistencia.recuperarEntidad(publicacion.getId());
+		System.out.println("Publicacion eliminada: "+publicacion.getTitulo());
 		return servPersistencia.borrarEntidad(ePublicacion);
 	}
 

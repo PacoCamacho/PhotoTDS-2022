@@ -1,8 +1,10 @@
 package photo.tds.dominio;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import photo.tds.dao.DAOException;
 import photo.tds.dao.FactoriaDAO;
@@ -60,6 +62,16 @@ public class RepositorioUsuarios {
 	public void removeUsuario(Usuario usuario) {
 		usuariosPorID.remove(usuario.getId());
 		usuariosPorLogin.remove(usuario.getLogin());
+	}
+	
+	public void removeTodosUsuarios() {
+		HashMap<Integer, Usuario> aux = usuariosPorID;
+		List<Usuario> listaUsuarios = new ArrayList<Usuario>();
+		for (Map.Entry<Integer, Usuario> entry : aux.entrySet() ) {
+			Usuario user = entry.getValue();
+			listaUsuarios.add(user);
+		}
+		persistenciaUsuario.deleteAll(listaUsuarios);
 	}
 	
 	public void actualizarUsuario(Usuario usuario) {

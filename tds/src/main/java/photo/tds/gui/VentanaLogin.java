@@ -165,7 +165,20 @@ public class VentanaLogin {
 		gbl_panelBotonesLoginRegistro.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
 		gbl_panelBotonesLoginRegistro.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panelBotonesLoginRegistro.setLayout(gbl_panelBotonesLoginRegistro);
+				
+				JButton borrarUsuarios = new JButton("BORRAR USUARIOS");
+				borrarUsuarios.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+					}
+				});
+				GridBagConstraints gbc_borrarUsuarios = new GridBagConstraints();
+				gbc_borrarUsuarios.insets = new Insets(0, 0, 0, 5);
+				gbc_borrarUsuarios.gridx = 0;
+				gbc_borrarUsuarios.gridy = 0;
+				panelBotonesLoginRegistro.add(borrarUsuarios, gbc_borrarUsuarios);
 		
+					addManejadorBotonBorrar(borrarUsuarios);
+				
 				JButton btnLogin = new JButton("Login");
 				btnLogin.setForeground(new Color(0, 0, 0));
 				btnLogin.setBackground(new Color(255, 255, 255));
@@ -238,6 +251,15 @@ public class VentanaLogin {
 				} else
 					JOptionPane.showMessageDialog(frmLogin, "Nombre de usuario o contraseña no valido",
 							"Error", JOptionPane.ERROR_MESSAGE);
+			}
+		});
+	}
+	
+	private void addManejadorBotonBorrar(JButton btnBorrar) {
+		System.out.println("Boton borrar");
+		btnBorrar.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				Controlador.getInstancia().borrarTodosUsuarios();
 			}
 		});
 	}

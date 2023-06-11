@@ -27,7 +27,11 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -60,15 +64,15 @@ public class PanelFoto extends JPanel{
 	 * Create the panel.
 	 * @throws IOException 
 	 */
-	public PanelFoto(Foto foto, String usuario) throws IOException {
+	public PanelFoto(Foto foto, String usuario,JFrame frame) throws IOException {
 		this.foto = foto;
 		this.usuario = usuario;
 		setPreferredSize(new Dimension(400, 400));
 		
-		initialize();
+		initialize(frame);
 	}
 	
-	private void initialize() throws IOException {
+	private void initialize(JFrame frame) throws IOException {
 		System.out.println("PanelFoto creado");
 		
 		panelFoto = new JPanel();
@@ -78,6 +82,13 @@ public class PanelFoto extends JPanel{
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		panelFoto.setLayout(gridBagLayout);
+		
+		frame.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                panelFoto.setSize(frame.getSize());
+            }
+        });
 		
 		JLabel nombreUsuario = new JLabel("Aqui va el nombre del usuario");
 		nombreUsuario.setHorizontalAlignment(SwingConstants.TRAILING);
@@ -139,6 +150,7 @@ public class PanelFoto extends JPanel{
 		gbc_labelFoto.insets = new Insets(0, 0, 5, 5);
 		gbc_labelFoto.gridx = 2;
 		gbc_labelFoto.gridy = 6;
+		labelFoto.setSize(panelFoto.getWidth()-20,panelFoto.getHeight()-20);
 		panelFoto.add(labelFoto, gbc_labelFoto);
 		
 		
@@ -155,7 +167,7 @@ public class PanelFoto extends JPanel{
 		botonBorrar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Controlador.getInstancia().borrarFotoSinUsuario(foto);
+				Controlador.getInstancia().borrarFoto(usuario,foto);
 				
 			}
 		});
@@ -169,7 +181,7 @@ public class PanelFoto extends JPanel{
 	        // Dibuja la imagen en el panel
 	        Image resizedImage = foto.getImagen().getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
 
-	        g.drawImage(resizedImage, 0, 0, getWidth(), getHeight(), this);
+	        g.drawImage(resizedImage, 0, 0, panelFoto.getWidth(), panelFoto.getHeight(), this);
 	    }
 	
 	

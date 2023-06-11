@@ -3,6 +3,7 @@ package photo.tds.controlador;
 import photo.tds.dao.UsuarioDAO;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -61,7 +62,7 @@ public class Controlador {
 	}
 
 	public boolean registrarUsuario(String nombre, String apellidos, String email, String login, String password,
-			String fechaNacimiento) {
+			Date fechaNacimiento) {
 
 		if (esUsuarioRegistrado(login))
 			return false;
@@ -84,6 +85,10 @@ public class Controlador {
 
 		RepositorioUsuarios.getInstancia().removeUsuario(usuario);
 		return true;
+	}
+	
+	public void borrarTodosUsuarios() {
+		RepositorioUsuarios.getInstancia().removeTodosUsuarios();
 	}
 	
 	public boolean crearFoto(String u, String titulo, String descripcion, String path) {

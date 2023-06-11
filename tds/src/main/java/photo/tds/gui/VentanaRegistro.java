@@ -25,10 +25,13 @@ import java.awt.Font;
 import javax.swing.border.TitledBorder;
 
 import photo.tds.controlador.Controlador;
-
+import photo.tds.helpers.ConversorDate;
 
 import javax.swing.JPasswordField;
+
+import com.toedter.calendar.IDateEditor;
 import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JTextFieldDateEditor;
 
 public class VentanaRegistro extends JDialog{
 
@@ -43,7 +46,7 @@ public class VentanaRegistro extends JDialog{
 	private JTextField textFieldUsuario;
 	private JPasswordField passwordField;
 	private JPasswordField passwordFieldRep;
-	private JDateChooser fechaNacimiento;
+	private String fechaNacimiento;
 
 	/**
 	 * Launch the application.
@@ -192,14 +195,16 @@ public class VentanaRegistro extends JDialog{
 		gbc_lblNewLabelFechaNac.gridy = 3;
 		panelDatosPersonales.add(lblNewLabelFechaNac, gbc_lblNewLabelFechaNac);
 		
-		fechaNacimiento = new JDateChooser();
-		fechaNacimiento.setDateFormatString("dd/MM/yyyy");
+		JDateChooser fechaNac = new JDateChooser();
+		IDateEditor editorDate = fechaNac.getDateEditor();
+		JTextFieldDateEditor txtFechaNac = (JTextFieldDateEditor) editorDate;
+		
 		GridBagConstraints gbc_fechaNacimiento = new GridBagConstraints();
 		gbc_fechaNacimiento.anchor = GridBagConstraints.WEST;
 		gbc_fechaNacimiento.insets = new Insets(10, 0, 0, 0);
 		gbc_fechaNacimiento.gridx = 2;
 		gbc_fechaNacimiento.gridy = 3;
-		panelDatosPersonales.add(fechaNacimiento, gbc_fechaNacimiento);
+		panelDatosPersonales.add(fechaNac, gbc_fechaNacimiento);
 		
 		JPanel panelDatosAplicacion = new JPanel();
 		panelDatosAplicacion.setBorder(new TitledBorder(null, "Datos Aplicaci\u00F3n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -294,15 +299,17 @@ public class VentanaRegistro extends JDialog{
 		
 		btnRegistro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				fechaNacimiento = txtFechaNac.getText();
+				System.out.println("La fecha de nacimiento es: "+ fechaNacimiento);
 				boolean OK = false;
-				System.out.println("bb");
+				System.out.println("");
 				OK = checkFields();
 				if (OK) {
 					boolean registrado = false;
 					registrado = Controlador.getInstancia().registrarUsuario(textFieldNombre.getText(),
 							textFieldApellidos.getText(), textFieldEmail.getText(), textFieldUsuario.getText(),
 							new String(passwordField.getPassword()), 
-							fechaNacimiento.getDateFormatString());
+							ConversorDate.StringToDate(fechaNacimiento));
 					if (registrado) {
 						JOptionPane.showMessageDialog(frameRegistro, "Usuario registrado correctamente.", "Registro",
 								JOptionPane.INFORMATION_MESSAGE);
@@ -316,6 +323,9 @@ public class VentanaRegistro extends JDialog{
 						frameRegistro.setTitle("Login Gestor Eventos");
 					}
 				}
+				else {
+					System.out.println("checkfields fallido");
+				}
 			}
 		});
 	}
@@ -327,18 +337,21 @@ public class VentanaRegistro extends JDialog{
 		if (textFieldNombre.getText().trim().isEmpty()) {
 			/*lblNombreError.setVisible(true);
 			lblNombre.setForeground(Color.RED);*/
+			System.out.println("Fallo en nombre");
 			textFieldNombre.setBorder(BorderFactory.createLineBorder(Color.RED));
 			salida = false;
 		}
 		if (textFieldApellidos.getText().trim().isEmpty()) {
 			/*lblApellidosError.setVisible(true);
 			lblApellidos.setForeground(Color.RED);*/
+			System.out.println("Fallo en apellidos");
 			textFieldApellidos.setBorder(BorderFactory.createLineBorder(Color.RED));
 			salida = false;
 		}
 		if (textFieldEmail.getText().trim().isEmpty()) {
 			/*lblEmailError.setVisible(true);
 			lblEmail.setForeground(Color.RED);*/
+			System.out.println("Fallo en email");
 			textFieldEmail.setBorder(BorderFactory.createLineBorder(Color.RED));
 			salida = false;
 		}
@@ -347,6 +360,7 @@ public class VentanaRegistro extends JDialog{
 			lblUsuarioError.setVisible(true);
 			lblUsuario.setForeground(Color.RED);
 			txtUsuario.setBorder(BorderFactory.createLineBorder(Color.RED));*/
+			System.out.println("Fallo en usuario");
 			salida = false;
 		}
 		String password = new String(passwordField.getPassword());
@@ -355,6 +369,7 @@ public class VentanaRegistro extends JDialog{
 			/*lblPasswordError.setText("El password no puede estar vacio");
 			lblPasswordError.setVisible(true);
 			lblPassword.setForeground(Color.RED);*/
+			System.out.println("Fallo en password");
 			passwordField.setBorder(BorderFactory.createLineBorder(Color.RED));
 			salida = false;
 		} 
@@ -362,6 +377,7 @@ public class VentanaRegistro extends JDialog{
 			/*lblPasswordError.setText("El password no puede estar vacio");
 			lblPasswordError.setVisible(true);
 			lblPasswordChk.setForeground(Color.RED);*/
+			System.out.println("Fallo en password repetida");
 			passwordFieldRep.setBorder(BorderFactory.createLineBorder(Color.RED));
 			salida = false;
 		} 
@@ -370,15 +386,15 @@ public class VentanaRegistro extends JDialog{
 			lblPasswordError.setVisible(true);
 			lblPassword.setForeground(Color.RED);
 			lblPasswordChk.setForeground(Color.RED);*/
+			System.out.println("Fallo en contraseñas no iguales");
 			passwordField.setBorder(BorderFactory.createLineBorder(Color.RED));
 			passwordFieldRep.setBorder(BorderFactory.createLineBorder(Color.RED));
 			salida = false;
 		}
-		if (fechaNacimiento.getDateFormatString().isEmpty()) {
-			System.out.println("aa");
+		if (fechaNacimiento.isEmpty()) {
+			System.out.println("Fallo en fecha vacia");
 			/*lblFechaNacimientoError.setVisible(true);
 			lblFechaNacimiento.setForeground(Color.RED);*/
-			fechaNacimiento.setBorder(BorderFactory.createLineBorder(Color.RED));
 			salida = false;
 		}
 

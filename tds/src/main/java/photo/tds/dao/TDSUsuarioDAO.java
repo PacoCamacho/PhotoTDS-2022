@@ -1,5 +1,7 @@
 package photo.tds.dao;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,6 +11,7 @@ import java.util.List;
 import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
 import photo.tds.dominio.Usuario;
+import photo.tds.helpers.ConversorDate;
 import beans.Entidad;
 import beans.Propiedad;
 
@@ -29,11 +32,11 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 	private static final String FECHA_NACIMIENTO = "fechaNacimiento";
 
 	private ServicioPersistencia servPersistencia;
-	private SimpleDateFormat dateFormat;
+	private DateFormat dateFormat;
 
 	public TDSUsuarioDAO() {
 		servPersistencia = FactoriaServicioPersistencia.getInstance().getServicioPersistencia();
-		dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		dateFormat = new SimpleDateFormat("d MMM y");
 	}
 
 	private Usuario entidadToUsuario(Entidad eUsuario) {
@@ -45,7 +48,9 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 		String password = servPersistencia.recuperarPropiedadEntidad(eUsuario, PASSWORD);
 		String fechaNacimiento = servPersistencia.recuperarPropiedadEntidad(eUsuario, FECHA_NACIMIENTO);
 
-		Usuario usuario = new Usuario(nombre, apellidos, email, login, password, fechaNacimiento);
+		Usuario usuario=null;
+		System.out.println("fecha nacimiento stringToDate: "+fechaNacimiento);
+		usuario = new Usuario(nombre, apellidos, email, login, password, ConversorDate.StringToDate(fechaNacimiento));
 		usuario.setId(eUsuario.getId());
 
 		return usuario;
@@ -58,7 +63,7 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 		eUsuario.setPropiedades(new ArrayList<Propiedad>(Arrays.asList(new Propiedad(NOMBRE, usuario.getNombre()),
 				new Propiedad(APELLIDOS, usuario.getApellidos()), new Propiedad(EMAIL, usuario.getEmail()),
 				new Propiedad(LOGIN, usuario.getLogin()), new Propiedad(PASSWORD, usuario.getPassword()),
-				new Propiedad(FECHA_NACIMIENTO, usuario.getFechaNacimiento()))));
+				new Propiedad(FECHA_NACIMIENTO, dateFormat.format(usuario.getFechaNacimiento())))));
 		return eUsuario;
 	}
 
@@ -73,6 +78,15 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 		eUsuario = servPersistencia.recuperarEntidad(usuario.getId());
 
 		return servPersistencia.borrarEntidad(eUsuario);
+	}
+	
+	public void deleteAll(List<Usuario> lu){
+		for (Usuario usuario : lu) {
+			Entidad eUsuario;
+			eUsuario = servPersistencia.recuperarEntidad(usuario.getId());
+			servPersistencia.borrarEntidad(eUsuario);
+		}
+		System.out.println("USUARIOS BORRADOS");
 	}
 
 	/**

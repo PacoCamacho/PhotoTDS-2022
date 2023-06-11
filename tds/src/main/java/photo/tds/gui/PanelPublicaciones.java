@@ -15,6 +15,7 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 import javax.swing.JList;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -22,6 +23,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -39,7 +42,8 @@ public class PanelPublicaciones extends JPanel {
 	 * @throws DAOException 
 	 * @throws IOException 
 	 */
-	public PanelPublicaciones(String usuario){
+	public PanelPublicaciones(String usuario, JFrame frame){
+		
 		panelPublicaciones = new JPanel();
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{224, 0};
@@ -58,21 +62,28 @@ public class PanelPublicaciones extends JPanel {
 		
 		JPanel panelContenedor = new JPanel();
 		panelContenedor.setLayout(new BoxLayout(panelContenedor,BoxLayout.Y_AXIS));
-		panelContenedor.setSize(panelPublicaciones.getSize());
+		frame.addComponentListener(new ComponentAdapter() {
+	            @Override
+	            public void componentResized(ComponentEvent e) {
+	                panelContenedor.setSize(panelPublicaciones.getSize());
+	            }
+	        });
 		for (Foto foto : listaFotos) {
 			PanelFoto panelFoto = null;
 			try {
-				panelFoto = new PanelFoto(foto, usuario);
+				panelFoto = new PanelFoto(foto, usuario,frame);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			  //panelFoto.setPreferredSize(new Dimension(250, 250));
-	          panelFoto.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-	          panelFoto.setSize(panelPublicaciones.getSize());
-			  panelContenedor.add(panelFoto.getPanelFoto());
-			
+	          panelFoto.setBorder(BorderFactory.createLineBorder(Color.RED));
+	          panelFoto.setSize(panelContenedor.getSize());
+	          panelContenedor.add(panelFoto.getPanelFoto());
+	          
 		}
+		
+		
 		
 		
 		
