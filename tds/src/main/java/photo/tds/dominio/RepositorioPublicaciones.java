@@ -68,6 +68,12 @@ public enum RepositorioPublicaciones {
 		publicacionesporTitulo.remove(publicacion.getTitulo());
 	}
 	
+	public void actualizarPublicacion(Publicacion publicacion) {
+		publicacionesporID.put(publicacion.getId(), publicacion);
+		publicacionesporTitulo.put(publicacion.getTitulo(), publicacion);
+		persistenciaPublicacion.update(publicacion);
+	}
+	
 	public void crearPublicacion(Publicacion publi) {
 		this.publicacionesporTitulo.put(publi.getTitulo(), publi);
 		this.publicacionesporID.put(publi.getId(), publi);

@@ -54,6 +54,7 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 		//String hashtags = servPersistencia.recuperarPropiedadEntidad(ePublicacion, HASHTAGS);
 		
 		Foto foto = new Foto(path, titulo, Conversor.StringToDate(fecha), descripcion, megustas, creador);
+		foto.SetId(ePublicacion.getId());
 		return foto;
 		
 		/*Publicacion publicacion = new Publicacion(titulo, fecha, descripcion, megustas);
@@ -94,12 +95,10 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 			return;
 		}
 		
-		ePublicacion = new Entidad();
 		
-		
-		ePublicacion.setNombre(PUBLICACION);
 		ePublicacion = this.publicacionToEntidad(publicacion);
 		ePublicacion = servPersistencia.registrarEntidad(ePublicacion);
+		
 		publicacion.SetId(ePublicacion.getId());
 	}
 
@@ -111,6 +110,7 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 	}
 
 	public void update(Publicacion publicacion) {
+		
 		Entidad ePublicacion = servPersistencia.recuperarEntidad(publicacion.getId());
 		
 		for(Propiedad p : ePublicacion.getPropiedades()) {

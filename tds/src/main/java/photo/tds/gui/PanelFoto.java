@@ -90,7 +90,7 @@ public class PanelFoto extends JPanel{
             }
         });
 		
-		JLabel nombreUsuario = new JLabel("Aqui va el nombre del usuario");
+		JLabel nombreUsuario = new JLabel(foto.getUsuario());
 		nombreUsuario.setHorizontalAlignment(SwingConstants.TRAILING);
 		GridBagConstraints gbc_nombreUsuario = new GridBagConstraints();
 		gbc_nombreUsuario.gridwidth = 2;
@@ -99,7 +99,7 @@ public class PanelFoto extends JPanel{
 		gbc_nombreUsuario.gridy = 1;
 		panelFoto.add(nombreUsuario, gbc_nombreUsuario);
 		
-		JLabel lblNewLabel = new JLabel("New label");
+		JLabel lblNewLabel = new JLabel("Comenta en la publicacion!");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.gridheight = 2;
 		gbc_lblNewLabel.gridwidth = 4;
@@ -111,6 +111,8 @@ public class PanelFoto extends JPanel{
 		JButton botonMg = new JButton("<3");
 		botonMg.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				System.out.println("Le has dado Like");
+				Controlador.getInstancia().darMeGusta(foto);
 			}
 		});
 		botonMg.setHorizontalAlignment(SwingConstants.LEFT);
@@ -129,14 +131,21 @@ public class PanelFoto extends JPanel{
 		panelFoto.add(textFieldComentario, gbc_textFieldComentario);
 		textFieldComentario.setColumns(10);
 		
-		JButton botonComentario = new JButton("Send");
+		JButton botonComentario = new JButton("Comentar");
+		botonComentario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Has comentado");
+				System.out.println(textFieldComentario.getText());
+				Controlador.getInstancia().comentarPublicacion(usuario, foto, textFieldComentario.getText());;
+			}
+		});
 		GridBagConstraints gbc_botonComentario = new GridBagConstraints();
 		gbc_botonComentario.insets = new Insets(0, 0, 5, 5);
 		gbc_botonComentario.gridx = 5;
 		gbc_botonComentario.gridy = 4;
 		panelFoto.add(botonComentario, gbc_botonComentario);
 		
-		JLabel meGustas = new JLabel("0");
+		JLabel meGustas = new JLabel(String.valueOf(foto.getMg()));
 		GridBagConstraints gbc_meGustas = new GridBagConstraints();
 		gbc_meGustas.insets = new Insets(0, 0, 5, 5);
 		gbc_meGustas.gridx = 2;

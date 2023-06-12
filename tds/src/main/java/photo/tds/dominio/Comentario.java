@@ -9,11 +9,15 @@ public class Comentario {
 	private Date fecha;
 	private int id;
 	
-	public Comentario(String texto, String usuario, Date fecha, int id) {
+	public Comentario(String texto, String usuario, Date fecha) {
 		this.texto = texto;
 		this.usuario = usuario;
 		this.fecha = fecha;
-		this.id = id;
+	}
+	
+	public Comentario(String texto, String usuario) {
+		this.texto = texto;
+		this.usuario = usuario;
 	}
 
 	public String getTexto() {

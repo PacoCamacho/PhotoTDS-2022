@@ -33,7 +33,13 @@ public abstract class Publicacion {
 		this.hashtags = lh;
 	}
 	
+	public void anadirMeGusta() {
+		this.mg = mg + 1;
+	}
 	
+	public void anadirComentario(Comentario comentario) {
+		this.comentarios.add(comentario);
+	}
 
 
 	public int getId() {

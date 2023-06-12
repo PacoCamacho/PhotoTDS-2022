@@ -2,6 +2,7 @@ package photo.tds.controlador;
 
 import photo.tds.dao.UsuarioDAO;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.stream.Stream;
 import photo.tds.dao.DAOException;
 import photo.tds.dao.FactoriaDAO;
 import photo.tds.dominio.Usuario;
+import photo.tds.dominio.Comentario;
 import photo.tds.dominio.Foto;
 import photo.tds.dominio.Publicacion;
 import photo.tds.dominio.RepositorioPublicaciones;
@@ -131,6 +133,26 @@ public class Controlador {
 		this.repoPublicaciones.borrarPublicacion(publicacion);
 		this.repoUsuarios.actualizarUsuario(usuario);
 		return true;
+	}
+	
+	public boolean darMeGusta(Publicacion publicacion) {
+		publicacion.anadirMeGusta();
+		this.repoPublicaciones.actualizarPublicacion(publicacion);
+		return true;
+	}
+	
+	public void comentarPublicacion(String usuario, Foto foto, String texto) {
+		Comentario comentario = new Comentario(texto, usuario);
+		foto.anadirComentario(comentario);
+		for(Comentario c: foto.getComentarios()) {
+			System.out.println(c.getUsuario());
+			System.out.println(c.getTexto());
+		}
+		this.repoPublicaciones.actualizarPublicacion(foto);
+		for(Comentario c: foto.getComentarios()) {
+			System.out.println(c.getUsuario());
+			System.out.println(c.getTexto());
+		}
 	}
 	
 	public List<Foto> getFotosPerfil(String usuario) throws DAOException{
