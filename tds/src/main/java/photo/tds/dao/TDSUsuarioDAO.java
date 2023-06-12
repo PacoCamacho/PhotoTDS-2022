@@ -205,6 +205,9 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 	}
 	
 	public String publicacionesConvertidasAIds(List<Publicacion> publicaciones) {
+		
+		if(publicaciones.isEmpty())return "";
+		
 		StringBuilder cadenaIds = new StringBuilder();
 
 	    for (Publicacion p : publicaciones) {

@@ -65,6 +65,7 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 		}
 		else if(tipo.equals("Album")){
 			String idsFotos = servPersistencia.recuperarPropiedadEntidad(ePublicacion, FOTOS);
+			System.out.println(idsFotos);
 			
 			Album album = new Album(titulo, fecha, descripcion, megustas, creador, this.getFotosPorIds(idsFotos), hashtags, comentarios);
 			album.SetId(ePublicacion.getId());
@@ -100,7 +101,7 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 					new Propiedad(FECHA, publicacion.getFecha()),
 					new Propiedad(DESCRIPCION, publicacion.getDescripcion()),
 					new Propiedad(MEGUSTAS, Integer.toString(publicacion.getMg())),
-					new Propiedad(PATH,this.fotosAIds(((Album)publicacion).getFotos())),
+					new Propiedad(FOTOS,this.fotosAIds(((Album)publicacion).getFotos())),
 					new Propiedad(CREADOR, publicacion.getUsuario()),
 					new Propiedad(HASHTAGS, this.hashtagACadena(publicacion.getHashtags())),
 					new Propiedad(COMENTARIOS, this.comentsAIds(publicacion.getComentarios()))
@@ -164,6 +165,9 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 	}
 	
 	public String fotosAIds(List<Foto> fotos) {
+		
+		if(fotos.isEmpty()) return "";
+		
 		StringBuilder cadenaIds = new StringBuilder();
 
 	    for (Foto f : fotos) {
@@ -180,7 +184,10 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 	}
 	
 	public List<Foto> getFotosPorIds(String ListaIds){
+		
+		
 		List<Foto> fotos = new LinkedList<Foto>();
+		if(ListaIds.equals(""))return fotos;
 		String[] ids = ListaIds.split(" ");
 		
 		for (String id : ids) {
@@ -211,6 +218,7 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 	
 	public List<Comentario> getComentariosPorIds(String ListaIds){
 		List<Comentario> comentarios = new LinkedList<Comentario>();
+		if(ListaIds=="") return comentarios;
 		String[] ids = ListaIds.split(" ");
 		
 		for (String id : ids) {
@@ -251,6 +259,37 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 
 	    return cadenaHashtag.toString();
 		
+	}
+	
+	public static void main(String[] args) throws DAOException {
+		List<Comentario> lc = new LinkedList<Comentario>();
+		List<Hashtag> lh = new LinkedList<Hashtag>();
+		Foto foto = new Foto("/home/josema/careto", "mi cara", "07/03/2001", "Foto de mi cara", 0, "josema",lh, lc);
+		PublicacionDAO publicacionDAO = TDSFactoriaDAO.getInstancia().getPublicacionDAO();
+		publicacionDAO.create(foto);
+		Foto fotoCopia = (Foto) publicacionDAO.get(foto.getId());
+		System.out.println(fotoCopia.getPath());
+		System.out.println(foto.getPath());
 		
+		List<Foto> fotos = new LinkedList<Foto>();
+		fotos.add(fotoCopia);
+		fotos.add(foto);
+		
+		Album album = new Album("caretos", "25/01/2001", "fotos de mi cara", 0, "josema", fotos, lh, lc);
+		
+		System.out.println(album.getPath());
+		System.out.println(album.getFecha());
+		System.out.println(album.getMg());
+		System.out.println(((TDSPublicacionDAO) publicacionDAO).fotosAIds(album.getFotos()));
+		
+		publicacionDAO.create(album);
+		
+		
+		
+		Album albumCopia = (Album) publicacionDAO.get(album.getId());
+		
+		System.out.println(albumCopia.getPath());
+		System.out.println(albumCopia.getFecha());
+		System.out.println(albumCopia.getMg());
 	}
 }

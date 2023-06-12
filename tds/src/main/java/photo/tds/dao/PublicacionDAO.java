@@ -2,6 +2,7 @@ package photo.tds.dao;
 
 import java.util.List;
 
+import photo.tds.dominio.Foto;
 import photo.tds.dominio.Publicacion;
 
 public interface PublicacionDAO {
