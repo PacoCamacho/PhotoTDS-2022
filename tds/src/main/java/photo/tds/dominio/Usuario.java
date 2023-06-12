@@ -138,7 +138,6 @@ public class Usuario {
 	}
 	
 	
-	
 	public List<Usuario> getSeguidores() {
 		return seguidores;
 	}

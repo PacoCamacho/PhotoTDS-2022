@@ -291,5 +291,6 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 		System.out.println(albumCopia.getPath());
 		System.out.println(albumCopia.getFecha());
 		System.out.println(albumCopia.getMg());
+		
 	}
 }

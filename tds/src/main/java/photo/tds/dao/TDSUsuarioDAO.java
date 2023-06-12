@@ -150,6 +150,7 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 		return usuarios;
 	}
 	
+	
 	public List<Usuario> getUsuariosPorIds(String ListaIds) {
 		
 		List<Usuario> usuarios = new LinkedList<Usuario>();
