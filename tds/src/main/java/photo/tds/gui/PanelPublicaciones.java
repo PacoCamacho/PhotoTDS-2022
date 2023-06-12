@@ -71,7 +71,7 @@ public class PanelPublicaciones extends JPanel {
 		for (Foto foto : listaFotos) {
 			PanelFoto panelFoto = null;
 			try {
-				panelFoto = new PanelFoto(foto, usuario,frame);
+				panelFoto = new PanelFoto(foto, usuario);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

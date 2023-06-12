@@ -40,7 +40,7 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 	
 	public TDSPublicacionDAO() {
 		servPersistencia = FactoriaServicioPersistencia.getInstance().getServicioPersistencia();
-		dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		dateFormat = new SimpleDateFormat("d MMM y");
 	}
 	
 	private Publicacion entidadToPublicacion(Entidad ePublicacion) {

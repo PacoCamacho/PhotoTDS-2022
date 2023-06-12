@@ -64,31 +64,31 @@ public class PanelFoto extends JPanel{
 	 * Create the panel.
 	 * @throws IOException 
 	 */
-	public PanelFoto(Foto foto, String usuario,JFrame frame) throws IOException {
+	public PanelFoto(Foto foto, String usuario) throws IOException {
 		this.foto = foto;
 		this.usuario = usuario;
 		setPreferredSize(new Dimension(400, 400));
 		
-		initialize(frame);
+		initialize();
 	}
 	
-	private void initialize(JFrame frame) throws IOException {
+	private void initialize() throws IOException {
 		System.out.println("PanelFoto creado");
 		
 		panelFoto = new JPanel();
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 35, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		panelFoto.setLayout(gridBagLayout);
 		
-		frame.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                panelFoto.setSize(frame.getSize());
-            }
-        });
+//		frame.addComponentListener(new ComponentAdapter() {
+//            @Override
+//            public void componentResized(ComponentEvent e) {
+//                panelFoto.setSize(frame.getSize());
+//            }
+//        });
 		
 		JLabel nombreUsuario = new JLabel(foto.getUsuario());
 		nombreUsuario.setHorizontalAlignment(SwingConstants.TRAILING);
@@ -99,14 +99,40 @@ public class PanelFoto extends JPanel{
 		gbc_nombreUsuario.gridy = 1;
 		panelFoto.add(nombreUsuario, gbc_nombreUsuario);
 		
+		Image image = ImageIO.read(new File(foto.getPath()));
+		JLabel labelFoto = new JLabel(new ImageIcon(image));
+		GridBagConstraints gbc_labelFoto = new GridBagConstraints();
+		gbc_labelFoto.gridheight = 4;
+		gbc_labelFoto.gridwidth = 4;
+		gbc_labelFoto.insets = new Insets(0, 0, 5, 5);
+		gbc_labelFoto.gridx = 2;
+		gbc_labelFoto.gridy = 2;
+		labelFoto.setSize(panelFoto.getWidth()-20,panelFoto.getHeight()-20);
+		panelFoto.add(labelFoto, gbc_labelFoto);
+		
+		JLabel meGustas = new JLabel(String.valueOf(foto.getMg()));
+		GridBagConstraints gbc_meGustas = new GridBagConstraints();
+		gbc_meGustas.insets = new Insets(0, 0, 5, 5);
+		gbc_meGustas.gridx = 2;
+		gbc_meGustas.gridy = 6;
+		panelFoto.add(meGustas, gbc_meGustas);
+		
 		JLabel lblNewLabel = new JLabel("Comenta en la publicacion!");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.gridheight = 2;
-		gbc_lblNewLabel.gridwidth = 4;
+		gbc_lblNewLabel.gridwidth = 2;
 		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel.gridx = 2;
-		gbc_lblNewLabel.gridy = 2;
+		gbc_lblNewLabel.gridx = 4;
+		gbc_lblNewLabel.gridy = 6;
 		panelFoto.add(lblNewLabel, gbc_lblNewLabel);
+		
+		JButton botonComentario = new JButton("Comentar");
+		botonComentario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Has comentado");
+				System.out.println(textFieldComentario.getText());
+				Controlador.getInstancia().comentarPublicacion(usuario, foto, textFieldComentario.getText());;
+			}
+		});
 		
 		JButton botonMg = new JButton("<3");
 		botonMg.addActionListener(new ActionListener() {
@@ -119,7 +145,7 @@ public class PanelFoto extends JPanel{
 		GridBagConstraints gbc_botonMg = new GridBagConstraints();
 		gbc_botonMg.insets = new Insets(0, 0, 5, 5);
 		gbc_botonMg.gridx = 2;
-		gbc_botonMg.gridy = 4;
+		gbc_botonMg.gridy = 7;
 		panelFoto.add(botonMg, gbc_botonMg);
 		
 		textFieldComentario = new JTextField();
@@ -127,40 +153,27 @@ public class PanelFoto extends JPanel{
 		gbc_textFieldComentario.insets = new Insets(0, 0, 5, 5);
 		gbc_textFieldComentario.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textFieldComentario.gridx = 4;
-		gbc_textFieldComentario.gridy = 4;
+		gbc_textFieldComentario.gridy = 7;
 		panelFoto.add(textFieldComentario, gbc_textFieldComentario);
 		textFieldComentario.setColumns(10);
-		
-		JButton botonComentario = new JButton("Comentar");
-		botonComentario.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Has comentado");
-				System.out.println(textFieldComentario.getText());
-				Controlador.getInstancia().comentarPublicacion(usuario, foto, textFieldComentario.getText());;
-			}
-		});
 		GridBagConstraints gbc_botonComentario = new GridBagConstraints();
 		gbc_botonComentario.insets = new Insets(0, 0, 5, 5);
 		gbc_botonComentario.gridx = 5;
-		gbc_botonComentario.gridy = 4;
+		gbc_botonComentario.gridy = 7;
 		panelFoto.add(botonComentario, gbc_botonComentario);
 		
-		JLabel meGustas = new JLabel(String.valueOf(foto.getMg()));
-		GridBagConstraints gbc_meGustas = new GridBagConstraints();
-		gbc_meGustas.insets = new Insets(0, 0, 5, 5);
-		gbc_meGustas.gridx = 2;
-		gbc_meGustas.gridy = 5;
-		panelFoto.add(meGustas, gbc_meGustas);
+		JScrollPane scrollPane = new JScrollPane();
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.gridheight = 2;
+		gbc_scrollPane.gridwidth = 4;
+		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.gridx = 2;
+		gbc_scrollPane.gridy = 8;
+		panelFoto.add(scrollPane, gbc_scrollPane);
 		
-		Image image = ImageIO.read(new File(foto.getPath()));
-		JLabel labelFoto = new JLabel(new ImageIcon(image));
-		GridBagConstraints gbc_labelFoto = new GridBagConstraints();
-		gbc_labelFoto.gridwidth = 4;
-		gbc_labelFoto.insets = new Insets(0, 0, 5, 5);
-		gbc_labelFoto.gridx = 2;
-		gbc_labelFoto.gridy = 6;
-		labelFoto.setSize(panelFoto.getWidth()-20,panelFoto.getHeight()-20);
-		panelFoto.add(labelFoto, gbc_labelFoto);
+		JList list = new JList();
+		scrollPane.setViewportView(list);
 		
 		
 		
@@ -168,9 +181,8 @@ public class PanelFoto extends JPanel{
 		
 		JButton botonBorrar = new JButton("Borrar");
 		GridBagConstraints gbc_botonBorrar = new GridBagConstraints();
-		gbc_botonBorrar.insets = new Insets(0, 0, 0, 5);
-		gbc_botonBorrar.gridx = 5;
-		gbc_botonBorrar.gridy = 7;
+		gbc_botonBorrar.gridx = 6;
+		gbc_botonBorrar.gridy = 10;
 		panelFoto.add(botonBorrar, gbc_botonBorrar);
 		
 		botonBorrar.addMouseListener(new MouseAdapter() {

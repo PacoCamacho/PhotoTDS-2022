@@ -51,10 +51,12 @@ public class VentanaPerfil {
 	 	private JPanel panelPerfil;
 	 	private static List<Foto> listaFotos;
 
+
 	    public VentanaPerfil(String usuario, String usuarioSesion){
 	    	this.usuario = usuario;
 	        System.out.println("Usuario perfil: "+usuario);
 	        this.usuarioSesion = usuarioSesion;
+
 	    	initialize();
 	        
 	    }
@@ -63,19 +65,6 @@ public class VentanaPerfil {
 	    	return panelPerfil;
 	    }
 	    
-	    private ImageIcon crearImagenIcon(String path) {
-	    	if(path == null) {
-	    		System.err.println("La ruta no es correcta");
-	    		return null;
-	    	}
-    		java.net.URL imagenURL = getClass().getResource(path);
-    		ImageIcon imagen = new ImageIcon(path);
-	    	if(imagenURL != null) {
-	    		return new ImageIcon(imagenURL);
-	    	}
-	    	return imagen;
-	    	
-	    }
 
 	    
 	    public void initialize(){
@@ -182,7 +171,8 @@ public class VentanaPerfil {
 	        DefaultListModel<Item> model = new DefaultListModel<>();
 	        list.setModel(model);
 	        list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-	        list.setCellRenderer(new ImageListCellRenderer());
+	        //list.setCellRenderer(new ImageListCellRenderer());
+	        list.setCellRenderer(fotoCellListRenderer());
 	        list.setVisibleRowCount(-1);
 	       
 	        for(Foto foto : listaFotos) {
@@ -244,6 +234,42 @@ public class VentanaPerfil {
 	        
 	        
 
+	    }
+	    
+	    private static ListCellRenderer<? super Item> fotoCellListRenderer(){
+	    	return new DefaultListCellRenderer() {
+	    		
+	    		
+	    		
+	    		@Override
+				public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
+					boolean cellHasFocus) {
+	    			JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+	    			Item item = (Item) value;
+	    			ImageIcon icon = new ImageIcon(item.getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
+	    			label.setIcon(icon);
+	    			    
+					if(value instanceof Item) {
+						if(isSelected) {
+							System.out.println("Foto seleccionada");
+							JPanel panelFoto = null;
+							try {
+								panelFoto = new PanelFoto(listaFotos.get(index), listaFotos.get(index).getUsuario()).getPanelFoto();
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							JPanel panelCentralCardLayout = VentanaPrincipal.getPanelCentral();
+							panelCentralCardLayout.add(panelFoto, "panel foto");
+							CardLayout cl = (CardLayout) panelCentralCardLayout.getLayout();
+							cl.show(panelCentralCardLayout, "panel foto");
+						}
+					}
+
+
+					return label;
+				}
+	    	};
 	    }
 	    
 	    
