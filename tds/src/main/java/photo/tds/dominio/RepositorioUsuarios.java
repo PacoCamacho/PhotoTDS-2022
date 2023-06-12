@@ -75,7 +75,8 @@ public class RepositorioUsuarios {
 	}
 	
 	public void actualizarUsuario(Usuario usuario) {
-		this.persistenciaUsuario.update(usuario);
+		usuariosPorID.put(usuario.getId(), usuario);
+		usuariosPorLogin.put(usuario.getLogin(), usuario);
 	}
 
 }

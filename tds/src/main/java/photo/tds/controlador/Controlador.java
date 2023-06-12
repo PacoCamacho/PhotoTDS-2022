@@ -86,6 +86,17 @@ public class Controlador {
 		RepositorioUsuarios.getInstancia().removeUsuario(usuario);
 		return true;
 	}
+	public boolean actualizarUsuario(Usuario usuario) {
+		if (!esUsuarioRegistrado(usuario.getLogin()))
+			return false;
+
+		UsuarioDAO usuarioDAO = factoria.getUsuarioDAO(); /* Adaptador DAO para borrar el Usuario de la BD */
+		usuarioDAO.update(usuario);
+
+		RepositorioUsuarios.getInstancia().actualizarUsuario(usuario);
+		return true;
+	}
+	
 	
 	public void borrarTodosUsuarios() {
 		RepositorioUsuarios.getInstancia().removeTodosUsuarios();
