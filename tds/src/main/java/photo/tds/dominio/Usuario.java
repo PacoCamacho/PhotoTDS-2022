@@ -106,7 +106,7 @@ public class Usuario {
 	}
 	
 	public Foto crearFoto(String titulo, String descripcion,String path) {
-		Foto f = new Foto(path, titulo, new Date(), descripcion, this.getNombre());
+		Foto f = new Foto(path, titulo, new Date(), descripcion, this.getLogin());
 		this.publicaciones.add(f);
 		return f;
 	}

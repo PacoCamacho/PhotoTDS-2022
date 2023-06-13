@@ -105,7 +105,11 @@ public class VentanaPrincipal {
 		perfil.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				iniciarPanelPerfil();
+				try {
+					iniciarPanelPerfil();
+				} catch (DAOException e1) {
+					e1.printStackTrace();
+				}
 				CardLayout cl = (CardLayout) panelCentral.getLayout();
 				cl.show(panelCentral, "panelPerfil");
 			}
@@ -128,7 +132,7 @@ public class VentanaPrincipal {
 		
 	}
 	
-	private void iniciarPanelPerfil(){
+	private void iniciarPanelPerfil() throws DAOException{
 		System.out.println("Cambio al panel de perfil");
 		JPanel panelPerfil = new VentanaPerfil(usuario,usuario).getPanelPerfil();
 		panelCentral.add(panelPerfil, "panelPerfil");

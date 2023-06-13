@@ -52,11 +52,10 @@ public class VentanaPerfil {
 	 	private static List<Foto> listaFotos;
 
 
-	    public VentanaPerfil(String usuario, String usuarioSesion){
+	    public VentanaPerfil(String usuario, String usuarioSesion) throws DAOException{
 	    	this.usuario = usuario;
 	        System.out.println("Usuario perfil: "+usuario);
 	        this.usuarioSesion = usuarioSesion;
-
 	    	initialize();
 	        
 	    }
@@ -67,7 +66,7 @@ public class VentanaPerfil {
 	    
 
 	    
-	    public void initialize(){
+	    public void initialize() throws DAOException{
 	        
 	        
 	        panelPerfil = new JPanel();
@@ -78,7 +77,8 @@ public class VentanaPerfil {
 	        gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 	        panelPerfil.setLayout(gbl_panel);
 	        
-	        JLabel nombreUsuario = new JLabel("aqui va el nombre del usuario");
+	        System.out.println("Usuario perfil: "+usuario);
+	        JLabel nombreUsuario = new JLabel(usuario);
 	        GridBagConstraints gbc_nombreUsuario = new GridBagConstraints();
 	        gbc_nombreUsuario.insets = new Insets(0, 0, 5, 5);
 	        gbc_nombreUsuario.gridx = 1;
@@ -92,7 +92,7 @@ public class VentanaPerfil {
 	        gbc_subirFoto.gridy = 0;
 	        panelPerfil.add(subirFoto, gbc_subirFoto);
 	        
-	        JLabel numFotos = new JLabel("0");
+	        JLabel numFotos = new JLabel(String.valueOf(Controlador.getInstancia().getFotosPerfil(usuario).size()));
 	        GridBagConstraints gbc_numFotos = new GridBagConstraints();
 	        gbc_numFotos.insets = new Insets(0, 0, 5, 5);
 	        gbc_numFotos.gridx = 3;

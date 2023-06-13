@@ -55,6 +55,9 @@ public class PanelFoto extends JPanel{
 	private String usuario;
 	private JTextField textFieldComentario;
 	private JPanel panelFoto;
+	private JList<String> listaComentarios;
+	private DefaultListModel<String> modeloComentarios;
+
 	
 	public JPanel getPanelFoto() {
 		return panelFoto;
@@ -69,7 +72,19 @@ public class PanelFoto extends JPanel{
 		this.usuario = usuario;
 		setPreferredSize(new Dimension(400, 400));
 		
+		List<Comentario> comentarios = foto.getComentarios();
+		for (Comentario comentario : comentarios) {
+		    modeloComentarios.addElement(comentario.getTexto());
+		}
+		
 		initialize();
+	}
+	
+	public void actualizarComentarios(List<Comentario> comentarios) {
+	    modeloComentarios.clear();
+	    for (Comentario comentario : comentarios) {
+	        modeloComentarios.addElement(this.usuario+ ": "+ comentario.getTexto());
+	    }
 	}
 	
 	private void initialize() throws IOException {
@@ -131,6 +146,7 @@ public class PanelFoto extends JPanel{
 				System.out.println("Has comentado");
 				System.out.println(textFieldComentario.getText());
 				Controlador.getInstancia().comentarPublicacion(usuario, foto, textFieldComentario.getText());;
+				actualizarComentarios(foto.getComentarios());
 			}
 		});
 		
@@ -172,8 +188,9 @@ public class PanelFoto extends JPanel{
 		gbc_scrollPane.gridy = 8;
 		panelFoto.add(scrollPane, gbc_scrollPane);
 		
-		JList list = new JList();
-		scrollPane.setViewportView(list);
+		modeloComentarios = new DefaultListModel<>();
+		listaComentarios = new JList<>(modeloComentarios);
+		scrollPane.setViewportView(listaComentarios);
 		
 		
 		
