@@ -50,6 +50,7 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 
 		Usuario usuario=null;
 		System.out.println("fecha nacimiento stringToDate: "+fechaNacimiento);
+		System.out.println("fecha nacimiento stringToDate: "+ ConversorDate.StringToDate(fechaNacimiento));
 		usuario = new Usuario(nombre, apellidos, email, login, password, ConversorDate.StringToDate(fechaNacimiento));
 		usuario.setId(eUsuario.getId());
 

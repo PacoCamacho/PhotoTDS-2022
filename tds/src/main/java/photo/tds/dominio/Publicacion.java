@@ -27,10 +27,16 @@ public abstract class Publicacion {
 		this.hashtags = new ArrayList<>();
 		this.comentarios = new ArrayList<>();
 	}
-	
-	public Publicacion(String titulo, Date fecha, String descripcion, int mg, String usuario,List<Hashtag> lh) {
+	public Publicacion(String titulo, Date fecha, String descripcion, int mg, String usuario, List<Hashtag> lh) {
 		this(titulo,fecha,descripcion,mg,usuario);
 		this.hashtags = lh;
+		this.comentarios = new ArrayList<>();
+	}
+	
+	public Publicacion(String titulo, Date fecha, String descripcion, int mg, String usuario, List<Hashtag> lh, List<Comentario> lc) {
+		this(titulo,fecha,descripcion,mg,usuario);
+		this.hashtags = lh;
+		this.comentarios = lc;
 	}
 	
 	public void anadirMeGusta() {

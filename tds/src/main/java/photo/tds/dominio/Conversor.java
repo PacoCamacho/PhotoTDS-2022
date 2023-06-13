@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Conversor {
-	private final static String FORMATOHORA = "d MMM y HH:mm:ss";
+	private final static String FORMATOHORA = "d MMM y";
 
 	public static Date StringToDate(String fecha) {
 		try {

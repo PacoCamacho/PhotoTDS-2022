@@ -73,6 +73,8 @@ public class PanelFoto extends JPanel{
 		setPreferredSize(new Dimension(400, 400));
 		
 		List<Comentario> comentarios = foto.getComentarios();
+		modeloComentarios = new DefaultListModel<>();
+
 		for (Comentario comentario : comentarios) {
 		    modeloComentarios.addElement(comentario.getTexto());
 		}

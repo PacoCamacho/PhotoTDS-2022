@@ -14,6 +14,7 @@ import photo.tds.dao.DAOException;
 import photo.tds.dao.FactoriaDAO;
 import photo.tds.dominio.Usuario;
 import photo.tds.dominio.Comentario;
+import photo.tds.dominio.Conversor;
 import photo.tds.dominio.Foto;
 import photo.tds.dominio.Publicacion;
 import photo.tds.dominio.RepositorioPublicaciones;
@@ -113,7 +114,7 @@ public class Controlador {
 			
 		Usuario user = this.repoUsuarios.findUsuario(u);
 		Foto foto = user.crearFoto(titulo, descripcion, path);
-		System.out.println("Foto creada: "+foto);
+		System.out.println("Foto creada: "+foto + " fecha: " + Conversor.DateToString(foto.getFecha()));
 		this.repoPublicaciones.crearPublicacion(foto);
 		return true;
 	}
@@ -143,16 +144,9 @@ public class Controlador {
 	
 	public void comentarPublicacion(String usuario, Foto foto, String texto) {
 		Comentario comentario = new Comentario(texto, usuario);
+		factoria.getComentarioDAO().create(comentario);
 		foto.anadirComentario(comentario);
-		for(Comentario c: foto.getComentarios()) {
-			System.out.println(c.getUsuario());
-			System.out.println(c.getTexto());
-		}
 		this.repoPublicaciones.actualizarPublicacion(foto);
-		for(Comentario c: foto.getComentarios()) {
-			System.out.println(c.getUsuario());
-			System.out.println(c.getTexto());
-		}
 	}
 	
 	public List<Foto> getFotosPerfil(String usuario) throws DAOException{
