@@ -60,12 +60,13 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 		if(tipo.equals("Foto")) {
 			String path = servPersistencia.recuperarPropiedadEntidad(ePublicacion, PATH);
 			Foto foto = new Foto(path, titulo, Conversor.StringToDate(fecha), descripcion, megustas, creador, hashtags, comentarios);
+			System.out.println("que pasaaaaa: "+ ePublicacion.getId());
 			foto.SetId(ePublicacion.getId());
+			System.out.println("que pasaaaaa 2 : "+ ePublicacion.getId());
 			return foto;
 		}
 		else if(tipo.equals("Album")){
 			String idsFotos = servPersistencia.recuperarPropiedadEntidad(ePublicacion, FOTOS);
-			
 			Album album = new Album(titulo, Conversor.StringToDate(fecha), descripcion, megustas, creador, this.getFotosPorIds(idsFotos), hashtags, comentarios);
 			album.SetId(ePublicacion.getId());
 			return album;
@@ -100,7 +101,7 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 					new Propiedad(FECHA, Conversor.DateToString(publicacion.getFecha())),
 					new Propiedad(DESCRIPCION, publicacion.getDescripcion()),
 					new Propiedad(MEGUSTAS, Integer.toString(publicacion.getMg())),
-					new Propiedad(PATH,this.fotosAIds(((Album)publicacion).getFotos())),
+					new Propiedad(FOTOS,this.fotosAIds(((Album)publicacion).getFotos())),
 					new Propiedad(CREADOR, publicacion.getUsuario()),
 					new Propiedad(HASHTAGS, this.hashtagACadena(publicacion.getHashtags())),
 					new Propiedad(COMENTARIOS, this.comentsAIds(publicacion.getComentarios()))
@@ -187,10 +188,7 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 		String[] ids = ListaIds.split(" ");
 		
 		for (String id : ids) {
-			int fotoId = Integer.parseInt(id);
-			Publicacion publicacion = this.get(fotoId);
-			String path = ((Foto)publicacion).getPath(); //revisar
-			Foto foto = new Foto(path, publicacion.getTitulo(), publicacion.getFecha(), publicacion.getDescripcion(), publicacion.getUsuario());
+			Foto foto = (Foto) this.get(Integer.parseInt(id));
 			fotos.add(foto);
 		}
 		    

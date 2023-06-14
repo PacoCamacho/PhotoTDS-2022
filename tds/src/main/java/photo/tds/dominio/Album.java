@@ -9,6 +9,12 @@ public class Album extends Publicacion{
 	private List<Foto> fotos;
 	private String path;
 	
+	public Album(String titulo, Date fecha, String descripcion, String usuario, Foto foto) {
+		super(titulo, fecha, descripcion, 0, usuario);
+		this.fotos = new ArrayList<Foto>();
+		this.fotos.add(foto);
+	}
+	
 	public Album(String titulo, Date fecha, String descripcion, int mg,String usuario, List<Foto> fotos) {
 		super(titulo, fecha, descripcion, mg, usuario);
 		this.fotos = fotos;

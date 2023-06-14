@@ -128,8 +128,10 @@ public class Controlador {
 		}
 			
 		Usuario user = this.repoUsuarios.findUsuario(u);
-		Album album = user.crearAlbum(titulo, descripcion, path);
-		System.out.println("Album creado: "+album + " fecha: " + Conversor.DateToString(album.getFecha()));
+		Foto foto = user.crearFoto(titulo, descripcion, path);
+		this.repoPublicaciones.crearPublicacion(foto);
+		Album album = user.crearAlbum(titulo, descripcion, foto);
+		System.out.println(album.getFotos().get(0).getId());
 		this.repoPublicaciones.crearPublicacion(album);
 		return true;
 	}
@@ -159,7 +161,7 @@ public class Controlador {
 	}
 	
 	public void comentarPublicacion(String usuario, Foto foto, String texto) {
-		Comentario comentario = new Comentario(texto, usuario);
+		Comentario comentario = new Comentario(texto, usuario, new Date());
 		factoria.getComentarioDAO().create(comentario);
 		foto.anadirComentario(comentario);
 		this.repoPublicaciones.actualizarPublicacion(foto);

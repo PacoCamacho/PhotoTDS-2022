@@ -195,7 +195,7 @@ public String usuariosConvertidosAIds(List<Usuario> usuarios) {
 	public List<Usuario> getUsuariosPorIds(String ListaIds) {
 		
 		List<Usuario> usuarios = new LinkedList<Usuario>();
-		if(ListaIds == null) return usuarios;
+		if(ListaIds.equals("")) return usuarios;
 		String[] ids = ListaIds.split(" ");
 		
 		for (String id : ids) {

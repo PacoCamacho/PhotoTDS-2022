@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Date;
 
 import beans.Entidad;
 import beans.Propiedad;
 import photo.tds.dominio.Comentario;
+import photo.tds.dominio.Conversor;
 import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
 
@@ -17,6 +19,8 @@ public class TDSComentarioDAO implements ComentarioDAO{
 	private static final String COMENTARIO = "Comentario";
 	private static final String TEXTO = "Texto";
 	private static final String USUARIO = "Usuario";
+	private static final String FECHA = "Fecha";
+	
 	
 	private ServicioPersistencia servPersistencia;
 	private SimpleDateFormat dateFormat;
@@ -50,7 +54,9 @@ public class TDSComentarioDAO implements ComentarioDAO{
 			if (c.getNombre().equals(TEXTO)) {
 				c.setValor(comentario.getTexto());
 			} else if (c.getNombre().equals(USUARIO)) {
-				c.setValor(dateFormat.format(comentario.getUsuario()));
+				c.setValor(comentario.getUsuario());
+			} else if (c.getNombre().equals(FECHA)) {
+				c.setValor(Conversor.DateToString(comentario.getFecha()));
 			}
 			servPersistencia.modificarPropiedad(c);
 		}
@@ -78,8 +84,9 @@ public class TDSComentarioDAO implements ComentarioDAO{
 		
 		String texto = servPersistencia.recuperarPropiedadEntidad(eComentario, TEXTO);
 		String autor = servPersistencia.recuperarPropiedadEntidad(eComentario, USUARIO);
+		Date fecha = Conversor.StringToDate(servPersistencia.recuperarPropiedadEntidad(eComentario, FECHA));
 
-		Comentario comentario = new Comentario(texto, autor);
+		Comentario comentario = new Comentario(texto, autor, fecha);
 		comentario.setId(eComentario.getId());
 
 		return comentario;
@@ -93,7 +100,8 @@ public class TDSComentarioDAO implements ComentarioDAO{
 
 		eComentario.setPropiedades(new ArrayList<Propiedad>(Arrays.asList(
 				new Propiedad(TEXTO, comentario.getTexto()),
-				new Propiedad(USUARIO, comentario.getUsuario())
+				new Propiedad(USUARIO, comentario.getUsuario()),
+				new Propiedad(FECHA, Conversor.DateToString(comentario.getFecha()))
 				)));
 		
 		return eComentario;

@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 
 import photo.tds.controlador.Controlador;
 import photo.tds.dominio.Comentario;
+import photo.tds.dominio.Conversor;
 import photo.tds.dominio.Foto;
 import photo.tds.dominio.Publicacion;
 import java.awt.GridBagLayout;
@@ -85,7 +86,7 @@ public class PanelFoto extends JPanel{
 	public void actualizarComentarios(List<Comentario> comentarios) {
 	    modeloComentarios.clear();
 	    for (Comentario comentario : comentarios) {
-	        modeloComentarios.addElement(this.usuario+ ": "+ comentario.getTexto());
+	        modeloComentarios.addElement(this.usuario+ " <"+Conversor.DateToString(comentario.getFecha())+">:"+ comentario.getTexto());
 	    }
 	}
 	
@@ -145,8 +146,7 @@ public class PanelFoto extends JPanel{
 		JButton botonComentario = new JButton("Comentar");
 		botonComentario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Has comentado");
-				System.out.println(textFieldComentario.getText());
+				System.out.println("Has comentado: "+ textFieldComentario.getText());
 				Controlador.getInstancia().comentarPublicacion(usuario, foto, textFieldComentario.getText());;
 				actualizarComentarios(foto.getComentarios());
 			}
