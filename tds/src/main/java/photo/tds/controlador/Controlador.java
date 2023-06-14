@@ -13,6 +13,7 @@ import java.util.stream.Stream;
 import photo.tds.dao.DAOException;
 import photo.tds.dao.FactoriaDAO;
 import photo.tds.dominio.Usuario;
+import photo.tds.dominio.Album;
 import photo.tds.dominio.Comentario;
 import photo.tds.dominio.Conversor;
 import photo.tds.dominio.Foto;
@@ -69,7 +70,7 @@ public class Controlador {
 
 		if (esUsuarioRegistrado(login))
 			return false;
-		Usuario usuario = new Usuario(nombre, apellidos, email, login, password, fechaNacimiento);
+		Usuario usuario = new Usuario(nombre, apellidos, email, login, password, fechaNacimiento, false);
 
 		UsuarioDAO usuarioDAO = factoria
 				.getUsuarioDAO(); /* Adaptador DAO para almacenar el nuevo Usuario en la BD */
@@ -118,6 +119,21 @@ public class Controlador {
 		this.repoPublicaciones.crearPublicacion(foto);
 		return true;
 	}
+	
+	public boolean crearAlbum(String u, String titulo, String descripcion, String path) {
+
+		if (!esUsuarioRegistrado(u)) {
+			System.out.println("Usuario no registrado");
+			return false;
+		}
+			
+		Usuario user = this.repoUsuarios.findUsuario(u);
+		Album album = user.crearAlbum(titulo, descripcion, path);
+		System.out.println("Album creado: "+album + " fecha: " + Conversor.DateToString(album.getFecha()));
+		this.repoPublicaciones.crearPublicacion(album);
+		return true;
+	}
+	
 	public void borrarFotoSinUsuario(Publicacion publicacion) {
 		this.repoPublicaciones.borrarPublicacion(publicacion);
 	}
@@ -159,6 +175,13 @@ public class Controlador {
 		return this.repoPublicaciones.findPublicaciones().stream()
 				.filter(p -> p instanceof Foto)
 				.map(p -> (Foto) p)
+				.collect(Collectors.toList());
+	}
+
+	public List<Album> getAlbumes(String usuario) throws DAOException {
+		return this.repoPublicaciones.findPublicaciones().stream()
+				.filter(p -> p instanceof Album)
+				.map(p -> (Album) p)
 				.collect(Collectors.toList());
 	}
 }

@@ -29,12 +29,14 @@ public class VentanaNuevaPublicacion {
 	private JTextField textFieldDescripcion;
 	private String usuario;
 	private String path;
+	private boolean foto;
 	
 	/**
 	 * Create the application.
 	 */
-	public VentanaNuevaPublicacion(String usuario) {
+	public VentanaNuevaPublicacion(String usuario,boolean foto) {
 		this.usuario = usuario;
+		this.foto = foto;
 		System.out.println(this.usuario);
 		initialize();
 	}
@@ -156,7 +158,12 @@ public class VentanaNuevaPublicacion {
 			this.esconderVentana();
 			System.out.println("le doy a subir y entro a crear foto del controlador");
 			System.out.println("this.usuario= "+this.usuario);
-			Controlador.getInstancia().crearFoto(this.usuario, titulo, textFieldDescripcion.getText(), path);
+			if(foto) {
+				Controlador.getInstancia().crearFoto(this.usuario, titulo, textFieldDescripcion.getText(), path);
+			}else {
+				Controlador.getInstancia().crearAlbum(this.usuario, titulo, textFieldDescripcion.getText(), path);
+			}
+			
 				
 			
 			

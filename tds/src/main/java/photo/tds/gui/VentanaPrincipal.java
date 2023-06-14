@@ -94,7 +94,7 @@ public class VentanaPrincipal {
 		SubPanelNorte.add(SubirFoto);
 		
 		SubirFoto.addActionListener(e -> {
-			VentanaNuevaPublicacion nuevaFoto = new VentanaNuevaPublicacion(usuario);
+			VentanaNuevaPublicacion nuevaFoto = new VentanaNuevaPublicacion(usuario,true);
 			nuevaFoto.mostrarVentana(frmVentanaPrincipal);
 		});
 		

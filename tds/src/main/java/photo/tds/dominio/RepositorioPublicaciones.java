@@ -81,6 +81,12 @@ public enum RepositorioPublicaciones {
 		System.out.println("Añadida publicación: "+publi.getTitulo());
 		System.out.println("usuario de la publicacion:" +publi.getUsuario());
 		System.out.println(this.publicacionesporTitulo);
+		try {
+			System.out.println(findPublicaciones());
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	public void borrarPublicacion(Publicacion publi) {
 		this.publicacionesporID.remove(publi.getId());

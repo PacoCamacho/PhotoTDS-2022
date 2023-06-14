@@ -7,6 +7,7 @@ import java.util.List;
 public class Album extends Publicacion{
 
 	private List<Foto> fotos;
+	private String path;
 	
 	public Album(String titulo, Date fecha, String descripcion, int mg,String usuario, List<Foto> fotos) {
 		super(titulo, fecha, descripcion, mg, usuario);
@@ -23,6 +24,11 @@ public class Album extends Publicacion{
 		this.fotos = new ArrayList<>();
 	}
 	
+	public Album(String titulo, Date fecha, String descripcion, String usuario,String path) {
+		this(titulo,fecha,descripcion,0,usuario);
+		this.path = path;
+	}
+	
 
 	
 	public List<Foto> getFotos() {
@@ -37,12 +43,15 @@ public class Album extends Publicacion{
 		return fotos.size();
 	}
 	
-	public String getPath(){
-		StringBuilder sb = new StringBuilder();
-        for (Foto foto : fotos) {
-            sb.append(foto.getPath());
-            sb.append(" ");
-        }
-        return sb.toString().trim();
+//	public String getPath(){
+//		StringBuilder sb = new StringBuilder();
+//        for (Foto foto : fotos) {
+//            sb.append(foto.getPath());
+//            sb.append(" ");
+//        }
+//        return sb.toString().trim();
+//	}
+	public String getPath() {
+		return path;
 	}
 }
