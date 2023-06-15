@@ -256,7 +256,6 @@ public class VentanaLogin {
 	}
 	
 	private void addManejadorBotonBorrar(JButton btnBorrar) {
-		System.out.println("Boton borrar");
 		btnBorrar.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				Controlador.getInstancia().borrarTodosUsuarios();

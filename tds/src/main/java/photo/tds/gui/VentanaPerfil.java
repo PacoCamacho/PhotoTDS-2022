@@ -81,7 +81,6 @@ public class VentanaPerfil {
 	        gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 	        panelPerfil.setLayout(gbl_panel);
 	        
-	        System.out.println("Usuario perfil: "+usuario);
 	        JLabel nombreUsuario = new JLabel(usuario);
 	        GridBagConstraints gbc_nombreUsuario = new GridBagConstraints();
 	        gbc_nombreUsuario.insets = new Insets(0, 0, 5, 5);
@@ -156,8 +155,7 @@ public class VentanaPerfil {
 			}
 	        
 	        listaAlbumes = Controlador.getInstancia().getAlbumes(usuario);
-	        System.out.println("lista albumes:");
-	        System.out.println(listaAlbumes);
+	        
 	        if(fotos) {
 	        	JScrollPane scrollPane = new JScrollPane();
 		        GridBagConstraints gbc_scrollPane = new GridBagConstraints();
@@ -170,9 +168,7 @@ public class VentanaPerfil {
 		        panelPerfil.add(scrollPane, gbc_scrollPane);
 	        	System.out.println("Lista fotos:");
 		        for(Foto f : listaFotos) {
-		        	System.out.println("foto:");
-		        	System.out.println(f.titulo);
-		        	
+		        	System.out.println("Doto: "+ f.titulo);
 		        }
 		        JList<Item> list = new JList<>();
 		        scrollPane.setViewportView(list);
@@ -203,12 +199,16 @@ public class VentanaPerfil {
 		        	}
 		        }
 	        }else {
-	        	System.out.println("albumess");
-	        	 for(Album f : listaAlbumes) {
-			        	System.out.println("album:");
-			        	System.out.println(f.titulo);
-			        	
-			        }
+	        	System.out.println("----------------------------------");
+	        	System.out.println("Lista albumes:");
+		        for(Album a: listaAlbumes) {
+		        	System.out.println("Album: "+ a.getTitulo()+ " id: "+ a.getId());
+		        	for(Foto f: a.getFotos()) {
+		        		System.out.println("    Foto: "+ f.getTitulo()+ " id: "+ f.getId());
+		        		System.out.println("    usuario: "+f.getUsuario());
+		        	}
+		        System.out.println("----------------------------------");
+		        }
 
 	        	JScrollPane scrollPane = new JScrollPane();
 		        GridBagConstraints gbc_scrollPane = new GridBagConstraints();
@@ -228,23 +228,20 @@ public class VentanaPerfil {
 		        //list.setCellRenderer(new ImageListCellRenderer());
 		        listAlbum.setCellRenderer(fotoCellListRenderer());
 		        listAlbum.setVisibleRowCount(-1);  
-		        System.out.println("Lista albumes:");
 		        for (Album album : listaAlbumes) {
-		        	System.out.println("album:");
-		        	System.out.println(album.titulo);
 		        	if(album instanceof Album) {
 		        		System.out.println("Creo un panel album para :"+ album.getTitulo());
 		        		
 		        		Image image=null;
 						try {
-							image = ImageIO.read(new File(album.getPath()));
+							image = ImageIO.read(new File(album.getPathPortada()));
 						} catch (IOException ea) {
 							// TODO Auto-generated catch block
 							ea.printStackTrace();
 						}
 		        		Item item = new Item(image);
 		        		modelAlbum.addElement(item);
-		        	    System.out.println("Se agregó la imagen: " + album.getPath()); // Imprimir la ruta de la imagen
+		        	    System.out.println("Se agregó la imagen: " + album.getPathPortada()); // Imprimir la ruta de la imagen
 
 		        	}
 				}

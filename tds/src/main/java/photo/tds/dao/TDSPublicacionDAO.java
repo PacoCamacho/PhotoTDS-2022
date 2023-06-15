@@ -60,9 +60,7 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 		if(tipo.equals("Foto")) {
 			String path = servPersistencia.recuperarPropiedadEntidad(ePublicacion, PATH);
 			Foto foto = new Foto(path, titulo, Conversor.StringToDate(fecha), descripcion, megustas, creador, hashtags, comentarios);
-			System.out.println("que pasaaaaa: "+ ePublicacion.getId());
 			foto.SetId(ePublicacion.getId());
-			System.out.println("que pasaaaaa 2 : "+ ePublicacion.getId());
 			return foto;
 		}
 		else if(tipo.equals("Album")){

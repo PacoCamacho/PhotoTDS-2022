@@ -75,9 +75,9 @@ public enum RepositorioPublicaciones {
 	}
 	
 	public void crearPublicacion(Publicacion publi) {
+		persistenciaPublicacion.create(publi);
 		this.publicacionesporTitulo.put(publi.getTitulo(), publi);
 		this.publicacionesporID.put(publi.getId(), publi);
-		persistenciaPublicacion.create(publi);
 		System.out.println("Añadida publicación: "+publi.getTitulo());
 		System.out.println("usuario de la publicacion:" +publi.getUsuario());
 		System.out.println(this.publicacionesporTitulo);

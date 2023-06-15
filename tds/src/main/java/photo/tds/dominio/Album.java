@@ -35,7 +35,9 @@ public class Album extends Publicacion{
 		this.path = path;
 	}
 	
-
+	public String getPathPortada() {
+		return this.fotos.get(0).getPath();
+	}
 	
 	public List<Foto> getFotos() {
 		return this.fotos;
