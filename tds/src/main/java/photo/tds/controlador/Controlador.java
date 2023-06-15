@@ -161,11 +161,44 @@ public class Controlador {
 	}
 	
 	public void comentarPublicacion(String usuario, Foto foto, String texto) {
+		if (!esUsuarioRegistrado(usuario)) {
+			System.out.println("Usuario no registrado");
+			return ;
+		}
 		Comentario comentario = new Comentario(texto, usuario, new Date());
 		factoria.getComentarioDAO().create(comentario);
 		foto.anadirComentario(comentario);
 		this.repoPublicaciones.actualizarPublicacion(foto);
 	}
+	public List<Object> buscar(String u, String busqueda) throws DAOException {
+			if (!esUsuarioRegistrado(u)) {
+				System.out.println("Usuario no registrado");
+				return null;
+			}
+		    if (busqueda.startsWith("#")) {
+		        return this.getPublicacionesHashtag(busqueda);
+		    } else {
+		    	
+		    	return this.getUsuariosCadena(busqueda);
+		    	
+		    }
+		
+		}
+	
+	public List<Object> getUsuariosCadena(String cadena) throws DAOException {
+	    return this.repoUsuarios.findUsuarios().stream()
+	            .filter(usuario -> usuario.getLogin().startsWith(cadena))
+	            .collect(Collectors.toList());
+	}
+
+	public List<Object> getPublicacionesHashtag(String cadena) throws DAOException {
+	    return this.repoPublicaciones.findPublicaciones().stream()
+	            .filter(publicacion -> publicacion.getHashtags()
+	                    .stream()
+	                    .anyMatch(hashtag -> hashtag.getNombre().equals(cadena)))
+	            .collect(Collectors.toList());
+	}
+
 	
 	public List<Foto> getFotosPerfil(String usuario) throws DAOException{
 		return  this.repoPublicaciones.findPublicacionesUsuario(usuario).stream()
