@@ -170,11 +170,11 @@ public class Controlador {
 		foto.anadirComentario(comentario);
 		this.repoPublicaciones.actualizarPublicacion(foto);
 	}
-	public List<Object> buscar(String u, String busqueda) throws DAOException {
-			if (!esUsuarioRegistrado(u)) {
+	public List<Object> buscar(/*String u,*/ String busqueda) throws DAOException {
+			/*if (!esUsuarioRegistrado(u)) {
 				System.out.println("Usuario no registrado");
 				return null;
-			}
+			}*/
 		    if (busqueda.startsWith("#")) {
 		        return this.getPublicacionesHashtag(busqueda);
 		    } else {

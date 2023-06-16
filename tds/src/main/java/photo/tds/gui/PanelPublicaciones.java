@@ -6,6 +6,7 @@ import javax.swing.JScrollPane;
 import photo.tds.controlador.Controlador;
 import photo.tds.dao.DAOException;
 import photo.tds.dominio.Foto;
+import photo.tds.dominio.Hashtag;
 import photo.tds.dominio.Publicacion;
 import photo.tds.helpers.ImageListCellRenderer;
 import photo.tds.helpers.ImageListCellRendererImagen;
@@ -69,6 +70,9 @@ public class PanelPublicaciones extends JPanel {
 	            }
 	        });
 		for (Foto foto : listaFotos) {
+			for (Hashtag hashtag : foto.getHashtags()) {
+			    System.out.println(hashtag.getNombre());
+			}
 			PanelFoto panelFoto = null;
 			try {
 				panelFoto = new PanelFoto(foto, usuario);

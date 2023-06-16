@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public abstract class Publicacion {
 
@@ -24,7 +26,7 @@ public abstract class Publicacion {
 		this.descripcion = descripcion;
 		this.mg = mg;
 		this.usuario = usuario;
-		this.hashtags = new ArrayList<>();
+		this.hashtags = this.getHashtagsDescripcion(descripcion);
 		this.comentarios = new ArrayList<>();
 	}
 	public Publicacion(String titulo, Date fecha, String descripcion, int mg, String usuario, List<Hashtag> lh) {
@@ -47,6 +49,23 @@ public abstract class Publicacion {
 		this.comentarios.add(comentario);
 	}
 
+	public List<Hashtag> getHashtagsDescripcion(String descripcion) {
+	    List<Hashtag> hashtags = new ArrayList<>();
+
+	    // Expresión regular para encontrar los hashtags en el texto
+	    Pattern pattern = Pattern.compile("#\\w+");
+	    Matcher matcher = pattern.matcher(descripcion);
+
+	    // Iterar sobre los hashtags encontrados
+	    while (matcher.find()) {
+	        String hashtagText = matcher.group();
+	        // Crear un objeto Hashtag y agregarlo a la lista
+	        Hashtag hashtag = Hashtag.crearHashtag(hashtagText);
+	        hashtags.add(hashtag);
+	    }
+
+	    return hashtags;
+	}
 
 	public int getId() {
 		return id;
@@ -121,7 +140,6 @@ public abstract class Publicacion {
 	public abstract String getPath();
 	
 	public abstract int getNumFotos();
-	
 	
 	
 }
