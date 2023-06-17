@@ -39,7 +39,11 @@ public class Usuario {
 		this.seguidos = new LinkedList<>();
 	}
 	
-
+	public void hacersePremium() {
+		if(this.premium == false) {
+			this.premium = true;
+		}
+	}
 	
 	public Usuario getUsuario() {
 		return this;
@@ -149,9 +153,6 @@ public class Usuario {
 	public void setPremium(boolean premium) {
 		this.premium = premium;
 	}
-	
-	
-	
 	
 	public Foto crearFoto(String titulo, String descripcion, String path, List<String> hashtags) {
 		List<Hashtag> lh = new ArrayList<>();

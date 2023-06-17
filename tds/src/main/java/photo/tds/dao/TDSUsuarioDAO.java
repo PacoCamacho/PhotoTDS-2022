@@ -53,6 +53,7 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 		String password = servPersistencia.recuperarPropiedadEntidad(eUsuario, PASSWORD);
 		String fechaNacimiento = servPersistencia.recuperarPropiedadEntidad(eUsuario, FECHA_NACIMIENTO);
 		String premium = servPersistencia.recuperarPropiedadEntidad(eUsuario, PREMIUM);
+		System.out.println(premium);
 		String publicacionesIds = servPersistencia.recuperarPropiedadEntidad(eUsuario, PUBLICACIONES);
 		List<Usuario> seguidores = this.getUsuariosPorIds(servPersistencia.recuperarPropiedadEntidad(eUsuario, SEGUIDORES));
 		List<Usuario> seguidos = this.getUsuariosPorIds(servPersistencia.recuperarPropiedadEntidad(eUsuario, SEGUIDOS));
@@ -77,6 +78,7 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 				new Propiedad(EMAIL, usuario.getEmail()),
 				new Propiedad(LOGIN, usuario.getLogin()), 
 				new Propiedad(PASSWORD, usuario.getPassword()),
+				new Propiedad(PREMIUM, Boolean.toString(usuario.isPremium())),
 				new Propiedad(FECHA_NACIMIENTO, dateFormat.format(usuario.getFechaNacimiento())),
 				new Propiedad(SEGUIDORES, this.usuariosConvertidosAIds(usuario.getSeguidores())),
 				new Propiedad(SEGUIDOS, this.usuariosConvertidosAIds(usuario.getSeguidos())),
@@ -123,6 +125,8 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 				prop.setValor(usuario.getApellidos());
 			} else if (prop.getNombre().equals(LOGIN)) {
 				prop.setValor(usuario.getLogin());
+			} else if (prop.getNombre().equals(PREMIUM)) {
+				prop.setValor(Boolean.toString(usuario.isPremium()));
 			} else if (prop.getNombre().equals(FECHA_NACIMIENTO)) {
 				prop.setValor(dateFormat.format(usuario.getFechaNacimiento()));
 			} else if (prop.getNombre().equals(SEGUIDORES)) {

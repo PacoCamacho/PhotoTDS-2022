@@ -170,6 +170,37 @@ public class Controlador {
 		foto.anadirComentario(comentario);
 		this.repoPublicaciones.actualizarPublicacion(foto);
 	}
+	
+	public boolean seguirUsuario(String usuarioSeguidor, String usuarioSeguido) {
+		if (!esUsuarioRegistrado(usuarioSeguidor)) {
+			System.out.println("Usuario no registrado");
+			return false;
+		}
+		if (!esUsuarioRegistrado(usuarioSeguido)) {
+			System.out.println("Usuario no registrado");
+			return false;
+		}
+		Usuario seguidor = this.repoUsuarios.findUsuario(usuarioSeguidor);
+		Usuario seguido = this.repoUsuarios.findUsuario(usuarioSeguido);
+		
+		seguidor.seguirUsuario(seguido);
+		repoUsuarios.actualizarUsuario(seguido);
+		repoUsuarios.actualizarUsuario(seguidor);
+		
+		return true;
+	}
+	
+	public boolean hacerPremium(String usuario) {
+		if (!esUsuarioRegistrado(usuario)) {
+			System.out.println("Usuario no registrado");
+			return false;
+		}
+		
+		Usuario user = this.repoUsuarios.findUsuario(usuario);
+		user.hacersePremium();
+		
+		return true;
+	}
 	public List<Object> buscar(/*String u,*/ String busqueda) throws DAOException {
 			/*if (!esUsuarioRegistrado(u)) {
 				System.out.println("Usuario no registrado");
