@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 
 import photo.tds.controlador.Controlador;
 import photo.tds.dao.DAOException;
+import photo.tds.dominio.Album;
 import photo.tds.dominio.Comentario;
 import photo.tds.dominio.Conversor;
 import photo.tds.dominio.Foto;
@@ -46,7 +47,7 @@ import javax.swing.ListCellRenderer;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 
-public class PanelFoto extends JPanel{
+public class PanelFotoAlbum extends JPanel{
 	
 	
 	/**
@@ -59,6 +60,7 @@ public class PanelFoto extends JPanel{
 	private JPanel panelFoto;
 	private JList<String> listaComentarios;
 	private DefaultListModel<String> modeloComentarios;
+	private static Album album;
 	
 	public JPanel getPanelFoto() {
 		return panelFoto;
@@ -68,9 +70,10 @@ public class PanelFoto extends JPanel{
 	 * Create the panel.
 	 * @throws IOException 
 	 */
-	public PanelFoto(Foto foto, String usuario) throws IOException {
+	public PanelFotoAlbum(Foto foto, String usuario,Album album) throws IOException {
 		this.foto = foto;
 		this.usuario = usuario;
+		this.album = album;
 		//setPreferredSize(new Dimension(400, 400));
 		List<Comentario> comentarios = foto.getComentarios();
 		modeloComentarios = new DefaultListModel<>();
@@ -94,9 +97,9 @@ public class PanelFoto extends JPanel{
 		
 		panelFoto = new JPanel();
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{43, 0, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.columnWidths = new int[]{0, 35, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		panelFoto.setLayout(gridBagLayout);
 		
@@ -110,7 +113,6 @@ public class PanelFoto extends JPanel{
 		JLabel nombreUsuario = new JLabel(foto.getUsuario());
 		nombreUsuario.setHorizontalAlignment(SwingConstants.TRAILING);
 		GridBagConstraints gbc_nombreUsuario = new GridBagConstraints();
-		gbc_nombreUsuario.anchor = GridBagConstraints.WEST;
 		gbc_nombreUsuario.gridwidth = 2;
 		gbc_nombreUsuario.insets = new Insets(0, 0, 5, 5);
 		gbc_nombreUsuario.gridx = 3;
@@ -123,12 +125,27 @@ public class PanelFoto extends JPanel{
 		//labelFoto.setBounds(10,10,30,30);
 		GridBagConstraints gbc_labelFoto = new GridBagConstraints();
 		gbc_labelFoto.gridheight = 4;
-		gbc_labelFoto.gridwidth = 5;
+		gbc_labelFoto.gridwidth = 4;
 		gbc_labelFoto.insets = new Insets(0, 0, 5, 5);
-		gbc_labelFoto.gridx = 1;
+		gbc_labelFoto.gridx = 2;
 		gbc_labelFoto.gridy = 2;
 		labelFoto.setSize(panelFoto.getWidth()-20,panelFoto.getHeight()-20);
 		panelFoto.add(labelFoto, gbc_labelFoto);
+		
+		JLabel meGustas = new JLabel(String.valueOf(foto.getMg()));
+		GridBagConstraints gbc_meGustas = new GridBagConstraints();
+		gbc_meGustas.insets = new Insets(0, 0, 5, 5);
+		gbc_meGustas.gridx = 2;
+		gbc_meGustas.gridy = 6;
+		panelFoto.add(meGustas, gbc_meGustas);
+		
+		JLabel lblNewLabel = new JLabel("Comenta en la publicacion!");
+		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+		gbc_lblNewLabel.gridwidth = 2;
+		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel.gridx = 4;
+		gbc_lblNewLabel.gridy = 6;
+		panelFoto.add(lblNewLabel, gbc_lblNewLabel);
 		
 		JButton botonComentario = new JButton("Comentar");
 		botonComentario.addActionListener(new ActionListener() {
@@ -146,19 +163,10 @@ public class PanelFoto extends JPanel{
 				Controlador.getInstancia().darMeGusta(foto);
 			}
 		});
-		
-		JLabel meGustas = new JLabel(String.valueOf(foto.getMg()));
-		meGustas.setVerticalAlignment(SwingConstants.TOP);
-		GridBagConstraints gbc_meGustas = new GridBagConstraints();
-		gbc_meGustas.anchor = GridBagConstraints.SOUTH;
-		gbc_meGustas.insets = new Insets(0, 0, 5, 5);
-		gbc_meGustas.gridx = 1;
-		gbc_meGustas.gridy = 6;
-		panelFoto.add(meGustas, gbc_meGustas);
+		botonMg.setHorizontalAlignment(SwingConstants.LEFT);
 		GridBagConstraints gbc_botonMg = new GridBagConstraints();
-		gbc_botonMg.anchor = GridBagConstraints.WEST;
 		gbc_botonMg.insets = new Insets(0, 0, 5, 5);
-		gbc_botonMg.gridx = 1;
+		gbc_botonMg.gridx = 2;
 		gbc_botonMg.gridy = 7;
 		panelFoto.add(botonMg, gbc_botonMg);
 		
@@ -179,10 +187,10 @@ public class PanelFoto extends JPanel{
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.gridheight = 2;
-		gbc_scrollPane.gridwidth = 5;
+		gbc_scrollPane.gridwidth = 4;
 		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane.gridx = 1;
+		gbc_scrollPane.gridx = 2;
 		gbc_scrollPane.gridy = 8;
 		panelFoto.add(scrollPane, gbc_scrollPane);
 		
@@ -193,18 +201,28 @@ public class PanelFoto extends JPanel{
 		JButton botonVolver = new JButton("Volver");
 		GridBagConstraints gbc_botonVolver = new GridBagConstraints();
 		gbc_botonVolver.insets = new Insets(0, 0, 0, 5);
-		gbc_botonVolver.gridx = 1;
+		gbc_botonVolver.gridx = 0;
 		gbc_botonVolver.gridy = 10;
 		panelFoto.add(botonVolver, gbc_botonVolver);
 		
 		botonVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-					try {
-						VentanaPrincipal.iniciarPanelPerfil(true);
-					} catch (DAOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+				botonVolver.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						JPanel panelAlbum = null;
+						try {
+							panelAlbum = new PanelAlbum(album, usuario).getPanelAlbumes();
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						JPanel panelCentralCardLayout = VentanaPrincipal.getPanelCentral();
+						panelCentralCardLayout.add(panelAlbum, "panel foto");
+						CardLayout cl = (CardLayout) panelCentralCardLayout.getLayout();
+						cl.show(panelCentralCardLayout, "panel foto");
+						
+					}		
+				});
 					
 			}
 				
@@ -214,8 +232,7 @@ public class PanelFoto extends JPanel{
 		
 		JButton botonBorrar = new JButton("Borrar");
 		GridBagConstraints gbc_botonBorrar = new GridBagConstraints();
-		gbc_botonBorrar.insets = new Insets(0, 0, 0, 5);
-		gbc_botonBorrar.gridx = 5;
+		gbc_botonBorrar.gridx = 6;
 		gbc_botonBorrar.gridy = 10;
 		panelFoto.add(botonBorrar, gbc_botonBorrar);
 		
@@ -245,3 +262,4 @@ public class PanelFoto extends JPanel{
 	
 
 }
+

@@ -106,7 +106,7 @@ public class VentanaPrincipal {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try {
-					iniciarPanelPerfil();
+					iniciarPanelPerfil(true);
 				} catch (DAOException e1) {
 					e1.printStackTrace();
 				}
@@ -119,6 +119,7 @@ public class VentanaPrincipal {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				panelCentral.removeAll();
+				panelCentral.revalidate();
 				iniciarPanelPublicaciones();
 				CardLayout cl = (CardLayout) panelCentral.getLayout();
 				cl.show(panelCentral, "panelPrincipal");
@@ -132,10 +133,13 @@ public class VentanaPrincipal {
 		
 	}
 	
-	private void iniciarPanelPerfil() throws DAOException{
+	public static void iniciarPanelPerfil(boolean foto) throws DAOException{
 		System.out.println("Cambio al panel de perfil");
-		JPanel panelPerfil = new VentanaPerfil(usuario,usuario).getPanelPerfil();
+		JPanel panelPerfil = new VentanaPerfil(usuario,usuario,foto).getPanelPerfil();
+		panelCentral.removeAll();
 		panelCentral.add(panelPerfil, "panelPerfil");
+		panelCentral.revalidate();
+		panelCentral.repaint();
 		
 	}
 	

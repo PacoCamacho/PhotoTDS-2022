@@ -55,11 +55,11 @@ public class VentanaPerfil {
 	 	private boolean fotos;
 
 
-	    public VentanaPerfil(String usuario, String usuarioSesion) throws DAOException{
+	    public VentanaPerfil(String usuario, String usuarioSesion, boolean foto) throws DAOException{
 	    	this.usuario = usuario;
 	        System.out.println("Usuario perfil: "+usuario);
 	        this.usuarioSesion = usuarioSesion;
-	        fotos = true;
+	        fotos = foto;
 	    	initialize();
 	        
 	    }
@@ -156,16 +156,21 @@ public class VentanaPerfil {
 	        
 	        listaAlbumes = Controlador.getInstancia().getAlbumes(usuario);
 	        
+	        JScrollPane scrollPane = new JScrollPane();
+	        GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+	        gbc_scrollPane.gridheight = 3;
+	        gbc_scrollPane.gridwidth = 5;
+	        gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
+	        gbc_scrollPane.fill = GridBagConstraints.BOTH;
+	        gbc_scrollPane.gridx = 1;
+	        gbc_scrollPane.gridy = 4;
+	        panelPerfil.add(scrollPane, gbc_scrollPane);
+	        
 	        if(fotos) {
-	        	JScrollPane scrollPane = new JScrollPane();
-		        GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		        gbc_scrollPane.gridheight = 3;
-		        gbc_scrollPane.gridwidth = 5;
-		        gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
-		        gbc_scrollPane.fill = GridBagConstraints.BOTH;
-		        gbc_scrollPane.gridx = 1;
-		        gbc_scrollPane.gridy = 4;
-		        panelPerfil.add(scrollPane, gbc_scrollPane);
+	        	
+	        	scrollPane.repaint();
+	        	System.out.println("--------- Se muestran las fotos -----------");
+	        	
 	        	System.out.println("Lista fotos:");
 		        for(Foto f : listaFotos) {
 		        	System.out.println("Doto: "+ f.titulo);
@@ -176,7 +181,7 @@ public class VentanaPerfil {
 		        list.setModel(model);
 		        list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		        //list.setCellRenderer(new ImageListCellRenderer());
-		        list.setCellRenderer(fotoCellListRenderer());
+		        list.setCellRenderer(FotoCellListRenderer());
 		        list.setVisibleRowCount(-1);
 		        
 		        
@@ -199,6 +204,9 @@ public class VentanaPerfil {
 		        	}
 		        }
 	        }else {
+	        	
+	        	scrollPane.repaint();
+	        	System.out.println("--------- Se muestran los albumes -----------");
 	        	System.out.println("----------------------------------");
 	        	System.out.println("Lista albumes:");
 		        for(Album a: listaAlbumes) {
@@ -209,16 +217,6 @@ public class VentanaPerfil {
 		        	}
 		        System.out.println("----------------------------------");
 		        }
-
-	        	JScrollPane scrollPane = new JScrollPane();
-		        GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		        gbc_scrollPane.gridheight = 3;
-		        gbc_scrollPane.gridwidth = 5;
-		        gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
-		        gbc_scrollPane.fill = GridBagConstraints.BOTH;
-		        gbc_scrollPane.gridx = 1;
-		        gbc_scrollPane.gridy = 4;
-		        panelPerfil.add(scrollPane, gbc_scrollPane);
 	        	
 		        JList<Item> listAlbum = new JList<>();
 		        scrollPane.setViewportView(listAlbum);
@@ -226,7 +224,7 @@ public class VentanaPerfil {
 		        listAlbum.setModel(modelAlbum);
 		        listAlbum.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		        //list.setCellRenderer(new ImageListCellRenderer());
-		        listAlbum.setCellRenderer(fotoCellListRenderer());
+		        listAlbum.setCellRenderer(AlbumCellListRenderer());
 		        listAlbum.setVisibleRowCount(-1);  
 		        for (Album album : listaAlbumes) {
 		        	if(album instanceof Album) {
@@ -251,10 +249,11 @@ public class VentanaPerfil {
 	        
 	        
 	        JButton botonFotos = new JButton("Fotos");
-	        botonFotos.setVisible(false);
+	        botonFotos.setVisible(!fotos);
 	        
 	        JButton añadirAlbum = new JButton("Añadir album");
-	        añadirAlbum.setVisible(false);
+	        añadirAlbum.setHorizontalAlignment(SwingConstants.LEFT);
+	        añadirAlbum.setVisible(!fotos);
 	        GridBagConstraints gbc_añadirAlbum = new GridBagConstraints();
 	        gbc_añadirAlbum.insets = new Insets(0, 0, 0, 5);
 	        gbc_añadirAlbum.gridx = 1;
@@ -269,6 +268,7 @@ public class VentanaPerfil {
 	        
 	        
 	        JButton botonAlbum = new JButton("Álbumes");
+	        botonAlbum.setVisible(fotos);
 	        GridBagConstraints gbc_botonAlbum = new GridBagConstraints();
 	        gbc_botonAlbum.insets = new Insets(0, 0, 0, 5);
 	        gbc_botonAlbum.gridx = 5;
@@ -277,12 +277,9 @@ public class VentanaPerfil {
 	       
 	        
 	        botonAlbum.addActionListener(e -> {
-	        	botonAlbum.setVisible(false);
-	        	botonFotos.setVisible(true);
-	        	añadirAlbum.setVisible(true);
-	        	this.fotos=false;
+	        	System.out.println("boton album");
 	        	try {
-					initialize();
+					VentanaPrincipal.iniciarPanelPerfil(false);
 				} catch (DAOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -291,12 +288,8 @@ public class VentanaPerfil {
 	        });
 	       
 	        botonFotos.addActionListener(e -> {
-	        	botonAlbum.setVisible(true);
-	        	botonFotos.setVisible(false);
-	        	añadirAlbum.setVisible(false);
-	        	this.fotos = true;
 	        	try {
-					initialize();
+					VentanaPrincipal.iniciarPanelPerfil(true);
 				} catch (DAOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -349,7 +342,7 @@ public class VentanaPerfil {
 
 	    }
 	    
-	    private static ListCellRenderer<? super Item> fotoCellListRenderer(){
+	    private static ListCellRenderer<? super Item> FotoCellListRenderer(){
 	    	return new DefaultListCellRenderer() {
 	    		
 	    		
@@ -384,6 +377,43 @@ public class VentanaPerfil {
 				}
 	    	};
 	    }
+	    
+	    private static ListCellRenderer<? super Item> AlbumCellListRenderer(){
+	    	return new DefaultListCellRenderer() {
+	    		
+	    		
+	    		
+	    		@Override
+				public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
+					boolean cellHasFocus) {
+	    			JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+	    			Item item = (Item) value;
+	    			ImageIcon icon = new ImageIcon(item.getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
+	    			label.setIcon(icon);
+	    			    
+					if(value instanceof Item) {
+						if(isSelected) {
+							System.out.println("Foto seleccionada");
+							JPanel panelAlbum = null;
+							try {
+								panelAlbum = new PanelAlbum(listaAlbumes.get(index), listaAlbumes.get(index).getUsuario()).getPanelAlbumes();
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							JPanel panelCentralCardLayout = VentanaPrincipal.getPanelCentral();
+							panelCentralCardLayout.add(panelAlbum, "panel foto");
+							CardLayout cl = (CardLayout) panelCentralCardLayout.getLayout();
+							cl.show(panelCentralCardLayout, "panel foto");
+						}
+					}
+
+
+					return label;
+				}
+	    	};
+	    }
+	    
 	    
 	    
 	    

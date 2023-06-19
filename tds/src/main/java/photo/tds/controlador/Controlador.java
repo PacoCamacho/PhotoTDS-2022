@@ -136,6 +136,10 @@ public class Controlador {
 		return true;
 	}
 	
+	public boolean añadirFotoAlbum(Album album) {
+		return false;
+	}
+	
 	public void borrarFotoSinUsuario(Publicacion publicacion) {
 		this.repoPublicaciones.borrarPublicacion(publicacion);
 	}
