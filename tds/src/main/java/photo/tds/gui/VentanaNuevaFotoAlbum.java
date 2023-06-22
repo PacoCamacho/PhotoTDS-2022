@@ -17,6 +17,7 @@ import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import photo.tds.controlador.Controlador;
+import photo.tds.dominio.Album;
 
 public class VentanaNuevaFotoAlbum {
 	private JFrame frame;
@@ -24,14 +25,14 @@ public class VentanaNuevaFotoAlbum {
 	private JTextField textFieldDescripcion;
 	private String usuario;
 	private String path;
-	private boolean foto;
+	private Album album;
 	
 	/**
 	 * Create the application.
 	 */
-	public VentanaNuevaFotoAlbum(String usuario,boolean foto) {
+	public VentanaNuevaFotoAlbum(String usuario,Album album) {
 		this.usuario = usuario;
-		this.foto = foto;
+		this.album = album;
 		System.out.println(this.usuario);
 		initialize();
 	}
@@ -153,7 +154,7 @@ public class VentanaNuevaFotoAlbum {
 			this.esconderVentana();
 			System.out.println("le doy a subir y entro a crear foto del controlador");
 			System.out.println("this.usuario= "+this.usuario);
-			Controlador.getInstancia().crearAlbum(this.usuario, titulo, textFieldDescripcion.getText(), path);
+			Controlador.getInstancia().añadirFotoAlbum(this.usuario, titulo, textFieldDescripcion.getText(), path,album);
 			//crear foto y añadirla a album
 			
 				

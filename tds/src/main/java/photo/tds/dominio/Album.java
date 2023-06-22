@@ -7,13 +7,12 @@ import java.util.List;
 public class Album extends Publicacion{
 
 	private List<Foto> fotos;
-	private String path;
+	private String pathPortada;
 	
-	public Album(String titulo, Date fecha, String descripcion, String usuario, Foto foto) {
+	public Album(String titulo, Date fecha, String descripcion, String usuario, String path) {
 		super(titulo, fecha, descripcion, 0, usuario);
 		this.fotos = new ArrayList<Foto>();
-		this.fotos.add(foto);
-		this.path = foto.getPath();
+		this.pathPortada = path;
 	}
 	
 	public Album(String titulo, Date fecha, String descripcion, int mg,String usuario, List<Foto> fotos) {
@@ -31,13 +30,10 @@ public class Album extends Publicacion{
 		this.fotos = new ArrayList<>();
 	}
 	
-	public Album(String titulo, Date fecha, String descripcion, String usuario,String path) {
-		this(titulo,fecha,descripcion,0,usuario);
-		this.path = path;
-	}
+
 	
 	public String getPathPortada() {
-		return this.fotos.get(0).getPath();
+		return this.pathPortada;
 	}
 	
 	public List<Foto> getFotos() {
@@ -52,15 +48,17 @@ public class Album extends Publicacion{
 		return fotos.size();
 	}
 	
-//	public String getPath(){
-//		StringBuilder sb = new StringBuilder();
-//        for (Foto foto : fotos) {
-//            sb.append(foto.getPath());
-//            sb.append(" ");
-//        }
-//        return sb.toString().trim();
-//	}
-	public String getPath() {
-		return path;
+	public String getPath(){
+		StringBuilder sb = new StringBuilder();
+        for (Foto foto : fotos) {
+            sb.append(foto.getPath());
+            sb.append(" ");
+        }
+        return sb.toString().trim();
+	}
+
+	
+	public void añadirFoto(Foto foto) {
+		fotos.add(foto);
 	}
 }

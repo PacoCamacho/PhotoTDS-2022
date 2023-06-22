@@ -183,13 +183,17 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 	
 	public List<Foto> getFotosPorIds(String ListaIds){
 		List<Foto> fotos = new LinkedList<Foto>();
-		String[] ids = ListaIds.split(" ");
-		
-		for (String id : ids) {
-			Foto foto = (Foto) this.get(Integer.parseInt(id));
-			fotos.add(foto);
+
+		if(ListaIds != "") {
+			String[] ids = ListaIds.split(" ");
+			
+			for (String id : ids) {
+				Foto foto = (Foto) this.get(Integer.parseInt(id));
+				fotos.add(foto);
+			}
+			    
+			
 		}
-		    
 		return fotos;
 	}
 	

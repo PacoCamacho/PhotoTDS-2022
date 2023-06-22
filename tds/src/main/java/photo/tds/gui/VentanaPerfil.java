@@ -155,7 +155,7 @@ public class VentanaPerfil {
 			}
 	        
 	        listaAlbumes = Controlador.getInstancia().getAlbumes(usuario);
-	        
+	        System.out.println("Lista de albumes para el usuario "+usuario+" :"+listaAlbumes);
 	        JScrollPane scrollPane = new JScrollPane();
 	        GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 	        gbc_scrollPane.gridheight = 3;
@@ -360,7 +360,7 @@ public class VentanaPerfil {
 							System.out.println("Foto seleccionada");
 							JPanel panelFoto = null;
 							try {
-								panelFoto = new PanelFoto(listaFotos.get(index), listaFotos.get(index).getUsuario()).getPanelFoto();
+								panelFoto = new PanelFoto(listaFotos.get(index), listaFotos.get(index).getUsuario(),false).getPanelFoto();
 							} catch (IOException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();

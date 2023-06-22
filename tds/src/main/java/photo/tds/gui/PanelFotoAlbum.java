@@ -70,10 +70,10 @@ public class PanelFotoAlbum extends JPanel{
 	 * Create the panel.
 	 * @throws IOException 
 	 */
-	public PanelFotoAlbum(Foto foto, String usuario,Album album) throws IOException {
+	public PanelFotoAlbum(Foto foto, String usuario,Album albumm) throws IOException {
 		this.foto = foto;
 		this.usuario = usuario;
-		this.album = album;
+		album = albumm;
 		//setPreferredSize(new Dimension(400, 400));
 		List<Comentario> comentarios = foto.getComentarios();
 		modeloComentarios = new DefaultListModel<>();

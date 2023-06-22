@@ -36,7 +36,7 @@ public class Controlador {
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
-		repoPublicaciones = RepositorioPublicaciones.INSTANCE;
+		repoPublicaciones = RepositorioPublicaciones.getInstancia();
 		repoUsuarios = RepositorioUsuarios.getInstancia();
 	}
 	
@@ -128,16 +128,21 @@ public class Controlador {
 		}
 			
 		Usuario user = this.repoUsuarios.findUsuario(u);
-		Foto foto = user.crearFoto(titulo, descripcion, path);
-		this.repoPublicaciones.crearPublicacion(foto);
-		Album album = user.crearAlbum(titulo, descripcion, foto);
-		System.out.println(album.getFotos().get(0).getId());
+		Album album = user.crearAlbum(titulo, descripcion, path);
 		this.repoPublicaciones.crearPublicacion(album);
 		return true;
 	}
 	
-	public boolean añadirFotoAlbum(Album album) {
-		return false;
+	public boolean añadirFotoAlbum(String usuario,String titulo, String descripcion, String path, Album album) {
+		if (!esUsuarioRegistrado(usuario)) {
+			System.out.println("Usuario no registrado");
+			return false;
+		}
+		Usuario user = this.repoUsuarios.findUsuario(usuario);
+		Foto foto = user.crearFotoAlbum(path, titulo, descripcion,album);
+		System.out.println("Se agregó al album "+album.titulo+" la imagen: "+foto+" con nombre: "+foto.getTitulo()+" y con path: "+foto.getPath());
+		this.repoPublicaciones.crearPublicacion(foto);
+		return true;
 	}
 	
 	public void borrarFotoSinUsuario(Publicacion publicacion) {

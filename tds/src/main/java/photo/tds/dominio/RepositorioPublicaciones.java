@@ -10,8 +10,8 @@ import photo.tds.dao.FactoriaDAO;
 import photo.tds.dao.PublicacionDAO;
 import photo.tds.dao.TDSPublicacionDAO;
 
-public enum RepositorioPublicaciones {
-	INSTANCE;
+public class RepositorioPublicaciones {
+	private static RepositorioPublicaciones instancia = null;
 	private HashMap<Integer,Publicacion> publicacionesporID;
 	private HashMap<String,Publicacion> publicacionesporTitulo;
 	private PublicacionDAO persistenciaPublicacion;
@@ -32,6 +32,14 @@ public enum RepositorioPublicaciones {
 		} catch(DAOException eDAO) {
 			eDAO.printStackTrace();
 		}
+	}
+	
+	public static RepositorioPublicaciones getInstancia() {
+		if (instancia == null) {
+			instancia = new RepositorioPublicaciones();
+		}
+
+		return instancia;
 	}
 	
 	public List<Publicacion> findPublicaciones() throws DAOException {

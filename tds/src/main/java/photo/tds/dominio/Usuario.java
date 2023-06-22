@@ -172,8 +172,15 @@ public class Usuario {
 		return f;
 	}
 	
-	public Album crearAlbum(String titulo, String descripcion, Foto foto) {
-		Album a = new Album(titulo, new Date(), descripcion, this.getLogin(), foto);
+	public Foto crearFotoAlbum(String path, String titulo,String descripcion,Album album) {
+		Foto f = new Foto(path, titulo, new Date(), descripcion, this.getLogin());
+		this.publicaciones.add(f);
+		album.añadirFoto(f);
+		return f;
+	}
+	
+	public Album crearAlbum(String titulo, String descripcion, String path) {
+		Album a = new Album(titulo, new Date(), descripcion, this.getLogin(), path);
 		this.publicaciones.add(a);
 		return a;
 	}

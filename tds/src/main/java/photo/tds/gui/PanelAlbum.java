@@ -74,8 +74,8 @@ public class PanelAlbum extends JPanel{
 	 * Create the panel.
 	 * @throws IOException 
 	 */
-	public PanelAlbum(Album album, String usuario) throws IOException {
-		this.album = album;
+	public PanelAlbum(Album albumm, String usuario) throws IOException {
+		album = albumm;
 		this.usuario = usuario;
 		fotoAlbum = ImageIO.read(new File(album.getPathPortada())).getScaledInstance(100, 100,ALLBITS);
 		//setPreferredSize(new Dimension(400, 400));
@@ -132,7 +132,7 @@ public class PanelAlbum extends JPanel{
 		
 		botonNuevaFoto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VentanaNuevaFotoAlbum nuevaFoto = new VentanaNuevaFotoAlbum(usuario,true);
+				VentanaNuevaFotoAlbum nuevaFoto = new VentanaNuevaFotoAlbum(usuario,album);
 				nuevaFoto.mostrarVentana(panelAlbum);
 			}
 		});

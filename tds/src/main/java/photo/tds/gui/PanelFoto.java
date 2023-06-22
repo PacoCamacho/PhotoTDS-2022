@@ -59,6 +59,7 @@ public class PanelFoto extends JPanel{
 	private JPanel panelFoto;
 	private JList<String> listaComentarios;
 	private DefaultListModel<String> modeloComentarios;
+	private boolean vistaPrincipal;
 	
 	public JPanel getPanelFoto() {
 		return panelFoto;
@@ -68,13 +69,13 @@ public class PanelFoto extends JPanel{
 	 * Create the panel.
 	 * @throws IOException 
 	 */
-	public PanelFoto(Foto foto, String usuario) throws IOException {
+	public PanelFoto(Foto foto, String usuario,boolean vistaPrincipal) throws IOException {
 		this.foto = foto;
 		this.usuario = usuario;
 		//setPreferredSize(new Dimension(400, 400));
 		List<Comentario> comentarios = foto.getComentarios();
 		modeloComentarios = new DefaultListModel<>();
-
+		this.vistaPrincipal = vistaPrincipal;
 		for (Comentario comentario : comentarios) {
 		    modeloComentarios.addElement(comentario.getTexto());
 		}
@@ -226,6 +227,10 @@ public class PanelFoto extends JPanel{
 				
 			}
 		});
+		if(vistaPrincipal) {
+			botonBorrar.setVisible(false);
+			botonVolver.setVisible(false);
+		}
 		
 		panelFoto.setVisible(true);
 	}
