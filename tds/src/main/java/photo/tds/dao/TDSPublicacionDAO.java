@@ -65,7 +65,8 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 		}
 		else if(tipo.equals("Album")){
 			String idsFotos = servPersistencia.recuperarPropiedadEntidad(ePublicacion, FOTOS);
-			Album album = new Album(titulo, Conversor.StringToDate(fecha), descripcion, megustas, creador, this.getFotosPorIds(idsFotos), hashtags, comentarios);
+			String path = servPersistencia.recuperarPropiedadEntidad(ePublicacion, PATH);
+			Album album = new Album(path,titulo, Conversor.StringToDate(fecha), descripcion, megustas, creador, this.getFotosPorIds(idsFotos), hashtags, comentarios);
 			album.SetId(ePublicacion.getId());
 			return album;
 		}
@@ -102,7 +103,8 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 					new Propiedad(FOTOS,this.fotosAIds(((Album)publicacion).getFotos())),
 					new Propiedad(CREADOR, publicacion.getUsuario()),
 					new Propiedad(HASHTAGS, this.hashtagACadena(publicacion.getHashtags())),
-					new Propiedad(COMENTARIOS, this.comentsAIds(publicacion.getComentarios()))
+					new Propiedad(COMENTARIOS, this.comentsAIds(publicacion.getComentarios())),
+					new Propiedad(PATH, publicacion.getPath())
 					)));
 			}
 

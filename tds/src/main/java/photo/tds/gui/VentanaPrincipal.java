@@ -10,12 +10,14 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import photo.tds.controlador.Controlador;
@@ -28,6 +30,7 @@ import javax.swing.JButton;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 
 public class VentanaPrincipal {
 	
@@ -36,6 +39,7 @@ public class VentanaPrincipal {
 	private JFrame frmVentanaPrincipal;
 	private static JPanel panelCentral;
 	private static List<Publicacion> listaPublicaciones;
+	private JTextField buscador;
 	
 	
 
@@ -92,6 +96,16 @@ public class VentanaPrincipal {
 		JButton SubirFoto = new JButton("");
 		SubirFoto.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/photo/tds/imagenes/subir-imagen.png")));
 		SubPanelNorte.add(SubirFoto);
+		
+		buscador = new JTextField();
+		SubPanelNorte.add(buscador);
+		buscador.setColumns(10);
+		
+		JLabel botonBuscador = new JLabel("");
+		botonBuscador.setIcon(new ImageIcon("C:\\Users\\franc\\TDS-FOTO-2023\\tds\\src\\main\\java\\photo\\tds\\imagenes\\lupa.png"));
+		SubPanelNorte.add(botonBuscador);
+		
+		addManejadorBotonBuscar(botonBuscador,buscador.getText());
 		
 		SubirFoto.addActionListener(e -> {
 			VentanaNuevaPublicacion nuevaFoto = new VentanaNuevaPublicacion(usuario,true);
@@ -161,5 +175,27 @@ public class VentanaPrincipal {
 		panelCentral.add(panelPublicaciones,"panelPublicaciones");
 		
 	}
-
+	
+	private void addManejadorBotonBuscar(JLabel boton, String campo){
+		boton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {				
+				List<Object> resultadoBusqueda;
+				if(!campo.isEmpty()) {
+					try {
+						resultadoBusqueda = Controlador.getInstancia().buscar(campo);
+					} catch (DAOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				
+				//Crear un ScrollPane en el que se mostraran los iconos de las fotos de perfil
+				//de los usuarios o las fotos encontradas por el hashtag. A esos iconos añadirles
+				//un actionlistener que si les haces click te diriga a un panel perfil en caso de 
+				//usuarios o a un panelFoto en caso de hashtags.
+				
+			}
+		});
+	}
 }

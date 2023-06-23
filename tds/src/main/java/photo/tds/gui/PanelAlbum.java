@@ -77,7 +77,7 @@ public class PanelAlbum extends JPanel{
 	public PanelAlbum(Album albumm, String usuario) throws IOException {
 		album = albumm;
 		this.usuario = usuario;
-		fotoAlbum = ImageIO.read(new File(album.getPathPortada())).getScaledInstance(100, 100,ALLBITS);
+		fotoAlbum = ImageIO.read(new File(album.getPath())).getScaledInstance(100, 100,ALLBITS);
 		//setPreferredSize(new Dimension(400, 400));
 		listaFotos = album.getFotos();
 		

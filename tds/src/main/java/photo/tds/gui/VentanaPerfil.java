@@ -232,14 +232,14 @@ public class VentanaPerfil {
 		        		
 		        		Image image=null;
 						try {
-							image = ImageIO.read(new File(album.getPathPortada()));
+							image = ImageIO.read(new File(album.getPath()));
 						} catch (IOException ea) {
 							// TODO Auto-generated catch block
 							ea.printStackTrace();
 						}
 		        		Item item = new Item(image);
 		        		modelAlbum.addElement(item);
-		        	    System.out.println("Se agregó la imagen: " + album.getPathPortada()); // Imprimir la ruta de la imagen
+		        	    System.out.println("Se agregó la imagen: " + album.getPath()); // Imprimir la ruta de la imagen
 
 		        	}
 				}
