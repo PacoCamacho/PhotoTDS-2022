@@ -140,8 +140,9 @@ public class Controlador {
 		}
 		Usuario user = this.repoUsuarios.findUsuario(usuario);
 		Foto foto = user.crearFotoAlbum(path, titulo, descripcion,album);
-		System.out.println("Se agregó al album "+album.titulo+" la imagen: "+foto+" con nombre: "+foto.getTitulo()+" y con path: "+foto.getPath());
 		this.repoPublicaciones.crearPublicacion(foto);
+		this.repoPublicaciones.actualizarPublicacion(album);
+		System.out.println("Se agregó al album "+album.titulo+" la imagen: "+foto+" con nombre: "+foto.getTitulo()+" y con path: "+foto.getPath());
 		return true;
 	}
 	

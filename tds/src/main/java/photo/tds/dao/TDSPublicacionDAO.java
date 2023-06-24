@@ -138,7 +138,10 @@ public class TDSPublicacionDAO implements PublicacionDAO{
 			} else if (p.getNombre().equals(MEGUSTAS)) {
 				p.setValor(Integer.toString(publicacion.getMg()));
 			} else if (p.getNombre().equals(PATH)) {
-				p.setValor(((Foto)publicacion).getPath());
+				if (publicacion instanceof Foto)
+					p.setValor(((Foto)publicacion).getPath());
+				else if(publicacion instanceof Album)
+					p.setValor(((Album)publicacion).getPath());
 			} else if (p.getNombre().equals(FOTOS)) {
 				p.setValor(this.fotosAIds(((Album)publicacion).getFotos()));
 			} else if (p.getNombre().equals(CREADOR)) {
