@@ -25,7 +25,7 @@ public class Usuario {
 	private List<Publicacion> publicaciones;
 
 	public Usuario(String nombre, String apellidos, String email, String login, String password,
-			Date fechaNacimiento, boolean premium) {
+			Date fechaNacimiento, boolean premium, String path) {
 		this.id = 0;
 		this.nombre = nombre;
 		this.apellidos = apellidos;
@@ -34,6 +34,7 @@ public class Usuario {
 		this.password = password;
 		this.fechaNacimiento = fechaNacimiento;
 		this.premium = premium;
+		this.fotoPerfil = path;
 		this.publicaciones = new LinkedList<>();
 		this.seguidores = new LinkedList<>();
 		this.seguidos = new LinkedList<>();
@@ -161,7 +162,7 @@ public class Usuario {
 			if(hashtag != null)
 				lh.add(hashtag);
 		}
-		Foto foto = new Foto(path,titulo,new Date(),descripcion, this.getNombre(), lh);
+		Foto foto = new Foto(path,titulo,new Date(),descripcion, this.getLogin(), lh);
 		this.publicaciones.add(foto);
 		return foto;
 	}
@@ -207,7 +208,14 @@ public class Usuario {
 		u.getSeguidores().remove(u);
 		return true;
 	}
-
+	
+	public boolean esSeguidor(Usuario u)
+	{
+		if(this.seguidos.contains(u)) {
+			return true;		
+		}
+		else return false;
+	}
 
 
 	

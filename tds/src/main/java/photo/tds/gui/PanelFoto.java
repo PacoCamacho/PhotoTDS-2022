@@ -60,6 +60,7 @@ public class PanelFoto extends JPanel{
 	private JList<String> listaComentarios;
 	private DefaultListModel<String> modeloComentarios;
 	private boolean vistaPrincipal;
+	private boolean otroUsuario;
 	
 	public JPanel getPanelFoto() {
 		return panelFoto;
@@ -69,9 +70,10 @@ public class PanelFoto extends JPanel{
 	 * Create the panel.
 	 * @throws IOException 
 	 */
-	public PanelFoto(Foto foto, String usuario,boolean vistaPrincipal) throws IOException {
+	public PanelFoto(Foto foto, String usuario,boolean vistaPrincipal,boolean otroUsuario) throws IOException {
 		this.foto = foto;
 		this.usuario = usuario;
+		this.otroUsuario = otroUsuario;
 		//setPreferredSize(new Dimension(400, 400));
 		List<Comentario> comentarios = foto.getComentarios();
 		modeloComentarios = new DefaultListModel<>();
@@ -156,6 +158,13 @@ public class PanelFoto extends JPanel{
 		gbc_meGustas.gridx = 1;
 		gbc_meGustas.gridy = 6;
 		panelFoto.add(meGustas, gbc_meGustas);
+		
+		JLabel lblTitulo = new JLabel(foto.getTitulo());
+		GridBagConstraints gbc_lblTitulo = new GridBagConstraints();
+		gbc_lblTitulo.insets = new Insets(0, 0, 5, 5);
+		gbc_lblTitulo.gridx = 4;
+		gbc_lblTitulo.gridy = 6;
+		panelFoto.add(lblTitulo, gbc_lblTitulo);
 		GridBagConstraints gbc_botonMg = new GridBagConstraints();
 		gbc_botonMg.anchor = GridBagConstraints.WEST;
 		gbc_botonMg.insets = new Insets(0, 0, 5, 5);
@@ -201,7 +210,7 @@ public class PanelFoto extends JPanel{
 		botonVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 					try {
-						VentanaPrincipal.iniciarPanelPerfil(true);
+						VentanaPrincipal.iniciarPanelPerfil(true, otroUsuario);
 					} catch (DAOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -218,7 +227,9 @@ public class PanelFoto extends JPanel{
 		gbc_botonBorrar.insets = new Insets(0, 0, 0, 5);
 		gbc_botonBorrar.gridx = 5;
 		gbc_botonBorrar.gridy = 10;
-		panelFoto.add(botonBorrar, gbc_botonBorrar);
+		if(!otroUsuario) {
+			panelFoto.add(botonBorrar, gbc_botonBorrar);
+		}
 		
 		botonBorrar.addMouseListener(new MouseAdapter() {
 			@Override

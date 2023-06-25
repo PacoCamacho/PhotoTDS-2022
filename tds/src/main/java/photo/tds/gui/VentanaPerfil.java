@@ -37,6 +37,7 @@ import photo.tds.dao.DAOException;
 import photo.tds.dominio.Album;
 import photo.tds.dominio.Foto;
 import photo.tds.dominio.Publicacion;
+import photo.tds.dominio.RepositorioUsuarios;
 import photo.tds.dominio.Usuario;
 import photo.tds.helpers.ImageListCellRenderer;
 import photo.tds.helpers.Item;
@@ -53,13 +54,15 @@ public class VentanaPerfil {
 	 	private static List<Foto> listaFotos;
 	 	private static List<Album> listaAlbumes;
 	 	private boolean fotos;
+	 	private static boolean otroUsuario;
 
 
-	    public VentanaPerfil(String usuario, String usuarioSesion, boolean foto) throws DAOException{
+	    public VentanaPerfil(String usuario, String usuarioSesion, boolean foto, boolean otro) throws DAOException{
 	    	this.usuario = usuario;
 	        System.out.println("Usuario perfil: "+usuario);
 	        this.usuarioSesion = usuarioSesion;
 	        fotos = foto;
+	        otroUsuario = otro;
 	    	initialize();
 	        
 	    }
@@ -88,12 +91,37 @@ public class VentanaPerfil {
 	        gbc_nombreUsuario.gridy = 0;
 	        panelPerfil.add(nombreUsuario, gbc_nombreUsuario);
 	        
-	        JLabel subirFoto = new JLabel("+");
-	        GridBagConstraints gbc_subirFoto = new GridBagConstraints();
-	        gbc_subirFoto.insets = new Insets(0, 0, 5, 5);
-	        gbc_subirFoto.gridx = 5;
-	        gbc_subirFoto.gridy = 0;
-	        panelPerfil.add(subirFoto, gbc_subirFoto);
+	        JButton btnSeguir = new JButton();
+	        GridBagConstraints gbc_btnSeguir = new GridBagConstraints();
+	        gbc_btnSeguir.insets = new Insets(0, 0, 5, 5);
+	        gbc_btnSeguir.gridx = 4;
+	        gbc_btnSeguir.gridy = 0;
+	        if(otroUsuario) {
+	        	panelPerfil.add(btnSeguir, gbc_btnSeguir);
+	        }
+	        Usuario uSesion = RepositorioUsuarios.getInstancia().findUsuario(usuarioSesion);
+        	Usuario u = RepositorioUsuarios.getInstancia().findUsuario(usuario);
+	        	
+	        if(uSesion.esSeguidor(u)) {
+	        	btnSeguir.setText("Dejar de seguir");
+	        }else {
+	        	btnSeguir.setText("Seguir");
+	        }
+	        
+	        
+	        btnSeguir.addActionListener(e -> {
+	        	if(uSesion.esSeguidor(u)) {
+	        		System.out.println("Seguir");
+	        		uSesion.dejarSeguir(u);
+	        		btnSeguir.setText("Seguir");
+	        	}else {
+	        		uSesion.seguirUsuario(u);
+	        		btnSeguir.setText("Dejar de seguir");
+	        		System.out.println("Dejar de Seguir");
+	        	}
+	        	
+	        }
+	        );
 	        
 	        JLabel numFotos = new JLabel(String.valueOf(Controlador.getInstancia().getFotosPerfil(usuario).size()));
 	        GridBagConstraints gbc_numFotos = new GridBagConstraints();
@@ -102,21 +130,29 @@ public class VentanaPerfil {
 	        gbc_numFotos.gridy = 1;
 	        panelPerfil.add(numFotos, gbc_numFotos);
 	        
-	        JLabel numSeguidores = new JLabel("0");
+	        JLabel numSeguidores = new JLabel(String.valueOf(u.getNumSeguidores()));
 	        GridBagConstraints gbc_numSeguidores = new GridBagConstraints();
 	        gbc_numSeguidores.insets = new Insets(0, 0, 5, 5);
 	        gbc_numSeguidores.gridx = 4;
 	        gbc_numSeguidores.gridy = 1;
 	        panelPerfil.add(numSeguidores, gbc_numSeguidores);
 	        
-	        JLabel numSeguidos = new JLabel("0");
+	        JLabel numSeguidos = new JLabel(String.valueOf(u.getNumSeguidos()));
 	        GridBagConstraints gbc_numSeguidos = new GridBagConstraints();
 	        gbc_numSeguidos.insets = new Insets(0, 0, 5, 5);
 	        gbc_numSeguidos.gridx = 5;
 	        gbc_numSeguidos.gridy = 1;
 	        panelPerfil.add(numSeguidos, gbc_numSeguidos);
 	        
-	        JLabel fotoPerfil = new JLabel("aqui va la foto de perfil");
+	        Usuario user = RepositorioUsuarios.getInstancia().findUsuario(usuario);
+	        Image perfil = null;
+			try {
+				perfil = ImageIO.read(new File(user.getFotoPerfil())).getScaledInstance(100, 100, 0);
+			} catch (IOException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+	        JLabel fotoPerfil = new JLabel(new ImageIcon(perfil));
 	        GridBagConstraints gbc_fotoPerfil = new GridBagConstraints();
 	        gbc_fotoPerfil.gridheight = 3;
 	        gbc_fotoPerfil.insets = new Insets(0, 0, 5, 5);
@@ -258,7 +294,10 @@ public class VentanaPerfil {
 	        gbc_añadirAlbum.insets = new Insets(0, 0, 0, 5);
 	        gbc_añadirAlbum.gridx = 1;
 	        gbc_añadirAlbum.gridy = 7;
-	        panelPerfil.add(añadirAlbum, gbc_añadirAlbum);
+	        
+	        if(!otroUsuario) { 
+		        panelPerfil.add(añadirAlbum, gbc_añadirAlbum);
+	        }
 	        
 	        GridBagConstraints gbc_botonFotos = new GridBagConstraints();
 	        gbc_botonFotos.insets = new Insets(0, 0, 0, 5);
@@ -279,7 +318,7 @@ public class VentanaPerfil {
 	        botonAlbum.addActionListener(e -> {
 	        	System.out.println("boton album");
 	        	try {
-					VentanaPrincipal.iniciarPanelPerfil(false);
+					VentanaPrincipal.iniciarPanelPerfil(false,otroUsuario);
 				} catch (DAOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -289,7 +328,7 @@ public class VentanaPerfil {
 	       
 	        botonFotos.addActionListener(e -> {
 	        	try {
-					VentanaPrincipal.iniciarPanelPerfil(true);
+					VentanaPrincipal.iniciarPanelPerfil(true,otroUsuario);
 				} catch (DAOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -360,7 +399,7 @@ public class VentanaPerfil {
 							System.out.println("Foto seleccionada");
 							JPanel panelFoto = null;
 							try {
-								panelFoto = new PanelFoto(listaFotos.get(index), listaFotos.get(index).getUsuario(),false).getPanelFoto();
+								panelFoto = new PanelFoto(listaFotos.get(index), listaFotos.get(index).getUsuario(),false,otroUsuario).getPanelFoto();
 							} catch (IOException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
@@ -396,7 +435,7 @@ public class VentanaPerfil {
 							System.out.println("Foto seleccionada");
 							JPanel panelAlbum = null;
 							try {
-								panelAlbum = new PanelAlbum(listaAlbumes.get(index), listaAlbumes.get(index).getUsuario()).getPanelAlbumes();
+								panelAlbum = new PanelAlbum(listaAlbumes.get(index), listaAlbumes.get(index).getUsuario(), otroUsuario).getPanelAlbumes();
 							} catch (IOException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();

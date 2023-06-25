@@ -35,6 +35,7 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 	private static final String SEGUIDORES = "seguidores";
 	private static final String SEGUIDOS = "seguidos";
 	private static final String PUBLICACIONES = "publicaciones";
+	private static final String FOTO_PERFIL = "foto perfil";
 
 	private ServicioPersistencia servPersistencia;
 	private DateFormat dateFormat;
@@ -57,11 +58,11 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 		String publicacionesIds = servPersistencia.recuperarPropiedadEntidad(eUsuario, PUBLICACIONES);
 		List<Usuario> seguidores = this.getUsuariosPorIds(servPersistencia.recuperarPropiedadEntidad(eUsuario, SEGUIDORES));
 		List<Usuario> seguidos = this.getUsuariosPorIds(servPersistencia.recuperarPropiedadEntidad(eUsuario, SEGUIDOS));
-		
+		String fotoPerfil = servPersistencia.recuperarPropiedadEntidad(eUsuario, FOTO_PERFIL);
 		Usuario usuario=null;
 		System.out.println("fecha nacimiento stringToDate: "+fechaNacimiento);
 		System.out.println("fecha nacimiento stringToDate: "+ ConversorDate.StringToDate(fechaNacimiento));
-		usuario = new Usuario(nombre, apellidos, email, login, password, ConversorDate.StringToDate(fechaNacimiento),Boolean.parseBoolean(premium));
+		usuario = new Usuario(nombre, apellidos, email, login, password, ConversorDate.StringToDate(fechaNacimiento),Boolean.parseBoolean(premium),fotoPerfil);
 		usuario.setId(eUsuario.getId());
 		usuario.setPublicaciones(this.getPublicacionesPorIds(publicacionesIds));
 		usuario.setSeguidores(seguidores);
@@ -82,6 +83,7 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 				new Propiedad(FECHA_NACIMIENTO, dateFormat.format(usuario.getFechaNacimiento())),
 				new Propiedad(SEGUIDORES, this.usuariosConvertidosAIds(usuario.getSeguidores())),
 				new Propiedad(SEGUIDOS, this.usuariosConvertidosAIds(usuario.getSeguidos())),
+				new Propiedad(FOTO_PERFIL, usuario.getFotoPerfil()),
 				new Propiedad(PUBLICACIONES, this.publicacionesConvertidasAIds(usuario.getPublicaciones())))));
 		return eUsuario;
 	}
@@ -135,6 +137,8 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 				prop.setValor(this.usuariosConvertidosAIds(usuario.getSeguidos()));
 			} else if (prop.getNombre().equals(PUBLICACIONES)) {
 				prop.setValor(this.publicacionesConvertidasAIds(usuario.getPublicaciones()));
+			} else if(prop.getNombre().equals(FOTO_PERFIL)) {
+				prop.setValor(usuario.getFotoPerfil());
 			}
 			servPersistencia.modificarPropiedad(prop);
 		}

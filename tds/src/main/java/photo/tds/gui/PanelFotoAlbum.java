@@ -61,6 +61,7 @@ public class PanelFotoAlbum extends JPanel{
 	private JList<String> listaComentarios;
 	private DefaultListModel<String> modeloComentarios;
 	private static Album album;
+	private static boolean otroUsuario;
 	
 	public JPanel getPanelFoto() {
 		return panelFoto;
@@ -70,10 +71,11 @@ public class PanelFotoAlbum extends JPanel{
 	 * Create the panel.
 	 * @throws IOException 
 	 */
-	public PanelFotoAlbum(Foto foto, String usuario,Album albumm) throws IOException {
+	public PanelFotoAlbum(Foto foto, String usuario,Album albumm, boolean otro) throws IOException {
 		this.foto = foto;
 		this.usuario = usuario;
 		album = albumm;
+		otroUsuario = otro;
 		//setPreferredSize(new Dimension(400, 400));
 		List<Comentario> comentarios = foto.getComentarios();
 		modeloComentarios = new DefaultListModel<>();
@@ -211,7 +213,7 @@ public class PanelFotoAlbum extends JPanel{
 					public void actionPerformed(ActionEvent e) {
 						JPanel panelAlbum = null;
 						try {
-							panelAlbum = new PanelAlbum(album, usuario).getPanelAlbumes();
+							panelAlbum = new PanelAlbum(album, usuario, otroUsuario).getPanelAlbumes();
 						} catch (IOException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -234,7 +236,9 @@ public class PanelFotoAlbum extends JPanel{
 		GridBagConstraints gbc_botonBorrar = new GridBagConstraints();
 		gbc_botonBorrar.gridx = 6;
 		gbc_botonBorrar.gridy = 10;
-		panelFoto.add(botonBorrar, gbc_botonBorrar);
+		if(!otroUsuario) {
+			panelFoto.add(botonBorrar, gbc_botonBorrar);
+		}
 		
 		botonBorrar.addMouseListener(new MouseAdapter() {
 			@Override

@@ -63,6 +63,7 @@ public class PanelAlbum extends JPanel{
 	private JPanel panelAlbum;
 	private static List<Foto> listaFotos;
 	private static Image fotoAlbum;
+	private static boolean otroUsuario;
 
 
 	
@@ -74,9 +75,10 @@ public class PanelAlbum extends JPanel{
 	 * Create the panel.
 	 * @throws IOException 
 	 */
-	public PanelAlbum(Album albumm, String usuario) throws IOException {
+	public PanelAlbum(Album albumm, String usuario, boolean otro) throws IOException {
 		album = albumm;
 		this.usuario = usuario;
+		otroUsuario = otro;
 		fotoAlbum = ImageIO.read(new File(album.getPath())).getScaledInstance(100, 100,ALLBITS);
 		//setPreferredSize(new Dimension(400, 400));
 		listaFotos = album.getFotos();
@@ -128,7 +130,9 @@ public class PanelAlbum extends JPanel{
 		gbc_botonNuevaFoto.insets = new Insets(0, 0, 5, 5);
 		gbc_botonNuevaFoto.gridx = 4;
 		gbc_botonNuevaFoto.gridy = 3;
-		panelAlbum.add(botonNuevaFoto, gbc_botonNuevaFoto);
+		if(!otroUsuario) {
+			panelAlbum.add(botonNuevaFoto, gbc_botonNuevaFoto);
+		}
 		
 		botonNuevaFoto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -196,7 +200,7 @@ public class PanelAlbum extends JPanel{
 		botonVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					VentanaPrincipal.iniciarPanelPerfil(false);
+					VentanaPrincipal.iniciarPanelPerfil(false,otroUsuario);
 				} catch (DAOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -215,8 +219,9 @@ public class PanelAlbum extends JPanel{
 		GridBagConstraints gbc_botonBorrar = new GridBagConstraints();
 		gbc_botonBorrar.gridx = 5;
 		gbc_botonBorrar.gridy = 10;
-		panelAlbum.add(botonBorrar, gbc_botonBorrar);
-		
+		if(!otroUsuario) {
+			panelAlbum.add(botonBorrar, gbc_botonBorrar);
+		}
 
 		
 		panelAlbum.setVisible(true);
@@ -250,7 +255,7 @@ public class PanelAlbum extends JPanel{
 							System.out.println("Foto seleccionada");
 							JPanel panelFotoAlbum = null;
 							try {
-								panelFotoAlbum = new PanelFotoAlbum(listaFotos.get(index), listaFotos.get(index).getUsuario(),album).getPanelFoto();
+								panelFotoAlbum = new PanelFotoAlbum(listaFotos.get(index), listaFotos.get(index).getUsuario(),album, otroUsuario).getPanelFoto();
 							} catch (IOException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();

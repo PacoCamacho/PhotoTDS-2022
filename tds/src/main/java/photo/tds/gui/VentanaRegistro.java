@@ -14,6 +14,7 @@ import javax.swing.ImageIcon;
 import java.awt.GridBagLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -23,6 +24,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JTextField;
 import java.awt.Font;
 import javax.swing.border.TitledBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import photo.tds.controlador.Controlador;
 import photo.tds.helpers.ConversorDate;
@@ -32,6 +34,7 @@ import javax.swing.JPasswordField;
 import com.toedter.calendar.IDateEditor;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
+import javax.swing.SwingConstants;
 
 public class VentanaRegistro extends JDialog{
 
@@ -47,6 +50,7 @@ public class VentanaRegistro extends JDialog{
 	private JPasswordField passwordField;
 	private JPasswordField passwordFieldRep;
 	private String fechaNacimiento;
+	private String path;
 
 	/**
 	 * Launch the application.
@@ -112,7 +116,7 @@ public class VentanaRegistro extends JDialog{
 		frameRegistro.getContentPane().add(panelCentro, BorderLayout.CENTER);
 		GridBagLayout gbl_panelCentro = new GridBagLayout();
 		gbl_panelCentro.columnWidths = new int[]{0, 963, 0, 0};
-		gbl_panelCentro.rowHeights = new int[]{0, 243, 0, 0, 0};
+		gbl_panelCentro.rowHeights = new int[]{0, 243, 187, 188, 0};
 		gbl_panelCentro.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
 		gbl_panelCentro.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		panelCentro.setLayout(gbl_panelCentro);
@@ -209,16 +213,16 @@ public class VentanaRegistro extends JDialog{
 		JPanel panelDatosAplicacion = new JPanel();
 		panelDatosAplicacion.setBorder(new TitledBorder(null, "Datos Aplicaci\u00F3n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_panelDatosAplicacion = new GridBagConstraints();
-		gbc_panelDatosAplicacion.insets = new Insets(0, 0, 5, 5);
+		gbc_panelDatosAplicacion.insets = new Insets(0, 0, 0, 5);
 		gbc_panelDatosAplicacion.fill = GridBagConstraints.BOTH;
 		gbc_panelDatosAplicacion.gridx = 1;
-		gbc_panelDatosAplicacion.gridy = 2;
+		gbc_panelDatosAplicacion.gridy = 3;
 		panelCentro.add(panelDatosAplicacion, gbc_panelDatosAplicacion);
 		GridBagLayout gbl_panelDatosAplicacion = new GridBagLayout();
 		gbl_panelDatosAplicacion.columnWidths = new int[]{136, 0, 524, 0, 0};
-		gbl_panelDatosAplicacion.rowHeights = new int[]{62, 54, 45, 0};
+		gbl_panelDatosAplicacion.rowHeights = new int[]{62, 54, 45, 35, 0};
 		gbl_panelDatosAplicacion.columnWeights = new double[]{0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
-		gbl_panelDatosAplicacion.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panelDatosAplicacion.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panelDatosAplicacion.setLayout(gbl_panelDatosAplicacion);
 		
 		JLabel lblNewLabelUsuario = new JLabel("Nombre Usuario:");
@@ -260,42 +264,64 @@ public class VentanaRegistro extends JDialog{
 		lblNewLabelContraseñaRep.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		GridBagConstraints gbc_lblNewLabelContraseñaRep = new GridBagConstraints();
 		gbc_lblNewLabelContraseñaRep.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabelContraseñaRep.insets = new Insets(0, 0, 0, 5);
+		gbc_lblNewLabelContraseñaRep.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabelContraseñaRep.gridx = 1;
 		gbc_lblNewLabelContraseñaRep.gridy = 2;
 		panelDatosAplicacion.add(lblNewLabelContraseñaRep, gbc_lblNewLabelContraseñaRep);
 		
 		passwordFieldRep = new JPasswordField();
 		GridBagConstraints gbc_passwordFieldRep = new GridBagConstraints();
-		gbc_passwordFieldRep.insets = new Insets(0, 0, 0, 5);
+		gbc_passwordFieldRep.insets = new Insets(0, 0, 5, 5);
 		gbc_passwordFieldRep.fill = GridBagConstraints.HORIZONTAL;
 		gbc_passwordFieldRep.gridx = 2;
 		gbc_passwordFieldRep.gridy = 2;
 		panelDatosAplicacion.add(passwordFieldRep, gbc_passwordFieldRep);
 		
+		JLabel lblFotoPerfil = new JLabel("Foto de perfil: ");
+		GridBagConstraints gbc_lblFotoPerfil = new GridBagConstraints();
+		gbc_lblFotoPerfil.fill = GridBagConstraints.VERTICAL;
+		gbc_lblFotoPerfil.insets = new Insets(0, 0, 0, 5);
+		gbc_lblFotoPerfil.gridx = 1;
+		gbc_lblFotoPerfil.gridy = 3;
+		panelDatosAplicacion.add(lblFotoPerfil, gbc_lblFotoPerfil);
+		
+
+		JButton btnSeleccionar = new JButton("Selecciona");
+		btnSeleccionar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser selector = new JFileChooser();
+				FileNameExtensionFilter filtro = new FileNameExtensionFilter("Solo imágenes jpg y GIF","jpg","gif");
+				selector.setFileFilter(filtro);
+				int aceptado = selector.showOpenDialog(null);
+				if(aceptado == JFileChooser.APPROVE_OPTION) {
+					System.out.println("Has seleccionado esta imagen:"+ selector.getSelectedFile());
+					path = selector.getSelectedFile().getPath();
+				}
+			}
+		});
+		btnSeleccionar.setHorizontalAlignment(SwingConstants.LEFT);
+		GridBagConstraints gbc_btnSeleccionar = new GridBagConstraints();
+		gbc_btnSeleccionar.insets = new Insets(0, 0, 0, 5);
+		gbc_btnSeleccionar.gridx = 2;
+		gbc_btnSeleccionar.gridy = 3;
+		panelDatosAplicacion.add(btnSeleccionar, gbc_btnSeleccionar);
+		
 		JPanel panelSur = new JPanel();
 		frameRegistro.getContentPane().add(panelSur, BorderLayout.SOUTH);
 		GridBagLayout gbl_panelSur = new GridBagLayout();
-		gbl_panelSur.columnWidths = new int[]{418, 0, 0, 129, 0, 0};
-		gbl_panelSur.rowHeights = new int[]{0, 0, 0};
-		gbl_panelSur.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_panelSur.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gbl_panelSur.columnWidths = new int[]{460, 22, 42, 316, 0};
+		gbl_panelSur.rowHeights = new int[]{0, 0, 0, 0};
+		gbl_panelSur.columnWeights = new double[]{0.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
+		gbl_panelSur.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panelSur.setLayout(gbl_panelSur);
 		
 		JButton btnRegistro = new JButton("Registrarse");
+		btnRegistro.setHorizontalAlignment(SwingConstants.RIGHT);
 		GridBagConstraints gbc_btnRegistro = new GridBagConstraints();
-		gbc_btnRegistro.insets = new Insets(0, 0, 0, 5);
+		gbc_btnRegistro.insets = new Insets(0, 0, 5, 5);
 		gbc_btnRegistro.gridx = 1;
 		gbc_btnRegistro.gridy = 1;
 		panelSur.add(btnRegistro, gbc_btnRegistro);
-		
-		JButton btnCancelar = new JButton("Cancelar");
-		addManejadorCancelar(btnCancelar);
-		GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
-		gbc_btnCancelar.insets = new Insets(0, 0, 0, 5);
-		gbc_btnCancelar.gridx = 3;
-		gbc_btnCancelar.gridy = 1;
-		panelSur.add(btnCancelar, gbc_btnCancelar);
 		
 		btnRegistro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -309,7 +335,7 @@ public class VentanaRegistro extends JDialog{
 					registrado = Controlador.getInstancia().registrarUsuario(textFieldNombre.getText(),
 							textFieldApellidos.getText(), textFieldEmail.getText(), textFieldUsuario.getText(),
 							new String(passwordField.getPassword()), 
-							ConversorDate.StringToDate(fechaNacimiento));
+							ConversorDate.StringToDate(fechaNacimiento),path);
 					if (registrado) {
 						JOptionPane.showMessageDialog(frameRegistro, "Usuario registrado correctamente.", "Registro",
 								JOptionPane.INFORMATION_MESSAGE);
@@ -328,6 +354,15 @@ public class VentanaRegistro extends JDialog{
 				}
 			}
 		});
+		
+		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setHorizontalAlignment(SwingConstants.LEFT);
+		addManejadorCancelar(btnCancelar);
+		GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
+		gbc_btnCancelar.insets = new Insets(0, 0, 5, 5);
+		gbc_btnCancelar.gridx = 2;
+		gbc_btnCancelar.gridy = 1;
+		panelSur.add(btnCancelar, gbc_btnCancelar);
 	}
 	
 	private boolean checkFields() {
@@ -395,6 +430,10 @@ public class VentanaRegistro extends JDialog{
 			System.out.println("Fallo en fecha vacia");
 			/*lblFechaNacimientoError.setVisible(true);
 			lblFechaNacimiento.setForeground(Color.RED);*/
+			salida = false;
+		}
+		if(path.isEmpty()) {
+			System.out.println("Fallo en foto de perfil vacia");
 			salida = false;
 		}
 

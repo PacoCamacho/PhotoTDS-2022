@@ -66,11 +66,11 @@ public class Controlador {
 	}
 
 	public boolean registrarUsuario(String nombre, String apellidos, String email, String login, String password,
-			Date fechaNacimiento) {
+			Date fechaNacimiento,String path) {
 
 		if (esUsuarioRegistrado(login))
 			return false;
-		Usuario usuario = new Usuario(nombre, apellidos, email, login, password, fechaNacimiento, false);
+		Usuario usuario = new Usuario(nombre, apellidos, email, login, password, fechaNacimiento, false, path);
 
 		UsuarioDAO usuarioDAO = factoria
 				.getUsuarioDAO(); /* Adaptador DAO para almacenar el nuevo Usuario en la BD */
