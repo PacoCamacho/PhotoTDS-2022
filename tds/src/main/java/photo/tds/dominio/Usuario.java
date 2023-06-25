@@ -196,7 +196,7 @@ public class Usuario {
 			return false;		
 			}
 		this.seguidos.add(u);
-		u.getSeguidores().add(this);
+		u.anadirSeguidor(this);
 		return true;
 	}
 	
@@ -205,8 +205,26 @@ public class Usuario {
 			return false;		
 			}
 		this.seguidos.remove(u);
-		u.getSeguidores().remove(u);
+		u.quitarSeguidor(this);
 		return true;
+	}
+	
+	public boolean anadirSeguidor(Usuario u) {
+		if(this.seguidores.contains(u)) {
+			return false;		
+			}
+		this.seguidores.add(u);
+		return true;
+		
+	}
+	public boolean quitarSeguidor(Usuario u) {
+		if(!this.seguidores.contains(u)) {
+			return false;		
+			}
+		this.seguidores.remove(u);
+		
+		return true;
+		
 	}
 	
 	public boolean esSeguidor(Usuario u)

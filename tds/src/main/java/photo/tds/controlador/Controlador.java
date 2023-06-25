@@ -2,6 +2,8 @@ package photo.tds.controlador;
 
 import photo.tds.dao.UsuarioDAO;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
@@ -21,7 +23,7 @@ import photo.tds.dominio.Publicacion;
 import photo.tds.dominio.RepositorioPublicaciones;
 import photo.tds.dominio.RepositorioUsuarios;
 
-public class Controlador {
+public class Controlador implements PropertyChangeListener{
 	private static Controlador instancia = null;
 	
 	private Usuario usuarioActual;
@@ -38,6 +40,7 @@ public class Controlador {
 		}
 		repoPublicaciones = RepositorioPublicaciones.getInstancia();
 		repoUsuarios = RepositorioUsuarios.getInstancia();
+		umu.tds.fotos.CargadorFotos.getInstancia().addFotosListener(this);
 	}
 	
 	public static Controlador getInstancia() {
@@ -259,6 +262,32 @@ public class Controlador {
 				.filter(p -> p instanceof Album)
 				.map(p -> (Album) p)
 				.collect(Collectors.toList());
+	}
+
+	public void subirFotos(String usuario, String fichero) {
+		if (!esUsuarioRegistrado(usuario)) {
+			System.out.println("Usuario no registrado");
+			return;
+		}
+		umu.tds.fotos.CargadorFotos.getInstancia().setArchivo(fichero);
+		
+		
+	} 
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		umu.tds.fotos.Fotos fotos = (umu.tds.fotos.Fotos) evt.getNewValue();
+		Usuario u = this.getUsuarioActual();
+		
+		for (umu.tds.fotos.Foto f : fotos.getFoto()) {
+			System.out.println("Titulo: "+ f.getTitulo()+ ", Descripcion: "+f.getDescripcion());
+			Foto foto = u.crearFoto(f.getTitulo(), f.getDescripcion(), f.getPath(), f.getHashTags().get(0).getHashTag());
+
+			this.repoPublicaciones.crearPublicacion(foto);
+			
+
+		}
+		
 	}
 }
 

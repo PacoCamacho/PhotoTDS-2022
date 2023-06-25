@@ -99,6 +99,7 @@ public class VentanaPerfil {
 	        if(otroUsuario) {
 	        	panelPerfil.add(btnSeguir, gbc_btnSeguir);
 	        }
+	        System.out.println(usuarioSesion);
 	        Usuario uSesion = RepositorioUsuarios.getInstancia().findUsuario(usuarioSesion);
         	Usuario u = RepositorioUsuarios.getInstancia().findUsuario(usuario);
 	        	
