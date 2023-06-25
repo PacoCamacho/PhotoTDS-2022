@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 
 import photo.tds.controlador.Controlador;
@@ -26,6 +27,7 @@ import java.awt.CardLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.Toolkit;
 
 public class VentanaLogin {
 
@@ -51,9 +53,16 @@ public class VentanaLogin {
 	 **********************************************************************/
 	
 	private void initialize() {
+		try {
+			UIManager.setLookAndFeel("com.formdev.flatlaf.intellijthemes.FlatSolarizedLightIJTheme");
+		} catch (Exception ex) {
+			System.err.println("Failed to initialize LaF");
+		}
 		frmLogin = new JFrame();
+		frmLogin.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaLogin.class.getResource("/photo/tds/imagenes/PhotoTDS_logo-1.png")));
+		frmLogin.getContentPane().setBackground(new Color(128, 128, 128));
 		frmLogin.setForeground(new Color(0, 0, 0));
-		frmLogin.setBackground(new Color(255, 255, 255));
+		frmLogin.setBackground(new Color(128, 128, 128));
 		frmLogin.setTitle("Login PhotoTDS\r\n");
 		frmLogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmLogin.getContentPane().setLayout(new BorderLayout());
@@ -69,7 +78,7 @@ public class VentanaLogin {
 		panel_Norte.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 15));
 
 		JLabel lblTitulo = new JLabel("");
-		lblTitulo.setIcon(new ImageIcon("C:\\Users\\franc\\Documents\\imagenes TDS\\PhotoTDS_logo.png"));
+		lblTitulo.setIcon(new ImageIcon(VentanaLogin.class.getResource("/photo/tds/imagenes/PhotoTDS_logo.png")));
 		lblTitulo.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblTitulo.setForeground(Color.DARK_GRAY);
 		panel_Norte.add(lblTitulo);
@@ -111,7 +120,7 @@ public class VentanaLogin {
 										panelCampoUsuarioContraseña.setLayout(gbl_panelCampoUsuarioContraseña);
 										
 												JLabel lblUsuario = new JLabel("Usuario: ");
-												lblUsuario.setIcon(new ImageIcon("C:\\Users\\franc\\Documents\\imagenes TDS\\Persona.png"));
+												lblUsuario.setIcon(new ImageIcon(VentanaLogin.class.getResource("/photo/tds/imagenes/Persona.png")));
 												GridBagConstraints gbc_lblUsuario = new GridBagConstraints();
 												gbc_lblUsuario.insets = new Insets(0, 0, 5, 5);
 												gbc_lblUsuario.anchor = GridBagConstraints.NORTHEAST;
@@ -132,7 +141,7 @@ public class VentanaLogin {
 														textUsuario.setColumns(15);
 														
 														JLabel lblNewLabel = new JLabel("Contraseña:");
-														lblNewLabel.setIcon(new ImageIcon("C:\\Users\\franc\\Documents\\imagenes TDS\\candado.png"));
+														lblNewLabel.setIcon(new ImageIcon(VentanaLogin.class.getResource("/photo/tds/imagenes/candado.png")));
 														lblNewLabel.setFont(new Font("SansSerif", Font.PLAIN, 14));
 														GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 														gbc_lblNewLabel.anchor = GridBagConstraints.NORTHEAST;
@@ -166,18 +175,7 @@ public class VentanaLogin {
 		gbl_panelBotonesLoginRegistro.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panelBotonesLoginRegistro.setLayout(gbl_panelBotonesLoginRegistro);
 				
-				JButton borrarUsuarios = new JButton("BORRAR USUARIOS");
-				borrarUsuarios.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-					}
-				});
-				GridBagConstraints gbc_borrarUsuarios = new GridBagConstraints();
-				gbc_borrarUsuarios.insets = new Insets(0, 0, 0, 5);
-				gbc_borrarUsuarios.gridx = 0;
-				gbc_borrarUsuarios.gridy = 0;
-				panelBotonesLoginRegistro.add(borrarUsuarios, gbc_borrarUsuarios);
-		
-					addManejadorBotonBorrar(borrarUsuarios);
+				
 				
 				JButton btnLogin = new JButton("Login");
 				btnLogin.setForeground(new Color(0, 0, 0));

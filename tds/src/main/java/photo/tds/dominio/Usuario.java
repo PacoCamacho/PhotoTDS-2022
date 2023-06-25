@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import photo.tds.controlador.Controlador;
+
 
 
 
@@ -24,6 +26,22 @@ public class Usuario {
 	
 	private List<Publicacion> publicaciones;
 
+	public Usuario(String nombre, String apellidos, String email, String login, String password,
+			Date fechaNacimiento, boolean premium, String path,List<Usuario> seguidores, List<Usuario> seguidos) {
+		this.id = 0;
+		this.nombre = nombre;
+		this.apellidos = apellidos;
+		this.email = email;
+		this.login = login;
+		this.password = password;
+		this.fechaNacimiento = fechaNacimiento;
+		this.premium = premium;
+		this.fotoPerfil = path;
+		this.publicaciones = new LinkedList<>();
+		this.seguidores = seguidores;
+		this.seguidos = seguidos;
+	}
+	
 	public Usuario(String nombre, String apellidos, String email, String login, String password,
 			Date fechaNacimiento, boolean premium, String path) {
 		this.id = 0;
@@ -197,6 +215,7 @@ public class Usuario {
 			}
 		this.seguidos.add(u);
 		u.anadirSeguidor(this);
+		Controlador.getInstancia().seguirUsuario(this.getLogin(), u.getLogin());
 		return true;
 	}
 	

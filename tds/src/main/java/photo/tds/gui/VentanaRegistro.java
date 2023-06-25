@@ -35,6 +35,9 @@ import com.toedter.calendar.IDateEditor;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+
+import java.awt.Toolkit;
 
 public class VentanaRegistro extends JDialog{
 
@@ -101,7 +104,14 @@ public class VentanaRegistro extends JDialog{
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		try {
+			UIManager.setLookAndFeel("com.formdev.flatlaf.intellijthemes.FlatSolarizedLightIJTheme");
+		} catch (Exception ex) {
+			System.err.println("Failed to initialize LaF");
+		}
 		frameRegistro = new JFrame();
+		frameRegistro.setTitle("Ventana Registro");
+		frameRegistro.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaRegistro.class.getResource("/photo/tds/imagenes/PhotoTDS_logo-1.png")));
 		frameRegistro.setBounds(100, 100, 1089, 708);
 		frameRegistro.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -204,7 +214,7 @@ public class VentanaRegistro extends JDialog{
 		JTextFieldDateEditor txtFechaNac = (JTextFieldDateEditor) editorDate;
 		
 		GridBagConstraints gbc_fechaNacimiento = new GridBagConstraints();
-		gbc_fechaNacimiento.anchor = GridBagConstraints.WEST;
+		gbc_fechaNacimiento.fill = GridBagConstraints.HORIZONTAL;
 		gbc_fechaNacimiento.insets = new Insets(10, 0, 0, 0);
 		gbc_fechaNacimiento.gridx = 2;
 		gbc_fechaNacimiento.gridy = 3;
@@ -367,60 +377,47 @@ public class VentanaRegistro extends JDialog{
 	
 	private boolean checkFields() {
 		boolean salida = true;
-		/* borrar todos los errores en pantalla */
+		
 		
 		if (textFieldNombre.getText().trim().isEmpty()) {
-			/*lblNombreError.setVisible(true);
-			lblNombre.setForeground(Color.RED);*/
+			
 			System.out.println("Fallo en nombre");
 			textFieldNombre.setBorder(BorderFactory.createLineBorder(Color.RED));
 			salida = false;
 		}
 		if (textFieldApellidos.getText().trim().isEmpty()) {
-			/*lblApellidosError.setVisible(true);
-			lblApellidos.setForeground(Color.RED);*/
+			
 			System.out.println("Fallo en apellidos");
 			textFieldApellidos.setBorder(BorderFactory.createLineBorder(Color.RED));
 			salida = false;
 		}
 		if (textFieldEmail.getText().trim().isEmpty()) {
-			/*lblEmailError.setVisible(true);
-			lblEmail.setForeground(Color.RED);*/
+			
 			System.out.println("Fallo en email");
 			textFieldEmail.setBorder(BorderFactory.createLineBorder(Color.RED));
 			salida = false;
 		}
 		if (textFieldUsuario.getText().trim().isEmpty()) {
-			/*lblUsuarioError.setText("El usuario es obligatorio");
-			lblUsuarioError.setVisible(true);
-			lblUsuario.setForeground(Color.RED);
-			txtUsuario.setBorder(BorderFactory.createLineBorder(Color.RED));*/
+			
 			System.out.println("Fallo en usuario");
 			salida = false;
 		}
 		String password = new String(passwordField.getPassword());
 		String password2 = new String(passwordFieldRep.getPassword());
 		if (password.isEmpty()) {
-			/*lblPasswordError.setText("El password no puede estar vacio");
-			lblPasswordError.setVisible(true);
-			lblPassword.setForeground(Color.RED);*/
+			
 			System.out.println("Fallo en password");
 			passwordField.setBorder(BorderFactory.createLineBorder(Color.RED));
 			salida = false;
 		} 
 		if (password2.isEmpty()) {
-			/*lblPasswordError.setText("El password no puede estar vacio");
-			lblPasswordError.setVisible(true);
-			lblPasswordChk.setForeground(Color.RED);*/
+			
 			System.out.println("Fallo en password repetida");
 			passwordFieldRep.setBorder(BorderFactory.createLineBorder(Color.RED));
 			salida = false;
 		} 
 		if (!password.equals(password2)) {
-			/*lblPasswordError.setText("Los dos passwords no coinciden");
-			lblPasswordError.setVisible(true);
-			lblPassword.setForeground(Color.RED);
-			lblPasswordChk.setForeground(Color.RED);*/
+			
 			System.out.println("Fallo en contraseñas no iguales");
 			passwordField.setBorder(BorderFactory.createLineBorder(Color.RED));
 			passwordFieldRep.setBorder(BorderFactory.createLineBorder(Color.RED));
@@ -428,8 +425,7 @@ public class VentanaRegistro extends JDialog{
 		}
 		if (fechaNacimiento.isEmpty()) {
 			System.out.println("Fallo en fecha vacia");
-			/*lblFechaNacimientoError.setVisible(true);
-			lblFechaNacimiento.setForeground(Color.RED);*/
+			
 			salida = false;
 		}
 		if(path.isEmpty()) {

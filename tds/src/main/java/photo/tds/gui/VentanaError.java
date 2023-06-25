@@ -5,11 +5,14 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JButton;
+import java.awt.Toolkit;
 
 public class VentanaError {
 
@@ -39,7 +42,13 @@ public class VentanaError {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		try {
+			UIManager.setLookAndFeel("com.formdev.flatlaf.intellijthemes.FlatSolarizedLightIJTheme");
+		} catch (Exception ex) {
+			System.err.println("Failed to initialize LaF");
+		}
 		frame = new JFrame();
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaError.class.getResource("/photo/tds/imagenes/PhotoTDS_logo-1.png")));
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		

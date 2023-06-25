@@ -18,6 +18,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import photo.tds.controlador.Controlador;
 import photo.tds.dominio.Album;
+import java.awt.Toolkit;
 
 public class VentanaNuevaFotoAlbum {
 	private JFrame frame;
@@ -58,6 +59,7 @@ public class VentanaNuevaFotoAlbum {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaNuevaFotoAlbum.class.getResource("/photo/tds/imagenes/PhotoTDS_logo-1.png")));
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -150,6 +152,9 @@ public class VentanaNuevaFotoAlbum {
 				VentanaError ve = new VentanaError("No existe título para la publicación");
 				ve.mostrarVentana(frame);
 				return;
+			}else if(album.getFotos().size()>16) {
+				VentanaError ve = new VentanaError("No se pueden añadir mas de 16 fotos a un álbum");
+				ve.mostrarVentana(frame);
 			}
 			this.esconderVentana();
 			System.out.println("le doy a subir y entro a crear foto del controlador");

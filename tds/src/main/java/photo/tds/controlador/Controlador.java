@@ -196,11 +196,16 @@ public class Controlador implements PropertyChangeListener{
 		Usuario seguidor = this.repoUsuarios.findUsuario(usuarioSeguidor);
 		Usuario seguido = this.repoUsuarios.findUsuario(usuarioSeguido);
 		
-		seguidor.seguirUsuario(seguido);
+		System.out.println("seguidores de "+ seguidor.getLogin()+" : "+seguidor.getSeguidos());
+		System.out.println("seguidos de "+ seguidor.getLogin()+" : "+seguidor.getSeguidores());
 		repoUsuarios.actualizarUsuario(seguido);
 		repoUsuarios.actualizarUsuario(seguidor);
-		
 		return true;
+	}
+	
+	public void dejarSeguirUsuario(Usuario uSeguidor, Usuario uSeguido) {
+		repoUsuarios.actualizarUsuario(uSeguido);
+		repoUsuarios.actualizarUsuario(uSeguidor);
 	}
 	
 	public boolean hacerPremium(String usuario) {

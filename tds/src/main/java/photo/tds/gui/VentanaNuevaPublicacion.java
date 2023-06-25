@@ -17,10 +17,12 @@ import javax.swing.JFileChooser;
 import java.awt.Insets;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import photo.tds.controlador.Controlador;
 import photo.tds.dominio.Usuario;
+import java.awt.Toolkit;
 
 public class VentanaNuevaPublicacion {
 
@@ -61,7 +63,13 @@ public class VentanaNuevaPublicacion {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		try {
+			UIManager.setLookAndFeel("com.formdev.flatlaf.intellijthemes.FlatSolarizedLightIJTheme");
+		} catch (Exception ex) {
+			System.err.println("Failed to initialize LaF");
+		}
 		frame = new JFrame();
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaNuevaPublicacion.class.getResource("/photo/tds/imagenes/PhotoTDS_logo-1.png")));
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		

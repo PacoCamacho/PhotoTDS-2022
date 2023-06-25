@@ -158,11 +158,13 @@ public class PanelFotoAlbum extends JPanel{
 			}
 		});
 		
-		JButton botonMg = new JButton("<3");
+		JButton botonMg = new JButton("");
+		botonMg.setIcon(new ImageIcon(PanelFotoAlbum.class.getResource("/photo/tds/imagenes/mg.jpg")));
 		botonMg.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Le has dado Like");
 				Controlador.getInstancia().darMeGusta(foto);
+				panelFoto.repaint();
 			}
 		});
 		botonMg.setHorizontalAlignment(SwingConstants.LEFT);

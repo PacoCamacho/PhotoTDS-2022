@@ -76,7 +76,9 @@ public class RepositorioUsuarios {
 	
 	public void actualizarUsuario(Usuario usuario) {
 		usuariosPorID.put(usuario.getId(), usuario);
+		
 		usuariosPorLogin.put(usuario.getLogin(), usuario);
+		
 	}
 
 }

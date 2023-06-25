@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -46,6 +47,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
+import java.awt.Toolkit;
 
 public class VentanaPrincipal implements IEncendidoListener {
 
@@ -70,9 +72,15 @@ public class VentanaPrincipal implements IEncendidoListener {
 	}
 
 	public void initialize() {
+		try {
+			UIManager.setLookAndFeel("com.formdev.flatlaf.intellijthemes.FlatSolarizedLightIJTheme");
+		} catch (Exception ex) {
+			System.err.println("Failed to initialize LaF");
+		}
 		frmVentanaPrincipal = new JFrame();
-		frmVentanaPrincipal.setTitle("PhotoApo- Ventana Principal");
-		frmVentanaPrincipal.setSize(500, 600);
+		frmVentanaPrincipal.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaPrincipal.class.getResource("/photo/tds/imagenes/PhotoTDS_logo-1.png")));
+		frmVentanaPrincipal.setTitle("PhotoApp- Ventana Principal");
+		frmVentanaPrincipal.setSize(600, 700);
 		frmVentanaPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel contentPane = (JPanel) frmVentanaPrincipal.getContentPane();
@@ -95,6 +103,7 @@ public class VentanaPrincipal implements IEncendidoListener {
 		});
 
 		JLabel PhotoAppl = new JLabel("PhotoApp");
+		PhotoAppl.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/photo/tds/imagenes/PhotoTDS_logo-1.png")));
 		PhotoAppl.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		panelNorte.add(PhotoAppl);
 
@@ -106,14 +115,14 @@ public class VentanaPrincipal implements IEncendidoListener {
 		SubPanelNorte.add(luz);
 
 		JButton SubirFoto = new JButton();
-		SubirFoto.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/photo/tds/imagenes/subir-imagen.png")));
+		SubirFoto.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/photo/tds/imagenes/nueva imagen1.png")));
 		SubPanelNorte.add(SubirFoto);
 
 		buscador = new JTextField();
 		SubPanelNorte.add(buscador);
 		buscador.setColumns(10);
 
-		JLabel botonBuscador = new JLabel("dfgdfg");
+		JLabel botonBuscador = new JLabel("");
 		botonBuscador.setIcon(
 			new ImageIcon("C:\\Users\\franc\\TDS-FOTO-2023\\tds\\src\\main\\java\\photo\\tds\\imagenes\\lupa.png"));
 		SubPanelNorte.add(botonBuscador);
@@ -231,7 +240,7 @@ public class VentanaPrincipal implements IEncendidoListener {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
-							Item item = new Item(panelfoto, foto.getImagen());
+							Item item = new Item(panelfoto, foto.getImagen(),foto.getTitulo());
 							model.addElement(item);
 							list.setCellRenderer(FotoCellListRenderer());
 
@@ -251,7 +260,7 @@ public class VentanaPrincipal implements IEncendidoListener {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
-							Item item = new Item(panelPerfil, imagenPerfil);
+							Item item = new Item(panelPerfil, imagenPerfil, u.getLogin());
 							model.addElement(item);
 							list.setCellRenderer(PerfilCellListRenderer());
 
@@ -284,6 +293,7 @@ public class VentanaPrincipal implements IEncendidoListener {
 				Item item = (Item) value;
 				ImageIcon icon = new ImageIcon(item.getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
 				label.setIcon(icon);
+				label.setText(" Título de la foto: "+item.getNombreFoto());
 
 				if (value instanceof Item) {
 					if (isSelected) {
@@ -320,6 +330,7 @@ public class VentanaPrincipal implements IEncendidoListener {
 				Item item = (Item) value;
 				ImageIcon icon = new ImageIcon(item.getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
 				label.setIcon(icon);
+				label.setText(" Usuario: "+item.getUsername());
 
 				if (value instanceof Item) {
 					if (isSelected) {
